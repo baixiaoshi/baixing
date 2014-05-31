@@ -7,8 +7,10 @@
 </style>
 <div class="dr_userinfo">
 <?php if ($member) { ?>
-Hello,<?php echo $member['username']; ?>&nbsp;&nbsp;
-<a href="<?php echo MEMBER_URL; ?>">会员中心</a>&nbsp;&nbsp;
+<!--获取城市信息-->
+	 <span id="city"><?php echo get_city(); ?></span>[<a href="<?php echo SITE_URL; ?>news/index.php?c=city&m=get_city_list">切换城市</a>]
+欢迎:
+<a href="<?php echo MEMBER_URL; ?>"><?php echo $member['username']; ?></a>&nbsp;&nbsp;
 <a href="<?php echo MEMBER_URL; ?>index.php?c=pm"><?php if ($newpm) { ?><img src="<?php echo MEMBER_THEME_PATH; ?>images/new_pm.gif" align="absmiddle" style="margin-right:3px;" /><?php } ?>短消息</a>&nbsp;&nbsp;
 <a href="<?php echo MEMBER_URL; ?>index.php?c=notice"><img id="dr_notece_img" src="<?php echo MEMBER_THEME_PATH; ?>images/notice.gif" align="absmiddle" style="margin-right:3px;display:none" />提醒</a>&nbsp;&nbsp;
 <a href="<?php echo MEMBER_URL; ?>index.php?c=login&m=out">退出</a>
@@ -16,9 +18,9 @@ Hello,<?php echo $member['username']; ?>&nbsp;&nbsp;
 
 	<div class="drlogin">
 	<!--获取城市信息-->
-	 <span id="city"><?php echo get_city(); ?></span>[<a href="">切换城市</a>]
-	<a href="<?php echo MEMBER_URL; ?>index.php?c=register">免费注册</a>
-    <a href="<?php echo MEMBER_URL; ?>index.php?c=login">直接登录</a>
+	 <span id="city"><?php echo get_city(); ?></span>[<a href="<?php echo SITE_URL; ?>news/index.php?c=city&m=get_city_list">切换城市</a>]
+	<a href="<?php echo MEMBER_URL; ?>index.php?c=register">注册</a>
+    <a href="<?php echo MEMBER_URL; ?>index.php?c=login">登录</a>
     </div>
 <?php } ?>
 </div>

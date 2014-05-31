@@ -19,7 +19,6 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo SITE_URL; ?>news/statics/bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo SITE_URL; ?>news/statics/bootstrap/css/bootstrap-theme.css">
 	<script type="text/javascript" src="<?php echo SITE_URL; ?>news/statics/bootstrap/js/bootstrap.js"></script>
-
 	  <link href="<?php echo HOME_THEME_PATH; ?>images/home.css" rel="stylesheet" />
 
 	<!--[if IE 6]>
@@ -92,18 +91,40 @@
 	<div class="idx" style="margin-top:0px">
         <div class="l">
             <div id="loginForm">
-                <div id="haslogin"><script type="text/javascript" src="<?php echo SITE_URL; ?>member/index.php?c=api&m=userinfo"></script></div>
+                <div id="haslogin">
+                	<script type="text/javascript" src="<?php echo SITE_URL; ?>member/index.php?c=api&m=userinfo"></script>
+                </div>
             </div>
         </div>
-</div>
-<div class="ilogo">
-	<div class="logo"><a href="<?php echo SITE_URL; ?>" title="<?php echo SITE_TITLE; ?>"><img src="<?php echo HOME_THEME_PATH; ?>images/logo.gif" /></a></div>
-	<div class="search_box">
-		<input type="text" class="form-control" value="搜索">
-		<span class="glyphicon glyphicon-search"></span>
 	</div>
-
-</div>
+	<div class="ilogo">
+		<!--logo-->
+		<div class="logo">
+			<a href="<?php echo SITE_URL; ?>" title="<?php echo SITE_TITLE; ?>">
+				<img src="<?php echo HOME_THEME_PATH; ?>images/logo.gif" />
+			</a>
+		</div>
+		<!--搜索框-->
+		<div class="search_wrap">
+			<div class="search_box">
+				<input type="text" class="form-control" value="搜索">
+				<span class="glyphicon glyphicon-search"></span>
+			</div>
+			<!--热搜索词-->
+			<div class="hotkey">
+				热搜词:
+				<?php $return = $this->list_tag("action=tag module=news num=8"); if ($return) extract($return); $count=count($return); if (is_array($return)) { foreach ($return as $key=>$t) { ?>
+					<a href="<?php echo $t['url']; ?>" title="点击量：<?php echo $t['hits']; ?>"><?php echo $t['name']; ?></a>
+				<?php } }  echo $error; ?>
+			</div>
+		</div>
+		
+		<!--发布信息按钮-->
+		<div class="fabu">
+			<button type="button" class="btn btn-warning">
+			<span class="glyphicon glyphicon-pencil"></span>免费发布信息</button>
+		</div>
+	</div>
 <div class="nav">
     <ul class="dr_nav">
 		<li id="dr_nav_0"><a href="<?php echo SITE_PATH; ?>">网站首页</a></li>

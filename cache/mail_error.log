@@ -1,0 +1,22 @@
+2014-05-31 10:46:01 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 10:47:11 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 10:49:04 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 10:59:18 [smtp.exmail.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 521 Error: Invalid domain name, please use smtp.qq.com. More information at http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=28&&no=371
+2014-05-31 10:59:28 [smtp.exmail.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 521 Error: Invalid domain name, please use smtp.qq.com. More information at http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=28&&no=371
+2014-05-31 10:59:30 [smtp.exmail.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 521 Error: Invalid domain name, please use smtp.qq.com. More information at http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=28&&no=371
+2014-05-31 11:01:51 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 11:02:21 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 11:04:17 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 11:06:28 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 11:07:02 [smtp.qq.com - 小白的邮箱 - 634842632@qq.com] USERNAME - 454 Error: authentication failed, system busy
+2014-05-31 11:07:27 [smtp.qq.com - lion - 634842632@qq.com] USERNAME - 454 Error: authentication failed, system busy
+2014-05-31 11:07:52 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 11:10:19 [smtp.exmail.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 521 Error: Invalid domain name, please use smtp.qq.com. More information at http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=28&&no=371
+2014-05-31 11:13:37 [smtp.exmail.qq.com - 634842632@qq.com - 634842632@qq.com] CONNECT - 
+2014-05-31 11:15:01 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] CONNECT - 
+2014-05-31 11:17:16 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 11:17:29 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 11:26:51 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 11:28:01 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 11:29:30 [smtp.qq.com - 634842632@qq.com - 634842632@qq.com] USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+2014-05-31 11:33:50 [smtp.163.com - 15879302304 - 634842632@qq.com] MAIL FROM - 550 Invalid User

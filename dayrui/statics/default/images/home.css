@@ -1201,12 +1201,16 @@ button,.btnNormal{height:22px;line-height:18px;padding:0 9px!important;padding:0
 /*新加的css文件*/
 
 .fabu{
-	width:980px;
+	position: relative;
+	width:120px;
+	float: right;
 	height: 40px;
 	line-height: 40px;
 	margin:0px auto;
 	text-align: right;
 	font-size:16px;
+	top:17px;
+	margin-right: 5px
 
 }
 
@@ -1307,40 +1311,12 @@ button,.btnNormal{height:22px;line-height:18px;padding:0 9px!important;padding:0
   height: 40px;
 }
 
-.btn-warning:hover,
-.btn-warning:focus,
-.btn-warning:active,
-.btn-warning.active,
 .open .dropdown-toggle.btn-warning {
   color: #ffffff;
   background-color: #ed9c28;
   border-color: #d58512;
 }
 
-.btn-warning:active,
-.btn-warning.active,
-.open .dropdown-toggle.btn-warning {
-  background-image: none;
-}
-
-.btn-warning.disabled,
-.btn-warning[disabled],
-fieldset[disabled] .btn-warning,
-.btn-warning.disabled:hover,
-.btn-warning[disabled]:hover,
-fieldset[disabled] .btn-warning:hover,
-.btn-warning.disabled:focus,
-.btn-warning[disabled]:focus,
-fieldset[disabled] .btn-warning:focus,
-.btn-warning.disabled:active,
-.btn-warning[disabled]:active,
-fieldset[disabled] .btn-warning:active,
-.btn-warning.disabled.active,
-.btn-warning[disabled].active,
-fieldset[disabled] .btn-warning.active {
-  background-color: #f0ad4e;
-  border-color: #eea236;
-}
 
 .btn-warning .badge {
   color: #f0ad4e;
@@ -1357,17 +1333,22 @@ fieldset[disabled] .btn-warning.active {
   border-color: #cccccc;
   height: 33px;
 }
+.search_wrap{
+	float: left;
+	width:500px;
+	height: 65px;
+}
 .search_box{
-	float: right;
 	position: relative;
-	top: 30px;
-	width: 400px;
+	top: 20px;
+	width: 500px;
 	height: 34px;
 	border:2px solid #F6851F;
 }
+
 .form-control {
   display: block;
-  width: 350px;
+  width: 450px;
   height: 30px;
   padding: 6px 12px;
   font-size: 12px;
@@ -1400,6 +1381,13 @@ fieldset[disabled] .btn-warning.active {
 	top:0px;
 	cursor:pointer;
 }
-
+.hotkey{
+	color:#333;
+	position: relative;
+	top:12px;
+}
+.hotkey a{
+	color:#BBB;
+}
 
 

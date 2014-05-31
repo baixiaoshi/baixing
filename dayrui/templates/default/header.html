@@ -19,7 +19,6 @@
 	<link rel="stylesheet" type="text/css" href="{SITE_URL}news/statics/bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="{SITE_URL}news/statics/bootstrap/css/bootstrap-theme.css">
 	<script type="text/javascript" src="{SITE_URL}news/statics/bootstrap/js/bootstrap.js"></script>
-
 	  <link href="{HOME_THEME_PATH}images/home.css" rel="stylesheet" />
 
 	<!--[if IE 6]>
@@ -92,18 +91,41 @@
 	<div class="idx" style="margin-top:0px">
         <div class="l">
             <div id="loginForm">
-                <div id="haslogin"><script type="text/javascript" src="{SITE_URL}member/index.php?c=api&m=userinfo"></script></div>
+                <div id="haslogin">
+                	<script type="text/javascript" src="{SITE_URL}member/index.php?c=api&m=userinfo"></script>
+                </div>
             </div>
         </div>
-</div>
-<div class="ilogo">
-	<div class="logo"><a href="{SITE_URL}" title="{SITE_TITLE}"><img src="{HOME_THEME_PATH}images/logo.gif" /></a></div>
-	<div class="search_box">
-		<input type="text" class="form-control" value="搜索">
-		<span class="glyphicon glyphicon-search"></span>
 	</div>
-
-</div>
+	<div class="ilogo">
+		<!--logo-->
+		<div class="logo">
+			<a href="{SITE_URL}" title="{SITE_TITLE}">
+				<img src="{HOME_THEME_PATH}images/logo.gif" />
+			</a>
+		</div>
+		<!--搜索框-->
+		<div class="search_wrap">
+			<div class="search_box">
+				<input type="text" class="form-control" value="搜索">
+				<span class="glyphicon glyphicon-search"></span>
+			</div>
+			<!--热搜索词-->
+			<div class="hotkey">
+				热搜词:
+				{list action=tag module=news num=8}
+					<a href="{$t.url}" title="点击量：{$t.hits}">{$t.name}</a>
+				{/list}
+				{$error}
+			</div>
+		</div>
+		
+		<!--发布信息按钮-->
+		<div class="fabu">
+			<button type="button" class="btn btn-warning">
+			<span class="glyphicon glyphicon-pencil"></span>免费发布信息</button>
+		</div>
+	</div>
 <div class="nav">
     <ul class="dr_nav">
 		<li id="dr_nav_0"><a href="{SITE_PATH}">网站首页</a></li>

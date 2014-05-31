@@ -1,0 +1,1 @@
+a:1:{i:0;a:5:{s:2:"id";s:1:"1";s:4:"host";s:12:"smtp.163.com";s:4:"user";s:19:"15879302304@163.com";s:4:"pass";s:10:"baixiaoshi";s:4:"port";s:2:"25";}}

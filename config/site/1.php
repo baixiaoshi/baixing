@@ -23,7 +23,7 @@ return array(
 	'SITE_TEMPLATE'                 => 'default', //网站的模板目录
 	'SITE_TIMEZONE'                 => 8, //所在的时区常量
 	'SITE_TIME_FORMAT'              => 'Y-m-d H:i:s', //时间显示格式，与date函数一致，默认Y-m-d H:i:s
-	'SITE_TITLE'                    => 'FineCMS！这是一套神奇的系统', //网站首页SEO标题
+	'SITE_TITLE'                    => '百姓网，一个发布信息的需求信息的网站', //网站首页SEO标题
 	'SITE_SEOJOIN'                  => '_', //网站SEO间隔符号
 	'SITE_KEYWORDS'                 => '关键字', //网站SEO关键字
 	'SITE_DESCRIPTION'              => '描述', //网站SEO描述信息

@@ -10,8 +10,6 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  * @license     http://www.dayrui.com/license
  * @copyright   Copyright (c) 2011 - 9999, Dayrui.Com, Inc.
  */
-
-require FCPATH.'dayrui/core/C_Model.php';
  
 class City_model extends C_Model {
 
@@ -21,12 +19,21 @@ class City_model extends C_Model {
     public function __construct() {
         parent::__construct();
     }
+    public function get_provinces() {
+       $provinces = $this->db->where('parentid',0)->get('district')->result_array();
+        return $provinces;
+    }
     /**
      * 获取获取城市列表
      */
-    public function get_city_list(){
-    	$result = $this->link->get('district')->row_array();
-    	dump($result);
+    public function city_list(){
+        //获取省份
+        $provinces = $this->get_provinces();
+        $city_list_array = array();
+        foreach($provinces as $k=>$v){
+            $city_list_array[$k]= $this->db->where('parentid='.trim($v['id']))->get('district')->result_array();
+        }
+        return $city_list_array;
     }
 	
 }
