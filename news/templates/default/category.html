@@ -1,0 +1,51 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+<div class="clear"></div>
+
+<!--循环输出当前栏目下面的子栏目及其内容，运用到了双list循环标签因此需要定义返回值return=c（都懂得）-->
+{list action=category pid=$catid return=c}
+<div class="newsthree">
+    <div class="h1">
+        <h4 class="l">{$c.name}</h4>
+        <div class="r">
+            <a href="{$c.url}">更多>></a>
+		</div>
+    </div>
+	<div class="clear"></div>
+	<div class="newsthree_l">
+		<ul>
+        	<!--循环输出当前栏目下面的数据，我们按缩略图排序，因为第一行要输出一个图片，你懂得！-->
+        	{list action=module catid=$c.id field=thumb,title,url,description order=thumb,updatetime num=8}
+            {if $key==0}
+            <li class="pic"><img src="{dr_thumb($t.thumb, 108, 82)}" width="108" height="82" align="left" /><span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 25)}</a></span><div class="into">{dr_strcut($t.description, 70)}</div></li>
+            {else}
+            <li class="nopic"><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 44)}</a></li>
+            {/if}
+            {/list}{$error}
+		</ul>
+	</div>
+	<div class="newsthree_c">
+		<ul>
+        	<!--循环输出当前栏目下面的数据，我们按最新排序-->
+        	{list action=module catid=$c.id field=title,url,updatetime order=updatetime num=12}
+            <li><span class="date">[{dr_date($t._updatetime, 'm-d')}]</span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 40)}</a></li>
+            {/list}{$error}
+		</ul>	
+	</div>
+	<div class="newsthree_r">
+		<div class="tit"><h4 class="l">阅读排行</h4></div>
+		<div class="clear"></div>
+		<ul>
+		<!--循环输出当前栏目下面的数据，我们按点击排序-->
+        {list action=module catid=$c.id field=title,url order=hits num=10}
+        <li><span {if $key<3}class="one"{/if}>{$key+1}</span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 33)}</a></li>
+        {/list} {$error}
+		</ul>
+	</div>
+</div>
+<div class="clear"></div>
+{/list}{$error}
+<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+<div class="clear"></div>
+{template "footer.html","/"}

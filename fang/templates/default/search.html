@@ -1,0 +1,29 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > 搜索</div>
+<div class="exam_three">
+	<div class="exam_three_l photo_l">
+		{template "left.html"}
+	</div>
+	<div class="exam_lmlist">
+		<div class="box01">
+			<div class="tit"><a href="javascript:;" class="curr">{if $keyword}搜索“{$keyword}”{else}搜索{/if}</a></div>
+            {template "list_form.html"}<!--把搜索表单专门放在一个模板页面中，主要是适用于多次调用，因为列表和搜索页都要用到它，所以你懂得-->
+        </div>
+		<div class="box02">		
+			<ul>
+            	{if $contentid}
+            	<!--固定格式INin参数调用搜索数据，field同样可以设置显示字段，page=1表示分页显示开关，pagesize表示分页数量，ruleurl分页url规则-->
+				{list action=module field=* INid=$contentid order=$get.order page=1 pagesize=10 urlrule=$urlrule}
+				{template "list_data.html"}<!--把列表内容专门放在一个模板页面中，主要是适用于多次调用，因为列表和搜索页都要用到它，所以你懂得-->
+				{/list}
+                {else}
+                <div class="norecord">对不起，没有找到任何记录！</div>
+                {/if}
+			</ul>
+			<div id="fenye" class="fenye">{$pages}</div>
+		</div>
+    </div>
+</div>
+<div class="clear"></div>
+{template "footer.html","/"}

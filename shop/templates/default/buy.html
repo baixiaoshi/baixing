@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=7" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{$meta_title}</title>
+	<meta name="keywords" content="{$meta_keywords}" />
+	<meta name="description" content="{$meta_description}" />
+	<!--非授权用户请保留FineCMS的信息-->
+	<meta name="author" content="dayrui.com" />
+	<meta name="Copyright" content="FineCMS v{DR_VERSION}" />
+	<!--关键JS--> 
+	<script type="text/javascript">var memberpath = "{MEMBER_PATH}";</script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/{SITE_LANGUAGE}.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.min.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.artDialog.js?skin=default"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/dayrui.js"></script>
+	<!--[if IE 6]>
+	<script src="{MODULE_THEME_PATH}ie6png.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	   EvPNG.fix('div, ul, img, li, input'); 
+	</script>
+	<![endif]-->
+    <link href="{MODULE_THEME_PATH}css.css" rel="stylesheet" />
+</head>
+<body>
+{template "top.html"}
+<div class="idx">
+	<div class="fls" style="position:absolute">
+		<div class="fls_l" id="box1" style="display:none">
+			{template "cat.html"}
+		</div>	
+	</div>
+</div>
+<div class="gwcbox">
+	<div class="gwcbox_l"></div>
+	<div class="gwcbox_r">
+		<ul>
+			<li>我的购物车</li>
+			<li class="curr">填写核对订单信息</li>
+			<li>订单成功</li>
+		</ul>
+	</div>
+</div>
+<div class="gwcts">
+	<span>温馨提示：</span>交易过程中请勿随意接收卖家发送的可疑文件，请勿点击不明来源的链接，付款前请务必详细核对支付信息！
+</div>
+<div class="idx">
+	<form name="myform" id="myform" action="" method="post">
+	<div class="ok_dd">
+		<!--收货人地址开始-->
+		<div id="part_consignee">
+            <h1>收货人信息</h1>
+            <div id="addmyaddress" style="margin-top:10px;">
+                <table width="100%" border="0" class="ctable" cellspacing="0" cellpadding="0">
+                <tbody id="dr_v2_address">
+                {loop $address $t}
+                  <tr {if $t.default}class="dhover"{/if}>
+                    <td width="6%" style="text-align:center"><input type="radio" {if $t.default} checked="checked"{/if} name="data[address]" value="{$t.id}" /></td>
+                    <td id="dr_address_{$t.id}" onclick="dr_edit_address({$t.id})">{dr_linkagepos('address', $t.city, ' ', NULL)}&nbsp;&nbsp;{$t.address}&nbsp;&nbsp;({$t.name})&nbsp;&nbsp;{$t.phone}</td>
+                  </tr>
+                {/loop}
+                </tbody>
+                  <tr>
+                    <td width="6%" style="text-align:center"></td>
+                    <td><a href="javascript:;" onclick="dr_add_address()"><img src="http://img04.taobaocdn.com/tps/i4/T1M2FrXeJvXXXXXXXX-91-27.png"></a></td>
+                  </tr>
+                </table>
+            </div>
+		</div>
+		<!--Cart信息开始-->
+		<div id="part_cart">
+        	<h1>商品信息</h1>
+            <div class='middle' style="margin-top:10px;">
+            <table class='ShoppingCart' cellpadding='1' cellspacing='1' width='100%'>
+             <tr class='Thead'>
+                <td style="height:30px">商品名称</td>
+                <td width='8%'>数量</td>
+                <td width='8%'>单价</td>
+                <td width='9%'>折扣价</td>
+                <td width='8%'>小计</td>
+            </tr>
+            {loop $list $shop}
+            {loop $shop.data $t}
+            <tr class='tdbg'>
+                <td class='align_Left' style="padding-left:10px;">
+                    <table border='0'>
+                    <tr>
+                        <td><a href="{$t.url}" target="_blank"><img src="{dr_thumb($t.thumb, 60, 50)}" width="60" height="50" align='left'/></a></td>
+                        <td style="text-align:left; padding-left:10px;">
+                        <a href="{$t.url}" target="_blank">{$t.title}</a><br/>
+                        {$t.format}
+                        </td>
+                    </tr>
+                    </table>
+                </td>
+                <td>{$t.num}</td>
+                <td><span class='price'>￥<span>{number_format($t.price, 2)}</span></span></td>
+                <td><span class='price'>￥<span>{number_format($t.discount, 2)}</span></span></td>
+                <td><span class='price'>￥<span>{number_format($t.total, 2)}</span></span></td>
+            </tr>
+            {/loop}
+            <tr class='tdbg'>
+                <td class='align_Left' style="padding-left:10px;height:30px">
+                留言：<input class="input-text" type="text" name="data[gbook][{$shop.uid}]" size="90%" />
+                </td>
+                <td colspan="3" style='text-align:right;'>
+                <select name="data[freight][{$shop.uid}]" id="dr_freight_{$shop.uid}" onchange="dr_set_freight({$shop.uid})">
+                    <option value="1" selected="selected" price="{$shop.freight.1}"> 快递（{number_format($shop.freight.1, 2)}） </option>
+                    <option value="2" price="{$shop.freight.2}"> 平邮（{number_format($shop.freight.2, 2)}） </option>
+                    <option value="3" price="{$shop.freight.3}"> EMS（{number_format($shop.freight.3, 2)}） </option>
+                </select>
+                </td>
+                <td style='text-align:center;' class="price">￥<span id="dr_freight_{$shop.uid}_price">{number_format($shop.freight.1, 2)}</span></td>
+            </tr>
+            <tr class='tdbg'>
+                <td colspan="4" style='text-align:right;'>合计（含运费）：</td>
+                <td style='text-align:center;' class="price">￥<span class="price dr_total_price" uid="{$shop.uid}" value="{$shop.price+$shop.freight.1}" price="{$shop.price}" id="dr_total_{$shop.uid}_price">{number_format($shop.price+$shop.freight.1, 2)}</span></td>
+            </tr>
+            {/loop}
+            <tr class='tdbg'>
+                <td colspan="4" style='text-align:right;'>
+                使用{SITE_SCORE}（可用<span id="dr_score_total">{$member.score}</span>）：<input type="text" name="data[score]" onblur="dr_set_score(this.value)" class="input-text" size="10" id="dr_score" />
+                &nbsp;&nbsp;&nbsp;
+                实际付款：</td>
+                <td style='text-align:center;' class="price">￥<span id="dr_total_price" price=""></span></td>
+            </tr>
+            <tr>
+                <td class='Tfoot' colspan='5' style='text-align:right;height:30px'>
+                 验证码：<input type="text" name="code" class="input-text" size="6" />&nbsp;{dr_code(90,26)}&nbsp;&nbsp;
+                <input type="image" title="提交订单" src="{MODULE_THEME_PATH}dd_bg.png">
+                </td>
+            </tr>
+            </table>        
+            </div>
+		</div>
+    </div>
+	</form>
+</div>	
+<div class="clear"></div>
+<script type="text/javascript">
+function dr_add_address() {
+	var url = "{dr_url('order/add_address')}";
+	var throughBox = $.dialog.through;
+	var dr_dialog = throughBox({title: "添加新地址", lock: true, opacity: 0.1});
+	$.ajax({type: "GET", url:url, dataType:'text',
+	    success: function (text) {
+			var win = $.dialog.top;
+			dr_dialog.content(text);
+			dr_dialog.button({name: "添加", // 添加按钮
+				callback:function() {
+					win.$("#mark").val("0");
+					if (win.dr_form_check()) { // 按钮返回验证表单函数
+						var _data = win.$("#myform").serialize();
+						$.ajax({type: "POST",dataType:"json", url: url, data: _data,
+							success: function(data) {
+								if (data.status == 1) { //验证成功
+									dr_dialog.close();
+									$.dialog.tips("添加成功", 2, 1);
+									$("#dr_v2_address").append(data.code);
+								} else {
+									win.d_tips(data.id, false, data.code); //验证失败
+									return false;
+								}
+							},
+							error: function(HttpRequest, ajaxOptions, thrownError) {
+								alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+							}
+						});
+					}
+					return false;
+				},
+				focus: true
+			});
+	    },
+	    error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+}
+function dr_edit_address(id) {
+	var url = "{dr_url('order/edit_address')}&id="+id;
+	var throughBox = $.dialog.through;
+	var dr_dialog = throughBox({title: "修改地址", lock: true, opacity: 0.1});
+	$.ajax({type: "GET", url:url, dataType:'text',
+	    success: function (text) {
+			var win = $.dialog.top;
+			dr_dialog.content(text);
+			dr_dialog.button({name: "修改", // 添加按钮
+				callback:function() {
+					win.$("#mark").val("0");
+					if (win.dr_form_check()) { // 按钮返回验证表单函数
+						var _data = win.$("#myform").serialize();
+						$.ajax({type: "POST",dataType:"json", url: url, data: _data,
+							success: function(data) {
+								if (data.status == 1) { //验证成功
+									dr_dialog.close();
+									$.dialog.tips("修改成功", 2, 1);
+									$("#dr_address_"+id).html(data.code);
+								} else {
+									win.d_tips(data.id, false, data.code); //验证失败
+									return false;
+								}
+							},
+							error: function(HttpRequest, ajaxOptions, thrownError) {
+								alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+							}
+						});
+					}
+					return false;
+				},
+				focus: true
+			});
+	    },
+	    error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+}
+function dr_set_score(value) {
+	var score = parseInt({$member.score});
+	value = parseInt(value);
+	if (score - value < 0) {
+		value = score;
+	}
+	value = isNaN(value) ? 0 : value;
+	$("#dr_score_total").html(parseInt(score-value));
+	$("#dr_score").val(value);
+	// 运算总价
+	var price = parseFloat(value/{intval(SITE_CONVERT)});
+	var total = parseFloat($("#dr_total_price").attr("price"))-price;
+	if (parseFloat(total) < 0) {
+		$("#dr_total_price").html("0");
+	} else {
+		$("#dr_total_price").html(parseFloat(total));
+	}
+}
+function dr_set_freight(uid) {
+	var p = parseFloat($("#dr_freight_"+uid).find('option:selected').attr("price"));
+	$("#dr_freight_"+uid+"_price").html(p);
+	var price = parseFloat($("#dr_total_"+uid+"_price").attr("price"));
+	$("#dr_total_"+uid+"_price").attr("value", parseFloat(price+p));
+	$("#dr_total_"+uid+"_price").html(parseFloat(price+p));
+	dr_update_price();
+}
+dr_update_price();
+function dr_update_price() {
+	var price = 0;
+	$(".dr_total_price").each(function(){
+		var p = parseFloat($(this).attr("price"));
+		var uid = $(this).attr("uid");
+		var f = parseFloat($("#dr_freight_"+uid).find('option:selected').attr("price"));
+		price = price + p + f;
+	});
+	$("#dr_total_price").html(parseFloat(price));
+	$("#dr_total_price").attr("price", parseFloat(price));
+	$("#dr_score").val("0");
+	$("#dr_score_total").html("{$member.score}");
+}
+</script>
+{template "footer.html"}

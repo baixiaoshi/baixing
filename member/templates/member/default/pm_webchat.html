@@ -1,0 +1,73 @@
+{if $action === 'more'}
+{loop $list $t}
+<li class="cl {if $t.authorid!=$uid}pmm{/if}">
+    <div class="pmt">{$t.author}: </div>
+    <div class="pmd">{htmlspecialchars_decode($t.message)}</div>
+</li>
+{/list}
+{else}
+<script type="text/javascript">
+$(function(){
+	dr_load_chat(1);
+	window.setInterval(dr_load_chat, {$syntime}); 
+});
+
+function dr_load_chat(stype) {
+	if (stype == 1) {
+		$("#msglist").html("<div style='padding:30px;text-align:center;'><img src='{MEMBER_THEME_PATH}images/loading.gif' /></div>");
+	}
+	$.ajax({type: "GET", url:"{dr_member_url('pm/webchat', array('uid' => $touid, 'action' => 'more'))}", dataType:'jsonp',jsonp:"callback",async: false,
+	    success: function (text) {
+			$("#msglist").html(text.html);
+			if (stype == 1) {
+				$('#msglist').scrollTop((document.getElementById("msglist").scrollHeight));
+			}
+	    },
+	    error: function(HttpRequest, ajaxOptions, thrownError) {
+			dr_dialog.close();
+			dr_login();
+		}
+	});
+}
+function dr_send_pm() {
+	var msg = $("#dr_message").val();
+	var url = "{dr_member_url('pm/webchat', array('uid' => $touid, 'username' => $username, 'action' => 'send'))}";
+	if (msg == "") {
+		dr_tips("您还没有输入消息内容呢");
+		return;
+	}
+	$.ajax({type: "GET", url:url, data:{msg:msg}, dataType:'jsonp',jsonp:"callback",async: false,
+	    success: function (data) {
+			if (data.status == 1) {
+				dr_tips("发送成功", 3, 1);
+				dr_load_chat(0);
+				$("#dr_message").val('');
+			} else {
+				dr_tips(data.msg);
+			}
+	    },
+	    error: function(HttpRequest, ajaxOptions, thrownError) {
+			dr_dialog.close();
+			dr_login();
+		}
+	});
+}
+</script>
+<link href="{MEMBER_PATH}statics/{MEMBER_THEME}/images/pm.css" rel="stylesheet" type="text/css"/>
+<div class="pm">
+	<div class="pm_tac bbda cl">
+	<a target="_blank" class="y" href="{dr_member_url('pm/read', array('uid' => $touid))}">查看与{$username}的聊天记录</a>
+	<a target="_blank" href="{dr_space_url($touid)}">访问{$username}的空间</a>
+</div>
+<div class="c">
+	<ul id="msglist" class="pmb">
+   	
+	</ul>
+    <div class="pmfm">
+    <textarea style="width:100%; height:90px;" name="message" id="dr_message"></textarea>
+    <div class="mbutton">
+    <a onclick="dr_load_chat(1);" title="刷新" href="javascript:;" style="margin-top:4px;"><img align="absmiddle" alt="刷新" src="{MEMBER_PATH}statics/{MEMBER_THEME}/images/pm-ico5.png"> 刷新</a>
+    <button value="" type="submit" onClick="dr_send_pm(0)" class="blue_button">发送</button>
+    </div>
+</div>
+{/if}

@@ -1,0 +1,13 @@
+{template "list_top.html"}
+<section id="wrapper">
+    <div id="container">
+        {list action=module catid=$catid order=updatetime page=1}
+        {template "data.html"}
+        {/list}{$error}
+    </div>
+</section>
+<div class="idx"><div id="fenye" class="fenye">{$pages}</div></div>
+<!-- 主体OVER -->
+
+<div class="clear"></div>
+{template "footer.html"}

@@ -1,0 +1,63 @@
+<script type="text/javascript">
+$(function() {
+	document.onkeydown = function(e){  //防止回车提交表单
+		var ev = document.all ? window.event : e;
+		if (ev.keyCode==13) {
+			$("#mark").val("1"); // 标识不能提交表单
+		}
+	}
+});
+function dr_form_check() {
+	if ($("#mark").val() == 0) { 
+		return true;
+	} else {
+		return false;
+	}
+}
+</script>
+<form action="" method="post" id="myform" name="myform" onsubmit="return dr_form_check()">
+<input name="mark" id="mark" type="hidden" value="0">
+<table width="500" border="0" cellspacing="0" cellpadding="0" class="table-list">
+  <tr>
+    <td colspan="2"><b>{SITE_EXPERIENCE}</b></td>
+    <td colspan="2"><b>{SITE_SCORE}</b></td>
+  </tr>
+  <tr>
+    <td width="120" align="right">{dr_lang('html-256', SITE_EXPERIENCE)}：</td>
+    <td width=""><input type="text" name="data[experience]" value="{intval($data['experience'])}" size="5" class="input-text" /></td>
+    <td width="120" align="right">{dr_lang('html-256', SITE_SCORE)}：</td>
+    <td width=""><input type="text" name="data[score]" value="{intval($data['score'])}" size="5" class="input-text" /></td>
+  </tr>
+  {if $extend}
+  <tr>
+    <td align="right">{dr_lang('mod-43', SITE_EXPERIENCE)}：</td>
+    <td width=""><input type="text" name="data[extend_experience]" value="{intval($data['extend_experience'])}" size="5" class="input-text" /></td>
+    <td align="right">{dr_lang('mod-43', SITE_SCORE)}：</td>
+    <td width=""><input type="text" name="data[extend_score]" value="{intval($data['extend_score'])}" size="5" class="input-text" /></td>
+  </tr>
+  {/if}
+  <tr>
+    <td align="right"></td>
+    <td width=""></td>
+    <td align="right">{dr_lang('html-630', SITE_SCORE)}：</td>
+    <td width=""><input type="text" name="data[read_score]" value="{intval($data['read_score'])}" size="5" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><b>{lang('html-261')}</b></td>
+    <td colspan="2"><b>{lang('030')}</b></td>
+  </tr>
+  <tr>
+    <td align="right">{lang('html-262')}：</td>
+    <td><input type="text" name="data[postnum]" value="{intval($data['postnum'])}" size="5" class="input-text" /></td>
+    <td colspan="2">{$verify}</td>
+  </tr>
+  <tr>
+    <td align="right">{lang('html-263')}：</td>
+    <td ><input type="text" name="data[postcount]" value="{intval($data['postcount'])}" size="5" class="input-text" /></td>
+    <td colspan="2"><input type="checkbox" {if $data.edit_verify}checked=""{/if} value="1" name="data[edit_verify]">&nbsp;{lang('html-587')}</td>
+  </tr>
+  <tr>
+    <td style="border:none; text-align:center; color:#F00" colspan="4"><b>{lang('html-592')}</b></td>
+  </tr>
+</table>
+</form>

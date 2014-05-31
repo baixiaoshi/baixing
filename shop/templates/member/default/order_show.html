@@ -1,0 +1,66 @@
+{template header.html}
+
+<div class="content clearfix">
+	<div class="page_url">
+    	<a href="{SITE_URL}">首页</a> <span>&gt;</span> <a href="{dr_member_url('home/index')}">会员中心</a> <span>&gt;</span> <a href="{$back}">返回</a> <span>&gt;</span> {$meta_name}
+    </div>
+
+    <div class="section create">
+		<form action="" method="post">
+		<input name="dr_id" id="dr_id" type="hidden" value="{$data.id}" />
+		<input name="catid" type="hidden" value="{$catid}" />
+		<input name="dr_module" id="dr_module" type="hidden" value="{APP_DIR}" />
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200">&nbsp;订单编号： </th>
+				<td>&nbsp;{$data.id}</td>
+			</tr>
+			<tr>
+				<th>&nbsp;商品信息： </th>
+				<td>{loop $data.items $t}<p>&nbsp;<a href="{$t.url}" target="_blank">{$t.title}</a></p>{/loop}</td>
+			</tr>
+			<tr>
+			  <th>订单价格：</th>
+			  <td>&nbsp;<span class="dr_pirce">{$data.price}</span></td>
+			</tr>
+			<tr>
+			  <th>已使用{SITE_SCORE}：</th>
+			  <td>&nbsp;{$data.score}</td>
+			</tr>
+			<tr>
+			  <th>买家留言：</th>
+			  <td>&nbsp;{$data.gbook}</td>
+			</tr>
+			<tr>
+			  <th>下单时间：</th>
+			  <td>&nbsp;{dr_date($data.inputtime, 'Y-m-d H:i:s', 'red')}</td>
+			</tr>
+			{if $data.successtime}
+			<tr>
+			  <th>交易时间：</th>
+			  <td>&nbsp;{dr_date($data.successtime, 'Y-m-d H:i:s', 'red')}</td>
+			</tr>
+			{/if}
+			<tr>
+				<th>订单状态： </th>
+				<td>
+				{if $data.status==0}<font color="#FF0000">交易关闭</font>
+				{else if $data.status==1}<font color="#0000FF">等待付款</font>&nbsp;<a href="{dr_url(APP_DIR.'/order/pay', array('id'=>$id))}">立即付款</a>
+				{else if $data.status==2}<font color="#FF9933">等待发货</font>
+				{else if $data.status==3}<a href="javascript:;" onclick="dr_confirm_url('<b><font color=red>您确认要收货吗？</font></b>', '{dr_url(APP_DIR.'/order/confirm', array('id'=>$id))}')"><font color="#FF0000">确认收货</font></a>
+				{else if $data.status==4}<font color="#009900">交易成功</font>
+				{/if}
+				</td>
+			</tr>
+			<tr>
+			  <th colspan="2" style="border:none; text-align: center; padding-left:400px;">
+			  <div class="mbutton">
+				<button class="blue_button" type="submit" value="" onclick="location.href='{$back}';return false;">返回</button>
+				</div >
+			  </th>
+			</tr>
+                    </table>
+    </div>
+
+</div>
+{template footer.html}

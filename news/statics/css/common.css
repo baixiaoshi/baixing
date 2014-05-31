@@ -1,0 +1,33 @@
+.head{height:34px; line-height:34px;background:#504F50; font-family:"Microsoft YaHei", Arial, Helvetica, sans-serif;color:#FFF;border-bottom:1px solid #e5e5e5}
+.head{height:34px; line-height:34px;background:#504F50; font-family:"Microsoft YaHei", Arial, Helvetica, sans-serif;color:#FFF;border-bottom:1px solid #e5e5e5}
+.head .idx #nologin{_margin-top:5px}
+.head .idx .l input{border:1px solid #e5e5e5;height:16px;background:#fff;color:#666;margin-left:5px;margin-right:5px;}
+.head .idx .l .loginbtn{background:url(shop/login.gif) no-repeat;color:#333;font-size:12px;width:45px; text-align:center;border:0px;height:22px;margin-left:0px}
+.head .idx .l #nologin{ line-height:30px;}
+.head .idx .l span{font-weight:bold}
+.head .idx .l .username{background:#fff;padding-left:5px;width:95px;}
+.head .idx .l .password{background:#fff;padding-left:5px;width:80px;}
+.head .idx .l a{padding:0px 2px;color:#fff}
+.head .idx .r{color:#c5c5c5}
+.head .idx .r a{padding:0px 8px;color:#333;background:url(i_bg.gif) no-repeat 0 50%; }
+.head .idx .r a.bgone{ background:none}
+/*新加的css文件*/
+
+.fabu{
+	width:980px;
+	height: 40px;
+	line-height: 40px;
+	margin:0px auto;
+	text-align: right;
+	font-size:16px;
+
+}
+.fabu span{
+	display:block;
+	background-color:#5593B4;
+	width:110px;
+	height:40px;
+	float:right;
+	color:#FFF;
+	text-align: center;
+}

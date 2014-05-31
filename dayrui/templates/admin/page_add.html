@@ -1,0 +1,130 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	{if $error}
+	art.dialog.tips('<font color=red>{$error}</font>', 3, 0);
+	{/if}
+	{if $result}
+	art.dialog.tips('{$result}', 3, 1);
+	{/if}
+	SwapTab({$page});
+});
+</script>
+<form action="" method="post" name="myform" id="myform">
+<input name="action" id="dr_action" type="hidden" value="back" />
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}16.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+    <div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-083')}</li>
+			<li onclick="SwapTab(1)">{lang('html-538')}</li>
+			<li onclick="SwapTab(2)">{lang('html-356')}</li>
+			{if $id}<li onclick="SwapTab(3)">{lang('html-219')}</li>{/if}
+		</ul>
+		<div class="contentList pad-10 dr_table">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+                <table width="100%" class="table_form">
+                <tr>
+                    <th width="200"><font color="red">*</font>&nbsp;{lang('html-370')}： </th>
+                    <td>{$select}</td>
+                </tr>
+                <tr>
+                    <th><font color="red">*</font>&nbsp;{lang('139')}： </th>
+                    <td>{dr_field_input('name', 'Text', $field['name']['setting'], $data['name'])}<div class="onShow">{lang('html-027')}</div></td>
+                </tr>
+                <tr>
+                    <th><font color="red">*</font>&nbsp;{lang('140')}： </th>
+                    <td>{dr_field_input('dirname', 'Text', $field['dirname']['setting'], $data['dirname'])}<div class="onShow">{lang('html-364')}</div></td>
+                </tr>
+                <tr>
+                    <th>{lang('142')}： </th>
+                    <td>{dr_field_input('title', 'Text', $field['title']['setting'], $data['title'])}</td>
+                </tr>
+                <tr>
+                    <th>{lang('143')}： </th>
+                    <td>{dr_field_input('keywords', 'Text', $field['keywords']['setting'], $data['keywords'])}</td>
+                </tr>
+                <tr>
+                    <th>{lang('144')}： </th>
+                    <td>{dr_field_input('description', 'Textarea', $field['description']['setting'], $data['description'])}</td>
+                </tr>
+                <tr>
+                    <th>{lang('141')}： </th>
+                    <td>{dr_field_input('thumb', 'File', $field['thumb']['setting'], $data['thumb'])}<div class="onShow">{lang('html-365')}</div></td>
+                </tr>
+                <tr class="dr_border_none">
+                    <th>{lang('146')}： </th>
+                    <td><div style="width:90%">{dr_field_input('attachment', 'Files', $field['attachment']['setting'], dr_string2array($data['attachment']))}<div class="onShow">{lang('html-367')}</div></div></td>
+                </tr>
+                </table>
+        	</div>
+            <div id="cnt_1" style="display:none" class="dr_hide">
+                <table width="100%" class="table_form">
+                <tr class="dr_border_none">
+                    <th width="200">{lang('145')}： </th>
+                    <td>{dr_field_input('content', 'Ueditor', $field['content']['setting'], $data['content'])}</td>
+                </tr>
+                </table>
+        	</div>
+            <div id="cnt_2" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-357')}： </th>
+                    <td>{dr_field_input('show', 'Radio', $field['show']['setting'], $data['show'])}<div class="onShow">{lang('html-579')}</div></td>
+                </tr>
+				<tr>
+                    <th>{lang('html-577')}： </th>
+                    <td>{dr_field_input('getchild', 'Radio', $field['getchild']['setting'], $data['getchild'])}<div class="onShow">{lang('html-578')}</div></td>
+                </tr>
+                <tr>
+                    <th>{lang('149')}： </th>
+                    <td>
+					<select name="urlrule">
+					<option value="0"> -- </option>
+					{list action=cache name=urlrule return=u}
+					{if $u.type==0}<option value="{$u.id}" {if $u.id==$data.urlrule}selected{/if}> {$u.name} </option>{/if}
+					{/list}
+					</select>
+					<div class="onShow">{lang('html-694')}</div>
+					</td>
+                </tr>
+                <tr>
+                    <th>{lang('147')}： </th>
+                    <td>{dr_field_input('template', 'Text', $field['template']['setting'], $data['template'])}</td>
+                </tr>
+                <tr class="dr_border_none">
+                    <th>{lang('148')}： </th>
+                    <td>{dr_field_input('urllink', 'Text', $field['urllink']['setting'], $data['urllink'])}</td>
+                </tr>
+                </table>
+        	</div>
+            {if $id}
+            <div id="cnt_3" style="display:none" class="dr_hide">
+                <table width="100%" class="table_form">
+                <tr class="dr_border_none">
+                    <th width="200"> </th>
+                    <td>
+					{$select_syn}
+					<br>
+                    <font color="gray">{lang('html-341')}</font></td>
+                </tr>
+				</table>
+            </div>
+            {/if}
+    	</div>
+    	
+    </div>
+</div>
+
+<div class="fixed-bottom">
+<div class="fixed-but text-c">
+	<div class="button"><input value="{lang('html-362')}" type="submit" name="submit" class="cu" onclick="$('#dr_action').val('back')" style="width:100px;" /></div>
+    {if !$id}
+    <div class="button"><input value="{lang('html-363')}" type="submit" name="submit" class="cu" onclick="$('#dr_action').val('continue')" style="width:100px;" /></div>
+    {/if}
+</div>
+</div>
+{template footer.html}

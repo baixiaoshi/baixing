@@ -1,0 +1,41 @@
+{template header.html}
+<link rel="stylesheet" type="text/css" href="{MEMBER_THEME_PATH}category.css" />
+<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.category.js"></script>
+<script type="text/javascript">
+function dr_submit() {
+    window.location.href='index.php?s={APP_DIR}&c=home&m=add&catid='+$("#dr_post_catid").val();
+}
+</script>
+<div class="content clearfix">
+	<div class="page_url">
+    	<a href="{SITE_URL}">首页</a> <span>&gt;</span> <a href="{dr_member_url('home/index')}">会员中心</a> <span>&gt;</span> {$meta_name}
+    </div>
+
+    <div class="section create">
+        <div class="main">
+            <div class="flowstep flowstep_1">
+                <ul>
+                    <li class="step_1"><em>1</em> 选择{lang('cat-00')}</li>
+                    <li class="step_2"><em>2</em> 填写信息</li>
+                    <li class="step_3"><em>3</em> 发布信息</li>
+                </ul>
+            </div>
+			
+            <div class="listclassnew">
+                 <div class="listsprtbody"> 
+                    <div id="dr_show_category" class="doorbox">
+                        {$select}
+                        <div style="display: none;" id="dr_post_submit" class="sortList_step">
+                            <div style="margin-top: 95px;margin-left:40px;overflow: hidden;" class="drbox">
+                                <div class="mbutton"><button class="category_next_bt" onclick="dr_submit()" type="submit" value="">提交</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="load_layer" class="load_layer" style="display: none;"></div>
+            </div>
+            <input id="dr_post_catid" type="hidden" value="" />
+        </div>
+    </div>
+</div>
+{template footer.html}

@@ -1,0 +1,31 @@
+<footer>
+	<div class="inner">
+		<div class="foot-nav">
+        	<!--底部循环栏目开始-->
+            {loop $category $c}
+            {if !$c.pid && ($c.showid == 2 || $c.showid == 3)}<!--这里表示循环显示顶部栏目，你就这样写就行了-->
+            <a href='{dr_space_list_url($spaceid, $c.id)}'>{$c.name}</a><span>|</span>
+            {/if}
+            {/loop}
+            <!--底部循环栏目结束-->
+            <a href='http://www.dayrui.com/'>FineCMS</a></li><!--不知道怎么判断结尾所以在这里随便加了一个广告-->
+        </div>
+		<div class="foot-text">
+			{$space.footer}<!--空间底部信息字段-->
+            {$space.code}<!--第三方代码-->
+		</div>
+	</div>
+</footer>
+<script type="text/javascript">
+$(function(){
+	$(".dr_category").attr('class', 'dr_category');
+	$(".dr_category").each(function(){
+		var dr_select = $(this).attr('select');
+		if (dr_select == {$selected}) {
+			$(this).attr('class', 'dr_category navdown');
+		}
+	});
+});
+</script>
+</body>
+</html>

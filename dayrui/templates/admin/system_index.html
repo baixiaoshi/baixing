@@ -1,0 +1,192 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab({$page});
+});
+function dr_to_key() {
+	$.post("{dr_url('system/syskey')}", function(data){
+		$("#sys_key").val(data);
+	});
+}
+</script>
+<form action="" method="post" name="myform" id="myform">
+<input name="page" id="page" type="hidden" value="{$page}" />
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}4.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-083')}</li>
+			<li onclick="SwapTab(1)">{lang('html-449')}</li>
+			<li onclick="SwapTab(2)">{lang('html-522')}</li>
+			<li onclick="SwapTab(3)">{lang('html-550')}</li>
+		</ul>
+		<div class="contentList pad-10">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-435')}： </th>
+                    <td>
+                    <input type="radio" name="data[SYS_DEBUG]" value="TRUE" {if $data['SYS_DEBUG']}checked{/if} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[SYS_DEBUG]" value="FALSE" {if !$data['SYS_DEBUG']}checked{/if} />&nbsp;<label>{lang('close')}</label>
+					<div class="onShow">{lang('html-445')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-436')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SYS_KEY]" id="sys_key" value="{if $data['SYS_KEY']}***{/if}" size="20" />
+					<input class="button" type="button" name="button" onclick="dr_to_key()" value="{lang('html-438')}" />
+					<div class="onShow">{lang('html-437')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-439')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SYS_EMAIL]" value="{$data['SYS_EMAIL']}" size="32" />&nbsp;
+					<div class="onShow">{lang('html-440')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-568')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SYS_ATTACHMENT_DIR]" value="{$data['SYS_ATTACHMENT_DIR']}" size="32" />&nbsp;
+					<div class="onShow">{lang('html-569')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>SITE_EXPERIENCE： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SITE_EXPERIENCE]" value="{$data['SITE_EXPERIENCE']}" size="32" />&nbsp;
+					<div class="onShow">{lang('html-441')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>SITE_SCORE： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SITE_SCORE]" value="{$data['SITE_SCORE']}" size="32" />&nbsp;
+					<div class="onShow">{lang('html-442')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>SITE_MONEY： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SITE_MONEY]" value="{$data['SITE_MONEY']}" size="32" />&nbsp;
+					<div class="onShow">{lang('html-443')}</div>
+                    </td>
+                </tr>
+				<tr class="">
+                    <th>{lang('html-477')}： </th>
+                    <td>
+					{dr_lang('html-478', '<input class="input-text" type="text" name="data[SITE_CONVERT]" value="'.$data['SITE_CONVERT'].'" size="10" />')}
+                    </td>
+                </tr>
+				</table>
+			</div>
+			<div id="cnt_1" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-444')}： </th>
+                    <td>
+                    <input type="radio" name="data[SYS_LOG]" value="TRUE" {if $data['SYS_LOG']}checked{/if} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[SYS_LOG]" value="FALSE" {if !$data['SYS_LOG']}checked{/if} />&nbsp;<label>{lang('close')}</label>
+					<div class="onShow">{lang('html-446')}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-447')}： </th>
+                    <td>
+                    <input type="radio" name="data[SITE_ADMIN_CODE]" value="TRUE" {if $data['SITE_ADMIN_CODE']}checked{/if} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[SITE_ADMIN_CODE]" value="FALSE" {if !$data['SITE_ADMIN_CODE']}checked{/if} />&nbsp;<label>{lang('close')}</label>
+                    </td>
+                </tr>
+                <tr class="">
+                    <th>{lang('html-448')}： </th>
+                    <td>
+					<input class="input-text" type="text" name="data[SITE_ADMIN_PAGESIZE]" value="{$data['SITE_ADMIN_PAGESIZE']}" size="10" />&nbsp;
+					<div class="onShow">{lang('html-450')}</div>
+                    </td>
+                </tr>
+                </table>
+            </div>
+			<div id="cnt_2" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-522')}： </th>
+                    <td>
+                    <input type="radio" name="data[SYS_MEMCACHE]" value="TRUE" {if $data['SYS_MEMCACHE']}checked{/if} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[SYS_MEMCACHE]" value="FALSE" {if !$data['SYS_MEMCACHE']}checked{/if} />&nbsp;<label>{lang('close')}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-523')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="memcache[hostname]" value="{$memcache['hostname']}" size="32" />&nbsp;
+                    </td>
+                </tr>
+                <tr class="">
+                    <th>{lang('html-524')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="memcache[port]" value="{$memcache['port']}" size="32" />&nbsp;
+					<input class="button" type="button" name="button" id="memcache" onclick="memcache_test()" value="{lang('html-127')}" />
+                    </td>
+                </tr>
+                </table>
+            </div>
+			<div id="cnt_3" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-609')}： </th>
+                    <td>
+                    <input type="radio" name="data[SYS_CRON_QUEUE]" value="FALSE" {if !$data['SYS_CRON_QUEUE']}checked{/if} />&nbsp;<label>{lang('html-610')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[SYS_CRON_QUEUE]" value="TRUE" {if $data['SYS_CRON_QUEUE']}checked{/if} />&nbsp;<label>{lang('html-611')}</label>
+                    <div class="onShow">{lang('html-612')}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-613')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SYS_CRON_NUMS]" value="{$data['SYS_CRON_NUMS']}" size="19" />&nbsp;
+                    <div class="onShow">{lang('html-615')}</div>
+                    </td>
+                </tr>
+                <tr class="">
+                    <th>{lang('html-614')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SYS_CRON_TIME]" value="{$data['SYS_CRON_TIME']}" size="19" />&nbsp;
+                    <div class="onShow">{lang('html-616')}</div>
+                    </td>
+                </tr>
+                </table>
+            </div>
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200" style="border:none;">&nbsp;</th>
+				<td>
+				<input class="button" type="submit" name="submit" value="{lang('submit')}" />
+				</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</form>
+<script type="text/javascript">
+<!--
+function memcache_test() {
+	$("#memcache").val('Loading');
+	$.get("{dr_url('system/memcache')}&"+Math.random(),function(data){
+		alert(data);
+		$("#memcache").val('{lang('html-127')}');
+	})
+}
+//-->
+</script>
+{template footer.html}

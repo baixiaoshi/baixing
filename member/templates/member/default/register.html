@@ -1,0 +1,49 @@
+{template header.html}
+<link href="{MEMBER_THEME_PATH}images/reg.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+$(function(){
+	{if $error}
+	$("#dr_{$error['name']}").focus();
+	dr_tips("<font color=red>{$error['msg']}</font>", 3);
+	{/if}
+});
+</script>
+<div class="content">
+    <div class="register_wp clearfix">
+        <form action="" method="post">
+            <div class="register_mod">
+                <h3>会员注册<span>Register</span></h3>
+                <ul>
+                    <li><strong>会员：</strong>
+                        <input name="data[username]" id="dr_username" class="input_text" type="text" maxlength="64" autofocus value="{$data.username}" />
+                    </li>
+                    <li><strong>密码：</strong>
+                        <input name="data[password]" id="dr_password" class="input_text" type="password" value="{$data.password}" />
+                    </li>
+                    <li><strong>确认：</strong>
+                        <input name="data[password2]" id="dr_password2" class="input_text" type="password" value="{$data.password2}" />
+                    </li>
+                    <li><strong>邮箱：</strong>
+                        <input name="data[email]" id="dr_email" class="input_text" type="text" maxlength="64" value="{$data.email}" />
+                    </li>
+                    {if $code}
+                    <li><strong>验证：</strong>
+                        <input name="code" id="dr_code" class="input_text" style="width:100px;float:left;margin-right:10px;" type="text" maxlength="64" />
+                        <span style="float:left"><img align="absmiddle" style="cursor:pointer;" onclick="this.src='{dr_member_url('api/captcha', array('width' => 90, 'height' => 32))}&'+Math.random();" src="{dr_member_url('api/captcha', array('width' => 90, 'height' => 32))}" /></span>
+                    </li>
+                    {/if}
+                    <li class="mbutton">
+                        <button type="submit" value="" id="reg_button">立即注册</button>
+                    </li>
+                </ul>
+                <div class="login_other"> <strong>使用合作网站帐号登录：</strong> 
+                {list action=cache name=OAUTH} 
+                <span class="dr_oauth_style dr_oauth_{$t.icon}" title="{$t.name}" onClick="window.location.href='{SITE_URL}member/index.php?c=api&m=oauth&id={$t.id}'"></span>
+                {/loop}
+            	</div>
+            </div>
+        </form>
+        <div class="register_banner"></div>
+    </div>
+</div>
+{template footer.html}

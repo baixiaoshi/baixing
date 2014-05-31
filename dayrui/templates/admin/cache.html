@@ -1,0 +1,41 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		<a class="on" href="{dr_url('home/cache')}"><em>{lang('html-434')}</em></a><span>|</span>
+		<a href="{dr_url('check/index')}"><em>{lang('html-533')}</em></a><span>|</span>
+		<a href="{dr_url('check/phpinfo')}" target="_blank"><em>{lang('html-534')}</em></a><span>|</span>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<table width="100%" id="dr_result">
+		{loop $list $id $t}
+		<tr>
+			<td width="200" style="height:15px;line-height:15px;padding:0" align="left">
+			{$t.name}
+			</td>
+			<td align="left" id="dr_cache_{$id}">
+			....
+			</td>
+		</tr>
+		{/loop}
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+{loop $list $id $t}
+$.ajax({
+	type: "GET",
+	url: "{$t.url}&"+Math.random(),
+	contentType: "application/json; charset=utf-8",
+	dataType: "text",
+	success: function (data) {
+		$("#dr_cache_{$id}").html("<img width=\"16\" src=\"{SITE_URL}dayrui/statics/images/ok.png\">");
+	},
+	error: function(HttpRequest, ajaxOptions, thrownError) {
+		art.dialog.tips("{$t.name}更新失败，尝试重新更新全站，错误日志：/cache/errorlog/log-{date('Y-m-d')}.php", 999);
+	}
+});
+{/loop}
+$.get("{dr_url('home/clear')}&"+Math.random(), function(){});
+</script>
+{template footer.html}

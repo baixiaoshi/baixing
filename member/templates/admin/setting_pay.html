@@ -1,0 +1,94 @@
+{template header.html}
+<script type="text/javascript">
+{if IS_POST}
+art.dialog.tips("{lang('000')}", 3, 1);
+{/if}
+</script>
+<form action="" method="post" name="myform" id="myform">
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <font color="gray">{lang('html-399')}</font>
+	</div>
+    <div class="bk10"></div>
+    <fieldset>
+        <legend>支付宝即时到帐</legend>
+        <input name="data[alipay][name]" type="hidden" value="支付宝" />
+        <table width="100%" class="table_form">
+            <tr>
+                <th width="200">{lang('html-153')}：</th> 
+                <td><input name="data[alipay][use]" type="checkbox" {if $data['alipay']['use']}checked="checked"{/if} value="1" /></td>
+            </tr>
+            <tr>
+                <th width="200">实用人群：</th> 
+                <td>企业商户</td>
+            </tr>
+            <tr>
+                <th>支付宝账号：</th> 
+                <td><input type="text" name="data[alipay][username]"  class="input-text" size="20" value="{$data['alipay']['username']}" /></td>
+            </tr><tr>
+                <th>合作者身份(parterID)：</th> 
+                <td><input type="text" name="data[alipay][id]"  class="input-text" size="20" value="{$data['alipay']['id']}" /></td>
+            </tr>
+            <tr>
+                <th style="border:none">交易安全校验码(key)：</th> 
+                <td style="border:none"><input type="text" name="data[alipay][key]" size="40" class="input-text" value="{$data['alipay']['key']}" /></td>
+            </tr>
+        </table>
+    </fieldset>
+	<div class="bk10"></div>
+    <fieldset>
+        <legend>财付通即时到帐</legend>
+        <input name="data[tenpay][name]" type="hidden" value="财付通" />
+        <table width="100%" class="table_form">
+            <tr>
+                <th width="200">{lang('html-153')}：</th> 
+                <td><input name="data[tenpay][use]" type="checkbox" {if $data['tenpay']['use']}checked="checked"{/if} value="1" /></td>
+            </tr>
+            <tr>
+                <th width="200">实用人群：</th> 
+                <td>个人和企业商户</td>
+            </tr>
+            <tr>
+                <th>商户ID号：</th> 
+                <td><input type="text" name="data[tenpay][id]"  class="input-text" size="20" value="{$data['tenpay']['id']}" /></td>
+            </tr>
+            <tr>
+                <th style="border:none">交易密钥：</th> 
+                <td style="border:none"><input type="text" name="data[tenpay][key]" size="40" class="input-text" value="{$data['tenpay']['key']}" /></td>
+            </tr>
+        </table>
+    </fieldset>
+	<div class="bk10"></div>
+    <fieldset>
+        <legend>网银在线</legend>
+        <input name="data[chinabank][name]" type="hidden" value="网银在线" />
+        <table width="100%" class="table_form">
+            <tr>
+                <th width="200">{lang('html-153')}：</th> 
+                <td><input name="data[chinabank][use]" type="checkbox" {if $data['chinabank']['use']}checked="checked"{/if} value="1" /></td>
+            </tr>
+            <tr>
+                <th width="200">实用人群：</th> 
+                <td>个人和企业商户</td>
+            </tr>
+            <tr>
+                <th>商户号：</th> 
+                <td><input type="text" name="data[chinabank][id]"  class="input-text" size="20" value="{$data['chinabank']['id']}" /></td>
+            </tr>
+            <tr>
+                <th style="border:none">MD5密钥：</th> 
+                <td style="border:none"><input type="text" name="data[chinabank][key]" size="40" class="input-text" value="{$data['chinabank']['key']}" /></td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+<div class="fixed-bottom">
+    <div class="fixed-but text-c">
+        <div class="button"><input value="{lang('save')}" type="submit" name="submit" class="cu" style="width:100px;" /></div>
+    </div>
+</div>
+{template footer.html}

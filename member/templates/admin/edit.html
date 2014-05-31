@@ -1,0 +1,100 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab({$page});
+});
+</script>
+<form action="" method="post" name="myform" id="myform">
+<input name="page" id="page" type="hidden" value="{$page}" />
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+    <div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-628')}</li>
+			<li onclick="SwapTab(1)">{lang('html-629')}</li>
+			<li onclick="SwapTab(2)">OAuth2</li>
+		</ul>
+		<div class="contentList pad-10">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+                <table width="100%" class="table_form">
+                <tr class="dr_one">
+                    <th width="200">&nbsp;{lang('html-532')}： </th>
+                    <td>{$data.username}</td>
+                </tr>
+                <tr class="dr_one">
+                    <th>&nbsp;{lang('html-062')}： </th>
+                    <td>{$data.email}</td>
+                </tr>
+                <tr>
+                    <th><font color="red">*</font>&nbsp;{lang('html-348')}： </th>
+                    <td>
+                    <select name="member[groupid]">
+                    {list action=cache name=MEMBER.group}
+                    <option value="{$t.id}" {if $t.id==$data.groupid}selected{/if}> {$t.name} </option>
+                    {/list}
+                    </select>
+                    <div class="onShow" id="dr_groupid_tips"></div></td>
+                </tr>
+                <tr class="dr_one">
+                    <th>&nbsp;{lang('html-227')}： </th>
+                    <td><input class="input-text" type="text" name="member[name]" value="{$data.name}" size="25" /></td>
+                </tr>
+                <tr class="dr_one">
+                    <th>&nbsp;{lang('html-228')}： </th>
+                    <td><input class="input-text" type="text" name="member[phone]" value="{$data.phone}" size="25" /></td>
+                </tr>
+                <tr class="dr_one">
+                    <th style="border:none">&nbsp;{lang('html-061')}： </th>
+                    <td style="border:none">
+					{if $is_uc}
+					{lang('html-147')}
+					{else}
+					<input class="input-text" type="text" name="member[password]" id="dr_password" value="" size="25" />
+					<div class="onShow">{lang('html-515')}</div>
+					{/if}
+					</td>
+                </tr>
+                </table>
+			</div>
+            <div id="cnt_2" style="display:none" class="dr_hide">
+                <table width="100%" class="table_form">
+                {php $i=1;}
+                {list action=cache name=OAUTH}
+				{php $id=$t['id'];}
+                {if isset($data['oauth'][$id])}
+                <tr class="dr_one">
+                    <th {if $i==count($data['oauth'])} style="border:none"{/if} width="200"><img align="absmiddle" src="{MEMBER_PATH}statics/OAuth/{$t.icon}.png"> </th>
+                    <td {if $i==count($data['oauth'])} style="border:none"{/if}>
+                    {$data['oauth'][$id]['nickname']}
+                    </td>
+                </tr>
+                {php $i++;}
+                {/if}
+                {/list}
+                </table>
+			</div>
+            <div id="cnt_1" style="display:none" class="dr_hide">
+                <table width="100%" class="table_form">
+                <tr class="dr_one">
+                    <th width="200">&nbsp;{lang('html-532')}： </th>
+                    <td>{$data.username}</td>
+                </tr>
+                {$myfield}
+                </table>
+			</div>
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200" style="border:none;">&nbsp;</th>
+				<td>
+				<input class="button" type="submit" name="submit" value="{lang('submit')}" />
+				</td>
+			</tr>
+			</table>
+        </div>
+	</div>
+</div>
+</form>
+{template footer.html}

@@ -1,0 +1,25 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<fieldset>
+        <legend>导出结果</legend>
+        <table width="100%" class="table_form">
+            <tr>
+                <th width="200">文件位置：</th> 
+                <td>/{$get.dir}/config/form.php （{$size}）</td>
+            </tr>
+            <tr>
+                <th>使用方式：</th> 
+                <td>把这个文件复制到其他模块中即可，当然可以分享给其他人</td>
+            </tr>
+            <tr class="dr_border_none">
+                <th>注意事项：</th> 
+                <td>此文件由系统生成，不可对其修改，否则可能产生导入失败</td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+{template footer.html}

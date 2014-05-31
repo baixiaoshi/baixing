@@ -1,0 +1,54 @@
+.dr_oauth_style {
+    cursor: pointer;
+    display: block !important;
+    height: 24px !important;
+    line-height: 24px !important;
+    overflow: hidden;
+    padding-left: 10px;
+	margin-top:5px;
+    text-align: left;
+	width:24px;
+	float:left;
+}
+.dr_oauth_more {
+    background: url("more.gif") no-repeat scroll 0 0 transparent;
+    font-family: sans-serif;
+	color: #565656;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+	width: 54px;
+	text-align:center;
+}
+.dr_oauth_more:hover {
+    background-position: 0 -24px !important;
+    color: #000000;
+}
+.dr_oauth_style:hover {
+    opacity: 0.8;
+}
+.dr_oauth_qq {
+	background:url(qq.png) no-repeat;	
+}
+.dr_oauth_sina {
+	background:url(sina.png) no-repeat;	
+}
+.dr_oauth_baidu {
+	background:url(baidu.png) no-repeat;	
+}
+.dr_oauth_163 {
+	background:url(163.png) no-repeat;	
+}
+.dr_oauth_360 {
+	background:url(360.png) no-repeat;	
+}
+.dr_oauth_google {
+	background:url(google.png) no-repeat;	
+}
+.dr_oauth_sohu {
+	background:url(sohu.png) no-repeat;	
+}
+.dr_oauth_taobao {
+	background:url(taobao.png) no-repeat;	
+}

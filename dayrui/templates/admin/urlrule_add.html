@@ -1,0 +1,105 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	dr_set_type({intval($data.type)});
+});
+function dr_set_type(id) {
+	{loop $type $i $n}
+	$('.dr_type_{$i}').hide();
+	{/loop}
+	$('.dr_type_'+id).show();
+}
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<form action="" method="post" id="myform" name="myform">
+		<table width="100%" class="table_form">
+		<tr>
+			<th width="200">{lang('html-028')}：</th>
+			<td>
+			{loop $type $i $n}
+			<input type="radio" {if $data.id}disabled{/if} name="type" onclick="dr_set_type({$i})" value="{$i}" {if (int)$data['type'] == $i}checked{/if} />&nbsp;<label>{$n}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+			{/loop}
+			</td>
+		</tr>
+		<tr>
+			<th>{lang('html-026')}： </th>
+			<td>
+			<input type="text" required style="width:180px;" value="{$data.name}" name="name" class="input-text" />
+			<div class="onShow">{lang('html-027')}</div>
+			</td>
+		</tr>
+		<tr class="dr_type_0">
+			<th>{lang('html-684')}： </th>
+			<td>
+			{dr_field_input('page', 'Text', array('option' => array('width' => 400)), $data['value']['page'])}
+			&nbsp;<a href="javascript:dr_page_rule();">{lang('html-368')}</a>
+			</td>
+		</tr>
+		<tr class="dr_type_0">
+			<th>{lang('html-685')}： </th>
+			<td>
+			{dr_field_input('page_page', 'Text', array('option' => array('width' => 400)), $data['value']['page_page'])}
+			&nbsp;<a href="javascript:dr_page_rule();">{lang('html-368')}</a>
+			</td>
+		</tr>
+		<tr class="dr_type_1">
+			<th>{lang('html-686')}： </th>
+			<td>
+			{dr_field_input('list', 'Text', array('option' => array('width' => 400)), $data['value']['list'])}
+			&nbsp;<a href="javascript:dr_url_rule();">{lang('html-368')}</a>
+			</td>
+		</tr>
+		<tr class="dr_type_1">
+			<th>{lang('html-687')}： </th>
+			<td>
+			{dr_field_input('list_page', 'Text', array('option' => array('width' => 400)), $data['value']['list_page'])}
+			&nbsp;<a href="javascript:dr_url_rule();">{lang('html-368')}</a>
+			</td>
+		</tr>
+		<tr class="dr_type_1">
+			<th>{lang('html-688')}： </th>
+			<td>
+			{dr_field_input('show', 'Text', array('option' => array('width' => 400)), $data['value']['show'])}
+			&nbsp;<a href="javascript:dr_url_rule();">{lang('html-368')}</a>
+			</td>
+		</tr>
+		<tr class="dr_type_1">
+			<th>{lang('html-689')}： </th>
+			<td>
+			{dr_field_input('show_page', 'Text', array('option' => array('width' => 400)), $data['value']['show_page'])}
+			&nbsp;<a href="javascript:dr_url_rule();">{lang('html-368')}</a>
+			</td>
+		</tr>
+		<tr class="dr_type_1">
+			<th>{lang('html-690')}： </th>
+			<td>
+			{dr_field_input('extend', 'Text', array('option' => array('width' => 400)), $data['value']['extend'])}
+			&nbsp;<a href="javascript:dr_url_rule();">{lang('html-368')}</a>
+			</td>
+		</tr>
+		<tr>
+			<th>{lang('html-251')}： </th>
+			<td>
+			{dr_field_input('catjoin', 'Text', array('option' => array('width' => 70)), $data['value']['catjoin'] ? $data['value']['catjoin'] : '/')}
+			<div class="onShow">{lang('html-252')}</div>
+			</td>
+		</tr>
+		<tr>
+			<th>{lang('html-009')}： </th>
+			<td><font color="red">{lang('html-388')}</font></td>
+		</tr>
+		<tr>
+			<th> </th>
+			<td><input value="{lang('submit')}" type="submit" name="submit" class="button" />
+			</td>
+		</tr>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

@@ -1,0 +1,79 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <form method="post" action="" name="searchform" id="searchform">
+		<input name="search" id="search" type="hidden" value="1" />
+		<select name="data[field]">
+			{loop $field $t}
+			<option value="{$t.fieldname}" {if $param.field==$t.fieldname}selected{/if}>{$t.name}</option>
+			{/loop}
+		</select> ：
+		<input type="text" class="input-text" value="{$param.keyword}" name="data[keyword]" />&nbsp;
+        {lang('html-322')} ：
+        <select name="data[status]">
+        <option value="1">{lang('html-529')}</option>
+        <option value="0">{lang('html-530')}</option>
+        </select>
+        &nbsp;
+		{lang('105')} ：
+		{dr_field_input('start', 'Date', array('option'=>array('format'=>'Y-m-d','width'=>80)), (int)$param.start)}
+		-&nbsp;
+		{dr_field_input('end', 'Date', array('option'=>array('format'=>'Y-m-d','width'=>80)), (int)$param.end)}
+		&nbsp;
+		<input type="submit" value="{lang('search')}" class="button" name="search" />
+		</form>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<input name="action" id="action" type="hidden" value="" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="50" align="left">Id</th>
+			<th align="left">{$field.title.name}</th>
+			<th width="50" align="center">{lang('101')}</th>
+			<th width="50" align="center">{lang('html-322')}</th>
+			<th width="120" align="center">{lang('105')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr id="dr_row_{$t.id}">
+			<td align="right"><input name="ids[]" type="checkbox" class="dr_select" value="{$t.id}" />&nbsp;</td>
+			<td align="left">{$t.id}</td>
+			<td align="left"><a href="{dr_url('member/content/edit',array('mid' => $mid, 'id' => $t.id))}">{dr_keyword_highlight($t.title, $param.keyword)}</a></td>
+			<td align="center"><input name="dr_author_{$t.id}" id="dr_author_{$t.id}" type="hidden" value="{$t.author}" /><a href="javascript:;" onclick="dr_dialog_member('author_{$t.id}')">{dr_strcut($t.author, 10)}</a></td>
+			<td align="center">{if $t.status}<font color="#006600">{lang('html-529')}</font>{else}<font color="#FF0000">{lang('html-530')}</font>{/if}</td>
+			<td align="center">{dr_date($t.updatetime, NULL, 'red')}</td>
+			<td align="left" class="dr_option">
+			<a href="{dr_space_show_url($t.uid, $mid, $t.id)}" target="_blank">{lang('go')}</a>
+			{if $this->ci->is_auth('member/admin/content/edit')}<a href="{dr_url('member/content/edit',array('mid' => $mid, 'id' => $t.id))}">{lang('edit')}</a>{/if}
+			{loop $form $a}<a href="{dr_url('member/form_'.$mid.'_'.$a.id.'/index', array('cid' => $t.id))}">{$a.name}</a>{/loop}
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="8" align="left" style="border:none">
+			{if $this->ci->is_auth('member/admin/content/del')}<input type="button" class="button" value="{lang('del')}" name="option" onClick="$('#action').val('delete');dr_confirm_set_all('{lang('015')}', 1)" />{/if}
+            {if $this->ci->is_auth('member/admin/content/edit')}<input type="button" class="button" value="{lang('html-318')}" name="option" onClick="$('#action').val('verify');dr_confirm_set_all('{lang('015')}')" /><select name="status">
+			<option value="1">{lang('html-529')}</option>
+			<option value="0">{lang('html-530')}</option>
+			</select>
+			{/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+        <div id="pages"><a>{dr_lang('html-346', $param['total'])}</a>{$pages}</div>
+	</div>
+</div>
+{template footer.html}

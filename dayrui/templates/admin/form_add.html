@@ -1,0 +1,78 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	{if $result}
+	art.dialog.tips('{$result}', 3);
+	{/if}
+	dr_set_post("{intval($data['setting']['post'])}");
+});
+function dr_set_post(id) {
+	if (id == 1) {
+		$(".dr_post").show();
+	} else {
+		$(".dr_post").hide();
+	}
+}
+</script>
+<form action="" method="post" name="myform" id="myform">
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<table width="100%" class="table_form">
+		<tr>
+			<th width="200"><font color="red">*</font>&nbsp;{lang('html-026')}：</th>
+			<td>
+            	<input class="input-text" type="text" name="data[name]" value="{$data['name']}" id="dr_name" onblur="d_topinyin('table','name');" size="20" /> <div class="onShow">{lang('html-027')}</div>
+            </td>
+		</tr>
+		<tr>
+			<th><font color="red">*</font>&nbsp;{lang('html-453')}：</th>
+			<td>
+            	<input class="input-text" type="text" name="data[table]" value="{$data['table']}" {if $data['id']}disabled{/if} id="dr_table" size="20" /> <div class="onShow" id="dr_table_tips">{lang('html-187')}</div>
+			</td>
+		</tr>
+		<tr>
+			<th>{lang('html-343')}：</th>
+			<td>
+            <input name="data[setting][post]" type="radio" value="1" onclick="dr_set_post(1)" {if $data['setting']['post']}checked{/if} />&nbsp;{lang('open')}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input name="data[setting][post]" type="radio" value="0" onclick="dr_set_post(0)" {if !$data['setting']['post']}checked{/if} />&nbsp;{lang('close')}
+            </td>
+		</tr>
+		<tr class="dr_post">
+			<th>{lang('html-566')}：</th>
+			<td>
+            <input name="data[setting][code]" type="radio" value="1" {if $data['setting']['code']}checked{/if} />&nbsp;{lang('open')}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input name="data[setting][code]" type="radio" value="0" {if !$data['setting']['code']}checked{/if} />&nbsp;{lang('close')}
+            </td>
+		</tr>
+        <tr class="dr_post">
+			<th>{lang('html-557')}：</th>
+			<td>
+            <input class="input-text" type="text" name="data[setting][send]" value="{$data['setting']['send']}" size="30" /> <div class="onShow">{lang('html-558')}</div>
+            </td>
+		</tr>
+        <tr class="dr_post">
+			<th>{lang('html-559')}：</th>
+			<td>
+            <textarea name="data[setting][template]" style="width:512px; height:180px">{$data['setting']['template']}</textarea>
+            <br>
+            <font color="#777777">{lang('html-560')}</font>
+            </td>
+		</tr>
+		</table>
+        <table width="100%" class="table_form">
+			<tr>
+				<th width="200" style="border:none;">&nbsp;</th>
+				<td>
+				<input class="button" type="submit" name="submit" value="{lang('save')}" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+</form>
+{template footer.html}

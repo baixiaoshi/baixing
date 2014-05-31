@@ -1,0 +1,130 @@
+{template header.html}
+<script type="text/javascript">
+function dr_remove() {
+    $("#action").val('flag');
+	var _data = $("#myform").serialize();
+	var _url = window.location.href;
+	if ((_data.split('ids')).length-1 <= 0) {
+		$.dialog.tips("到底移出谁？您还没有选择呢", 2);
+		return true;
+	}
+	// 将表单数据ajax提交验证
+	$.ajax({type: "POST",dataType:"json", url: _url, data: _data,
+		success: function(data) {
+			//验证成功
+			if (data.status == 1) {
+				$.dialog.tips(data.code, 3, 1);
+				// 刷新页
+				setTimeout('window.location.reload(true)', 3000);
+			} else {
+				$.dialog.tips(data.code, 3, 2);
+				return true;
+			}
+		},
+		error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+	return false;
+}
+function dr_update() {
+    $("#action").val('update');
+	var _data = $("#myform").serialize();
+	var _url = window.location.href;
+	if ((_data.split('ids')).length-1 <= 0) {
+		$.dialog.tips("到底更新谁？您还没有选择呢", 2);
+		return true;
+	}
+	// 将表单数据ajax提交验证
+	$.ajax({type: "POST",dataType:"json", url: _url, data: _data,
+		success: function(data) {
+			//验证成功
+			if (data.status == 1) {
+				$.dialog.tips(data.code, 3, 1);
+				// 刷新页
+				setTimeout('window.location.reload(true)', 3000);
+			} else {
+				$.dialog.tips(data.code, 3, 2);
+				return true;
+			}
+		},
+		error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+	return false;
+}
+function dr_delete(catid, id) {
+    art.dialog.confirm("你确认要删除吗？", function(){
+		// 将表单数据ajax提交验证
+		$.ajax({type: "POST",dataType:"json", url: "{dr_member_url(APP_DIR.'/home/del')}",data: {catid:catid,id:id}, success: function(data) {
+				//验证成功
+				if (data.status == 1) {
+					$.dialog.tips(data.code, 3, 1);
+					$("#dr_row_"+id).hide();
+				} else {
+					$.dialog.tips(data.code, 3, 0);
+				}
+                art.dialog.close();
+                return false;
+			},
+			error: function(HttpRequest, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+			}
+		});
+		return true;
+	});
+	return false;
+}
+</script>
+<input name="page" id="dr_page" type="hidden" value="2" />
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+        <div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main dr_table">
+            	<div class="msearch mbutton">
+                	{loop $flag $i $t}
+                    <a href="{dr_member_url(APP_DIR.'/home/flag', array('id' => $i))}" {if $i==$id}class="cur"{/if}>{$t.name}</a>
+                    {/loop}
+				</div>
+                <div class="bk10"></div>
+                <form action="" method="post" name="myform" id="myform">
+                <input name="action" id="action" type="hidden" value="" />
+				<table style="table-layout:fixed;margin-bottom: 0;">
+				<thead>
+					<tr>
+						<th style="width:20px;" class="algin_r">&nbsp;</th>
+						<th class="algin_l">主题</th>
+						<th style="width:80px;" class="algin_c">栏目</th>
+						<th style="width:120px;" class="algin_l">更新时间</th>
+						<th style="width:70px;" class="algin_l">操作</th>
+					</tr>
+				</thead>
+				<tbody id="dr_body">
+				{template content_data.html}
+				</tbody>
+				</table>
+                <table style="table-layout:fixed;" class="mbutton">
+                <tr>
+                    <td style="width:20px;border:none" class="algin_r"><input type="checkbox" onclick="dr_selected()" id="dr_select" name="dr_select"></td>
+					<td class="algin_l" style="padding-top:8px;border:none">
+                    <button type="button" class="red_button" onClick="dr_remove()">移出</button>
+                    <button type="button" class="blue_button" onClick="dr_update()">更新</button>
+                    <div class="onShow">
+                    {if $member_rule['update_score'] > 0}
+                    更新一次增加<font color="#0000FF"><b>{$member_rule['update_score']}</b></font>{SITE_SCORE}
+                    {else}
+                    更新一次减少<font color="#FF0000"><b>{abs($member_rule['update_score'])}</b></font>{SITE_SCORE}
+                    {/if}
+                    </div>
+                    </td>
+                </tr>
+				</table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

@@ -1,0 +1,131 @@
+{template "header.html"}
+<script language="javascript">
+// 这是加入收藏夹的ajax请求，我就随意写了一下提示信息，至于美化啊什么交给你们了
+function dr_favorite() {
+	$.get("{MODULE_URL}index.php?c=api&m=favorite&id={$id}", function(data){
+		if (data == 1) {
+			dr_tips("没有登录，不能收藏");
+		} else if (data == 2) {
+			dr_tips("文档不存在，无法收藏");
+		} else if (data == 3) {
+			dr_tips("更新收藏成功", 3, 1);
+		} else if (data == 4) {
+			dr_tips("收藏成功", 3, 1);
+		}
+	});
+}
+</script>
+<div class="clear"></div>
+<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+<div class="clear"></div>
+<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > {dr_catpos($catid, ' > ')} > {$title}<!--面包屑导航--></div>
+<div class="news_ct" style="overflow:hidden">
+	<div class="news_ct_l">
+		<h1>{$title}{if $content_title}&nbsp;>&nbsp;{$content_title}{/if}<!--如果存在分页时输出当前分页的子标题--></h1>
+		<div class="dp">
+        	{$updatetime}<span>点击数(<font>{dr_show_hits($id)}</font>)</span>
+			<a href="javascript:dr_favorite();">加入收藏</a>
+		</div>
+		<div class="clear"></div>
+		<div class="ct">
+			<div class="ct_box">
+			{$content}
+			</div>
+            <div id="fenye" style="text-align:center;">
+            <!--如果存在分页时循环输出分页数与标题-->
+            {loop $content_page $i $t}
+            {if $page==$i}
+            <span>{$i}</span>
+            {else}
+            <a href="{dr_content_page_url($urlrule, $i)}" title="{$t.title}">{$i}</a>
+            {/if}
+            {/loop}
+            </div>
+            <p style="margin-bottom:10px">
+            <strong>关键词：</strong>
+            <!--输出Tag标签，这个用法只能在当前show页面使用-->
+            {loop $keywords $name $url}
+            <a href="{$url}" target="_blank">{$name}</a>
+            {/loop}
+            </p>
+			<!--上下篇文章的调用，这个用法只能在当前show页面使用-->
+            <p class="f14">
+                <strong>上一篇：</strong>{if $prev_page}<a href="{$prev_page.url}">{$prev_page.title}</a>{else}没有了{/if}<br>
+                <strong>下一篇：</strong>{if $next_page}<a href="{$next_page.url}">{$next_page.title}</a>{else}没有了{/if}
+            </p>
+            <div class=bshare-custom style="margin-top:15px">
+                <!-- Baidu Button BEGIN -->
+                <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+                <span class="bds_more"></span>
+                <a class="bds_qzone"></a>
+                <a class="bds_tsina"></a>
+                <a class="bds_tqq"></a>
+                <a class="bds_renren"></a>
+                <a class="bds_t163"></a>
+                <a class="shareCount"></a>
+                </div>
+                <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=118291" ></script>
+                <script type="text/javascript" id="bdshell_js"></script>
+                <script type="text/javascript">
+                document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+                </script>
+                <!-- Baidu Button END -->
+            </div>
+		</div>
+        <!--调用评论应用-->
+        {if dr_is_app('comment')}
+        <div class="ct_pl">
+        <script type="text/javascript" src="{SITE_URL}index.php?s=comment&module={APP_DIR}&catid={$catid}&cid={$id}"></script>
+        </div>
+        {/if}
+		<!--调用投票应用-->
+        {if dr_is_app('vote')}
+        <div class="ct_pl">
+        <script type="text/javascript" src="{SITE_URL}index.php?s=vote&module={APP_DIR}&cid={$id}"></script>
+        </div>
+        {/if}
+        <div class="clear"></div>
+        <div class="news_ct_tj">
+            <div class="tit"><h4>相关新闻</h4></div>
+            <ul>
+                <!--此标签用于调用相关文章，tag=关键词1,关键词2，多个关键词,分隔，num=显示条数，field=显示字段-->
+            	{list action=related field=title,url,updatetime tag=$tag num=5}
+                <li><a href="{$t.url}" title="{$t.title}">{$t.title}</a><span>{$updatetime}</span></li>
+                {/list}{$error}
+            </ul>
+        </div>
+	</div>
+	<div class="news_ct_r">
+		<div class="t_news">
+			<h4>阅读排行榜</h4>
+			<ul>
+                <!--此标签不用解释了，经典list调用-->
+                {list action=module catid=$catid field=title,url order=hits num=9}
+                <li><span class="one">{$key+1}</span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 28)}</a></li>
+                {/list}{$error}	
+			</ul>	
+		</div>
+		<div class="clear"></div>
+        <div class="h_news">
+            <h4>最新新闻</h4>
+            <ul class="i_ul">	
+            <!--此标签不用解释了，经典list调用-->
+            {list action=module catid=$catid field=title,url order=updatetime num=10}
+            <li><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 30)}</a></li>
+            {/list}{$error}	
+            </ul>
+        </div>
+        <div class="tw_news">
+            <h4>热门Tag</h4>
+            <div class="tw_tag">
+            <!--此标签用于调用tag标签，非当前模块需要加上model=模块名称,num=显示条数-->
+            {list action=tag num=40}
+            <a href="{$t.url}" title="点击量：{$t.hits}">{$t.name}</a>
+            {/list}{$error}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+
+{template "footer.html","/"}

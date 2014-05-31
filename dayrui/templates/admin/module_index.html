@@ -1,0 +1,120 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	$(".table-list td").last().css('border-bottom','1px solid #EEEEEE');
+	$.getScript("http://www.dayrui.com/index.php?c=sys&m=module_update&data={$store}&admin={SELF}");
+});
+function dr_module_export(url) {
+	var throughBox = $.dialog.through;
+	var dr_Dialog = throughBox({title: "{lang('html-517')}"});
+	dr_Dialog.content('<div style="padding:10px 20px">{lang("html-631")}<li style="line-height:45px;">模块新名称： <input id="dr_module_new_name" class="input-text" type="text" style="width:145px" /></li></div>');
+	dr_Dialog.button({name: "{lang('html-632')}", callback:function() {
+			var win = $.dialog.top;
+			var name = win.$("#dr_module_new_name").val();
+			location.href = url+"&name="+name;
+		},
+		focus: true
+	});
+}
+function dr_copy_module(url) {
+	var throughBox = $.dialog.through;
+	var dr_Dialog = throughBox({title: "{lang('html-514')}"});
+	$.ajax({type: "GET", url:url, dataType:'text', success: function (text) {
+			var win = $.dialog.top;
+			dr_Dialog.content(text);
+			dr_Dialog.button({name: "{lang('html-513')}", callback:function() {
+					win.$("#mark").val("0"); // 标示可以提交表单
+					if (win.dr_form_check()) { // 按钮返回验证表单函数
+						var _data = win.$("#myform").serialize();
+						$.ajax({type: "POST",dataType:"json", url: url, data: _data, // 将表单数据ajax提交验证
+							success: function(data) {
+								if (data.status == 1) {
+									dr_tips(data.code, 3, 1); 
+									setTimeout("window.location.reload(true)", 3000);
+								} else {
+									dr_tips(data.code, 5); 
+									return true;
+								}
+							},
+							error: function(HttpRequest, ajaxOptions, thrownError) {
+								alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+							}
+						});
+					}
+					return false;
+				},
+				focus: true
+			});
+	    },
+	    error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+}
+</script>
+<style>
+.dr_none td {background-color: infobackground;}
+</style>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}83.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+		<font color="gray">{lang('html-157')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="40" align="center">{lang('html-626')}</th>
+			<th width="100" align="left">{lang('html-026')}</th>
+			<th width="50" align="left">{lang('html-046')}</th>
+			<th width="30" align="center">{lang('html-166')}</th>
+			<th width="30" align="center">{lang('html-158')}</th>
+			<th width="150" align="left">{lang('html-159')}</th>
+			<th align="left">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list[1] $dir $t}
+		<tr>
+			<td align="center">{if $this->ci->is_auth('module/edit')}<a href="javascript:;" onClick="return dr_dialog_set('{php echo $t.disabled ? lang('html-161') : lang('html-162');}','{dr_url('module/disabled',array('id'=>$t.id))}');"><img src="{SITE_PATH}dayrui/statics/images/{php echo $t.disabled ? 0 : 1}.gif"></a>{else}<img src="{SITE_PATH}dayrui/statics/images/{php echo $t.disabled ? 0 : 1}.gif"></a>{/if}</td>
+			<td align="left">{$t.name}</td>
+			<td align="left">{$dir}</td>
+			<td align="center">{count($t.site)}</td>
+            <td align="center">{$t.version}</td>
+			<td align="left">{$t.author}</td>
+			<td align="left">
+			{if $this->ci->is_auth('module/config')}<a style="color:#00F" href="{dr_url('module/config',array('id'=>$t.id))}">{lang('061')}</a>&nbsp;&nbsp;{/if}
+			{if $this->ci->is_auth('mform/index')}<a href="{dr_url('mform/index',array('dir'=>$dir))}">{lang('html-663')}</a>&nbsp;&nbsp;{/if}
+			{if $this->ci->is_auth('admin/field/index')}<a href="{php echo $duri->uri2url('admin/field/index/rname/module/rid/'.$t.id);}">{lang('html-590')}</a>&nbsp;&nbsp;{/if}
+			{if $t.extend && $this->ci->is_auth('admin/field/index')}<a href="{php echo $duri->uri2url('admin/field/index/rname/extend/rid/'.$t.id);}">{lang('html-591')}</a>&nbsp;&nbsp;{/if}
+			{if $this->ci->is_auth('module/config')}<a href="javascript:;" onclick="dr_copy_module('{dr_url('module/copy',array('dir'=>$dir))}')">{lang('html-513')}</a>&nbsp;&nbsp;{/if}
+			{if $this->ci->is_auth('module/config')}<a style="color: #090" href="javascript:;" onclick="dr_module_export('{dr_url('module/export',array('dir'=>$dir))}')">{lang('html-516')}</a>&nbsp;&nbsp;{/if}
+            {if $this->ci->is_auth('module/uninstall')}<a href="javascript:;" onClick="return dr_confirm_url('{lang('html-170')}','{dr_url('module/uninstall',array('id'=>$t.id))}');">{lang('html-164')}</a>&nbsp;&nbsp;{/if}
+			{if $this->ci->is_auth('module/uninstall')}<a href="javascript:;" onClick="return dr_confirm_url('{lang('html-608')}','{dr_url('module/clear',array('dir'=>$dir))}');">{lang('html-607')}</a>&nbsp;&nbsp;{/if}
+			{if !$t['site'][SITE_ID]['use']}<font color=red>[{lang('html-168')}]</font>&nbsp;&nbsp;{else}<a href="{$t.url}" target="_blank">{lang('go')}</a>{/if}
+			{if $this->ci->is_auth('module/update')}&nbsp;&nbsp;<a class="dr_update_{$dir}" style="display:none; color:#090" href="{dr_url('module/update',array('id'=>$dir))}">{lang('html-167')}</a>&nbsp;&nbsp;{/if}
+            {if $t.key}<span class="dr_check_{$dir}">正在云端检查版本...</span>{/if}
+			</td>
+		</tr>
+		{/loop}
+		{loop $list[0] $dir $t}
+		<tr class="dr_none">
+			<td align="center">{if $this->ci->is_auth('module/install')}<a href="javascript:void(0);" onclick="dr_install('{lang('html-000')}', '{dr_url('module/install', array('dir'=>$dir))}')" style="color:#00F">{else}<a href="javascript:;" style="color:#999">{/if}{lang('html-163')}</a></td>
+			<td align="left">{$t.name}</td>
+			<td align="left">{$dir}</td>
+			<td align="center">0</td>
+            <td align="center">{$t.version}</td>
+			<td align="left">{$t.author}</td>
+			<td align="left">
+			</td>
+		</tr>
+		{/loop}
+		</tbody>
+		</table>
+	</div>
+</div>
+{template footer.html}

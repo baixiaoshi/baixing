@@ -1,0 +1,58 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+<div class="clear"></div>
+<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > {dr_catpos($catid, ' > ')}<!--面包屑导航--></div>
+<div class="digg" style="margin-top:5px">
+	<div class="digg_l">
+		<div class="left03">
+			<h4>栏目索引</h4>
+			<ul>
+				<!--循环输出当前栏目的同级栏目，定义返回值return=c，你也可以使用默认的（都懂得）-->
+				{list action=category pid=$cat.pid return=c}
+				<li><a href="{$c.url}" {if $c.id==$catid} style="color:#00F;font-weight:bold;"{/if}>{$c.name}</a></li>
+ 				{/list}
+            </ul>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		<div class="left01">
+			<h4>猜你喜欢</h4>
+			<ul>
+                <!--我们按缩略图排序，因为第一行和第二行要输出一个图片，你懂得！-->
+                {list action=module catid=$catid field=thumb,title,url,description order=thumb,updatetime num=12}
+                {if $key<2}
+                <li class="pic"><img src="{dr_thumb($t.thumb, 70, 60)}" width="70" height="60" align="left" /><span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 20)}</a></span><div class="into">{dr_strcut($t.description, 38)}</div></li>
+                {else}
+                <li class="nopic"><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 27)}</a></li>
+                {/if}
+                {/list}{$error}
+            </ul>	
+        </div>
+		<div class="left02">
+			<h4>热门排行榜</h4>
+			<ul>
+                <!--我们按点击排序-->
+                {list action=module catid=$catid field=title,url order=hits num=10}
+                <li><span {if $key<3}class="one"{/if}>{$key+1}</span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 27)}</a></li>
+                {/list} {$error}
+			</ul>	
+        </div>
+    </div>
+	<div class="lmlist">
+		<h4>{$cat.name}</h4>
+		<ul>
+        <!--分页显示列表数据-->
+		{list action=module catid=$catid field=title,url,updatetime order=updatetime page=1}
+        <li><span>{$t.updatetime}</span><a title="{$t.title}" href="{$t.url}">{$t.title}</a></li>
+        {/list}{$error}
+        </ul>
+        <div class="n_fy" style="padding-left:0px">
+            <div class="fenye" id="fenye">
+            {$pages}
+            </div>
+		<div>
+	</div>
+	</div></div>
+		<div class="clear"></div>
+{template "footer.html","/"}

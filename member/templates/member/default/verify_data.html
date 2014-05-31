@@ -1,0 +1,10 @@
+{loop $list $t}
+{php $c=dr_string2array($t['content']);}
+<tr>
+	<td class="algin_r"><input type="checkbox" value="{$t['id']}" class="dr_select" name="ids[]" /></td>
+	<td class="algin_l" title="{$c['title']}"><div class="dr_title">{$c['title']}</div></td>
+	<td class="algin_l">等待审核</td>
+	<td class="algin_l">{dr_date($t['inputtime'], '', 'red')}</td>
+	<td class="algin_l"><a href="{dr_member_url(APP_DIR.'/verify/edit', array('id'=>$t['id']))}">修改</a></td>
+</tr>
+{/loop}

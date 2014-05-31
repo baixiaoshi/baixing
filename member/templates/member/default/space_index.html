@@ -1,0 +1,62 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	{if $error}
+	dr_tips('<font color=red>{$error}</font>', 3);
+	{/if}
+});
+</script>
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+    	<div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main">
+                <ul class="form_ul">
+                <form action="" method="post">
+                    <li>
+                        <strong>Logo：</strong>
+                        {dr_field_input('logo', 'File', array('option' => array( 'size' => 10, 'ext' => 'jpg,gif,png')), $data['logo'])}
+                    </li>
+                    <li>
+                        <strong>空间名称：</strong>
+                        <input type="text" value="{$data['name']}" maxlength="30" name="data[name]" class="input_text" {if !$editspace && $data['name']}disabled="disabled"{/if} />
+                        {if !$editspace}<span class="attention">空间名称不得重复，一旦审核通过不允许修改</span>{/if}
+                    </li>
+                    <li>
+                        <strong>空间简介：</strong>
+                        {dr_field_input('introduction', 'Ueditor', array('option' => array( 'mode' => 2, 'height' => 200)), $data['introduction'])}
+                    </li>
+                    <li>
+                        <strong>SEO标题：</strong>
+                        <input type="text" value="{$data['title']}" maxlength="30" name="data[title]" style="width:400px;" class="input_text" />
+                        <span class="attention">用于页面的SEO</span>
+                    </li>
+                    <li>
+                        <strong>SEO关键字：</strong>
+                        <input type="text" value="{$data['keywords']}" maxlength="30" name="data[keywords]" style="width:400px;" class="input_text" />
+                        <span class="attention">多个关键词请用","隔开</span>
+                    </li>
+                    <li>
+                        <strong>SEO描述：</strong>
+                        <textarea name="data[description]" style="width:520px; height:60px;">{$data['description']}</textarea>
+                    </li>
+                    <li>
+                        <strong>第三方代码：</strong>
+                        <textarea name="data[code]" style="width:520px; height:120px;">{$data['code']}</textarea>
+                        <span class="attention">如统计、在线客服代码</span>
+                    </li>
+                    <li>
+                        <strong>底部信息：</strong>
+                        {dr_field_input('footer', 'Ueditor', array('option' => array( 'mode' => 2, 'height' => 200)), $data['footer'])}
+                    </li>
+                    <li class="mbutton">
+                        <button value="" type="submit" class="blue_button">提交</button>
+                    </li>
+                </form>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

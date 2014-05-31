@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>付款结果</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="{SITE_URL}dayrui/statics/css/table_form.css" rel="stylesheet" type="text/css" />
+<link href="{MEMBER_URL}statics/{MEMBER_THEME}/images/reset.css" rel="stylesheet" type="text/css"/>
+<link href="{MEMBER_URL}statics/{MEMBER_THEME}/images/member.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="topnav_w">
+    <div class="topnav">
+    	
+    </div>
+</div>
+<div class="header">
+    <div class="logo"><a href="{SITE_URL}">FineCMS</a><sub>这是一套神奇的系统</sub></div>
+</div>
+<div class="nav_wrapper">
+    <div class="nav drop_downs">
+        <ul class="nav_list">
+            <li><a href="{MEMBER_URL}">会员中心</a></li>
+        </ul>
+    </div>
+</div>
+<div id="back-to-top" style="display: block;"><a href="#top">TOP</a></div>
+<div class="wp" id="wp">
+    <div class="wp cl w" id="ct">
+        <div class="nfl">
+            <div class="f_c altw">
+                <div class="{if $mark==1}alert_right{else if $mark==2}alert_info{else}alert_error{/if}"" id="messagetext">
+                	<p>{$msg}</p>
+               		<p class="alert_btnleft">
+                    {if $url}
+                    <a href="{$url}">如果您的浏览器没有自动跳转，请点击此链接</a>
+                    <meta http-equiv="refresh" content="5; url={$url}">
+                    {else}
+                    <a href="javascript:history.back();" >[返回上一页]</a>
+                    {/if}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

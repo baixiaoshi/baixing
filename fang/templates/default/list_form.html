@@ -1,0 +1,68 @@
+<ul>
+    <li>
+        <span>分类搜索：</span>
+        <!--调用栏目分类，这种用法只能用于模块列表与搜索页面-->
+        {loop $related $t}
+        <a {if $t.id==$catid}class="curr"{/if} href="{dr_search_url($params, 'catid', $t.id)}">{$t.name}</a>
+        {/loop}
+    </li>
+    <li>
+        <span>地区搜索：</span>
+        <a {if !$get.area}class="curr"{/if} href="{dr_search_url($params, 'area', NULL)}">不限</a>
+        <!--调用联动菜单address，pid为动态获取的地区id-->
+        {list action=linkage code=address pid=$get.area}
+        <a {if $t.id==$get.area}class="curr"{/if} href="{dr_search_url($params, 'area', $t.id)}">{$t.name}</a>
+        {/list}{$error}
+    </li>
+    <li>
+        <span>租金范围：</span>
+        <!--自定义一个租金返回数组，这个都懂得，php最基础的数组用法-->
+        {php $zujin=array('0,500'=>'500以内','500,1000'=>'500到1000','1000,2000'=>'1000到2000','2000,3000'=>'2000到3000','3000,0'=>'3000以上');}
+        <a {if !$get.zujin}class="curr"{/if} href="{dr_search_url($params, 'zujin', NULL)}">不限</a>
+        {loop $zujin $i $t}
+        <a {if $i==$get.zujin}class="curr"{/if} href="{dr_search_url($params, 'zujin', $i)}">{$t}</a>
+        {/loop}
+    </li>
+    <li>
+        <span>装修状况：</span>
+        <a {if !$get.zhuangxiu}class="curr"{/if} href="{dr_search_url($params, 'zhuangxiu', NULL)}">不限</a>
+        <!--用dr_field_options函数将装修字段的下拉框值读出来，再循环显示，此函数只用于下拉框、单选、复选-->
+        {php $field = dr_field_options('zhuangxiu');}
+        {loop $field $i $t}
+        <a {if $i==$get.zhuangxiu}class="curr"{/if} href="{dr_search_url($params, 'zhuangxiu', $i)}">{$t}</a>
+        {/loop}
+    </li>
+    <li>
+        <span>户型状况：</span>
+        <a {if !$get.huxing}class="curr"{/if} href="{dr_search_url($params, 'huxing', NULL)}">不限</a>
+        {php $field = dr_field_options('huxing');}
+        <!--用dr_field_options函数将装修字段的下拉框值读出来，再循环显示，此函数只用于下拉框、单选、复选-->
+        {loop $field $i $t}
+        <a {if $i==$get.huxing}class="curr"{/if} href="{dr_search_url($params, 'huxing', $i)}">{$t}</a>
+        {/loop}
+    </li>
+</ul>
+<div class="clear"></div>
+<div class="exam_sxbox">			 
+    <!---筛选 beigin-->
+    <div class="l">关键字搜索：</div>
+    <input type='text' name='keyword' onfocus="this.value=(this.value=='输入关键字')?'':this.value" onblur="this.value=(this.value=='')?'输入关键字':this.value" value='{if $get.keyword}{$get.keyword}{else}输入关键字{/if}' id='dr_search_keyword' class="examtext02" />
+    <input onclick="searchByClass()" type='button' value='搜索' class="exambtn02"/>
+    <script type="text/javascript">
+    function searchByClass(){
+        var url="{dr_search_url($params, 'keyword', 'finecms')}";
+        var value=$("#dr_search_keyword").val();
+        if (value && value != "输入关键字") {
+            location.href=url.replace('finecms', value);
+        } else {
+            dr_tips("输入关键字");
+        }
+    }
+    </script>
+    <!---筛选 end-->
+    <div class="r">
+        <li class="normal"><span>排序方式：</span></li>
+        <li {if !$get.order || $get.order=='updatetime'}class="curr"{/if}><a href="{dr_search_url($params, 'order', 'updatetime')}">时间由近到远</a></li>
+        <li {if $get.order=='zujin_asc'}class="curr"{/if}><a href="{dr_search_url($params, 'order', 'zujin_asc')}">租金由低到高</a></li>
+    </div>
+</div>

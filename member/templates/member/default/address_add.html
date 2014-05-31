@@ -1,0 +1,54 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	{if $error}
+	dr_tips("<font color=red>{$error}</font>", 3);
+	{/if}
+});
+</script>
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="section_wp">
+        <div class="section_title">
+        	<a href="javascript:;" class="cur">{$meta_name}</a>
+        </div>
+        <div id="message_id" class="section_main">
+            <form method="post" action="">
+            <ul class="form_ul">
+            <li>
+            	<strong><font color="#FF0000">*</font>&nbsp;城市</strong>
+            	{dr_field_input('city', 'Linkage', array('option' => array('linkage' => 'address'),'validate' => array('required' => 1 )), $data['city'])}
+            </li>
+            <li>
+            	<strong><font color="#FF0000">*</font>&nbsp;姓名</strong>
+            	<input type="text" name="data[name]" value="{$data.name}" required="required" style="width:150px" class="input_text" />
+            </li>
+            <li>
+            	<strong><font color="#FF0000">*</font>&nbsp;电话</strong>
+            	<input type="text" name="data[phone]" value="{$data.phone}" required="required" style="width:200px" class="input_text" />
+            </li>
+            <li>
+            	<strong><font color="#FF0000">*</font>&nbsp;邮编</strong>
+            	<input type="text" name="data[zipcode]" value="{$data.zipcode}" required="required" style="width:200px" class="input_text" />
+            </li>
+            <li>
+            	<strong><font color="#FF0000">*</font>&nbsp;地址</strong>
+            	<input type="text" name="data[address]" value="{$data.address}" required="required" style="width:350px" class="input_text" />
+            </li>
+            <li>
+            	<strong><font color="#FF0000">*</font>&nbsp;设为默认</strong>
+            	<select name="data[default]">  
+                    <option {if !$data.default}selected="selected"{/if} value="0">否</option>
+                    <option {if $data.default}selected="selected"{/if} value="1">是</option>
+                </select>
+            </li>
+            <li class="mbutton">
+            	<button value="" type="submit" class="blue_button">提交</button>
+            </li>
+	        </ul>
+            </form>
+        </div>
+    </div>
+</div>
+
+{template footer.html}

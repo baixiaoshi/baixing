@@ -1,0 +1,59 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{SPACE_URL}">会员空间</a> <!--面包屑导航--></div>
+<div class="exam_three">
+	<div class="exam_three_l photo_l">
+		{template "left.html"}
+	</div>
+	<div class="exam_lmlist">
+		<div class="box01">
+			<div class="tit"><a class="curr" href="javascript:;">所有空间</a></div>
+            <div class="exam_sxbox">			 
+                <!---筛选 beigin-->
+                <div class="l">关键字搜索：</div>
+                <input type='text' name='keyword' onfocus="this.value=(this.value=='输入关键字')?'':this.value" onblur="this.value=(this.value=='')?'输入关键字':this.value" value='{if $get.keyword}{$get.keyword}{else}输入关键字{/if}' id='dr_search_keyword' class="examtext02" />
+                <input onclick="searchByClass()" type='button' value='搜索' class="exambtn02"/>
+                <script type="text/javascript">
+                function searchByClass(){
+                    var url="{dr_space_search_url($params, 'keyword', 'finecms')}";
+                    var value=$("#dr_search_keyword").val();
+                    if (value == "输入关键字") {
+						value = '';
+                    }
+					location.href=url.replace('finecms', value);
+                }
+                </script>
+                <!---筛选 end-->
+                <div class="r">
+                    <li class="normal"><span>排序方式：</span></li>
+                    <li {if !$get.order || $get.order=='displayorder'}class="curr"{/if}><a href="{dr_space_search_url($params, 'order', 'displayorder')}">默认排序</a></li>
+                    <li {if $get.order=='hits'}class="curr"{/if}><a href="{dr_space_search_url($params, 'order', 'hits')}">人气排序</a></li>
+                </div>
+            </div>
+        </div>
+		<div class="box02">		
+			<ul>
+            	{list action=space $where page=1 pagesize=8 urlrule=$urlrule}<!--循环显示8条-->
+                <li>
+                    <div class="l img">
+                        <a href="{dr_space_url($t.uid)}" target="_blank"><img src="{dr_thumb($t.logo, 80, 60)}" width="80" height="60" /></a>
+                    </div>
+                    <div class="l">
+                        <a href="{dr_space_url($t.uid)}" target="_blank">{dr_keyword_highlight($t.name, $keyword)}</a><br />
+                        {$t.title}<br />
+                        {dr_strcut($t.description,70)}
+                    </div>
+                    <div class="r right">
+                    	人气<br>
+                        <span>{$t.hits}</span>
+                    </div>
+                </li>
+				{/list}
+                {$error}
+			</ul>
+			<div id="fenye" class="fenye">{$pages}</div>
+		</div>
+    </div>
+</div>
+<div class="clear"></div>
+{template "footer.html","/"}

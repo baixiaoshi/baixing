@@ -1,0 +1,45 @@
+<script type="text/javascript">
+$(function() {
+	document.onkeydown = function(e){  //防止回车提交表单
+		var ev = document.all ? window.event : e;
+		if (ev.keyCode==13) {
+			$("#mark").val("1"); // 标识不能提交表单
+		}
+	}
+});
+function dr_form_check() {
+	if ($("#dr_value").val() == '') {
+		dr_form_tips('value', false, '{dr_lang("020", lang('html-353'))}');
+		return false;
+	} else {
+		dr_form_tips('value', true, '&nbsp;');
+	}
+	if ($("#mark").val() == 0) { 
+		return true;
+	} else {
+		return false;
+	}
+}
+</script>
+<form action="" method="post" id="myform" name="myform" onsubmit="return dr_form_check()">
+<input name="mark" id="mark" type="hidden" value="0">
+<table class="table_form" width="520">
+<tr>
+    <th width="100">{lang('html-347')}： </th>
+    <td><b>{$userinfo['username']}</b></td>
+</tr>
+<tr>
+    <th><font color="red">*</font>&nbsp;{lang('html-353')}： </th>
+    <td>
+    <input class="input-text" type="text" name="data[value]" id="dr_value" size="20" />
+    <div class="onShow" id="dr_value_tips">{lang('html-354')}</div>
+    </td>
+</tr>
+<tr>
+    <th>{lang('html-352')}： </th>
+    <td>
+    <textarea name="data[note]" style="width:300px;height:80px">{dr_lang('html-355', $admin['username'].'('.$admin['realname'].')')}</textarea>
+    </td>
+</tr>
+</table>
+</form>

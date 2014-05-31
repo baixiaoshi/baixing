@@ -1,0 +1,16 @@
+{template "list_top.html"}
+<section id="wrapper">
+    <div id="container">
+    	{if $contentid}
+        {list action=module INid=$contentid page=1 pagesize=20 urlrule=$urlrule}
+        {template "data.html"}
+        {/list}{$error}
+        {else}
+        <div class="norecord" >对不起，没有找到任何商品！</div>
+        {/if}
+    </div>
+</section>
+<div class="idx"><div id="fenye" class="fenye">{$pages}</div></div>
+<!-- 主体OVER -->
+<div class="clear"></div>
+{template "footer.html"}

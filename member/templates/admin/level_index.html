@@ -1,0 +1,50 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <font color="gray">{lang('html-281')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+        <input name="action" id="action" type="hidden" value="" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="20" align="left">Id</th>
+			<th width="120" align="left">{lang('html-026')}</th>
+			<th width="200" align="left">{lang('html-282')}</th>
+			<th width="80" align="center">{lang('html-283')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr id="dr_row_{$t['id']}">
+			<td align="right"><input name="ids[]" type="checkbox" class="dr_select" value="{$t.id}" />&nbsp;</td>
+			<td align="left">{$t.id}</td>
+			<td align="left">{$t.name}</td>
+			<td align="left">{dr_show_stars($t['stars'])}</td>
+			<td align="center">{$t.experience}</td>
+			<td align="left" class="dr_option">
+			{if $this->ci->is_auth('member/admin/level/edit')}<a href="{dr_url('member/level/edit',array('gid'=>$groupid, 'id'=>$t['id']))}">{lang('edit')}</a>{/if}
+			{if $this->ci->is_auth('member/admin/level/del')}<a href="javascript:;" onClick="return dr_dialog_del('{lang('015')}','{dr_url('member/level/del',array('gid'=>$groupid, 'id'=>$t['id']))}');">{lang('del')}</a>{/if}
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="6" align="left" style="border:none"> 
+			{if $this->ci->is_auth('member/admin/level/del')}<input type="button" class="button" value="{lang('del')}" name="option" onClick="$('#action').val('del');dr_confirm_set_all('{lang('015')}')" /> <font color="gray">{lang('html-284')}</font>{/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

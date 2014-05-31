@@ -1,0 +1,158 @@
+{template header.html}
+<script>
+function dr_send_order(id) {
+	var url = "{dr_url(APP_DIR.'/order/send')}&id="+id;
+	var throughBox = $.dialog.through;
+	var dr_dialog = throughBox({title: "卖家发货", lock: true, opacity: 0.1});
+	$.ajax({type: "GET", url:url, dataType:'text',
+	    success: function (text) {
+			var win = $.dialog.top;
+			dr_dialog.content(text);
+			dr_dialog.button({name: "发货", // 添加按钮
+				callback:function() {
+					win.$("#mark").val("0");
+					if (win.dr_form_check()) { // 按钮返回验证表单函数
+						var _data = win.$("#myform").serialize();
+						$.ajax({type: "POST",dataType:"json", url: url, data: _data,
+							success: function(data) {
+								dr_dialog.close();
+								$.dialog.tips("发货成功", 2, 1);
+								setTimeout('window.location.reload(true)', 2000);
+							},
+							error: function(HttpRequest, ajaxOptions, thrownError) {
+								alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+							}
+						});
+					}
+					return false;
+				},
+				focus: true
+			});
+	    },
+	    error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+}
+
+function dr_edit_order(id) {
+	var url = "{dr_url(APP_DIR.'/order/price')}&id="+id;
+	var throughBox = $.dialog.through;
+	var dr_dialog = throughBox({title: "修改价格", lock: true, opacity: 0.1});
+	$.ajax({type: "GET", url:url, dataType:'text',
+	    success: function (text) {
+			var win = $.dialog.top;
+			dr_dialog.content(text);
+			dr_dialog.button({name: "改价", // 添加按钮
+				callback:function() {
+					win.$("#mark").val("0");
+					if (win.dr_form_check()) { // 按钮返回验证表单函数
+						var _data = win.$("#myform").serialize();
+						$.ajax({type: "POST",dataType:"json", url: url, data: _data,
+							success: function(data) {
+								dr_dialog.close();
+								$.dialog.tips("修改成功", 2, 1);
+								setTimeout('window.location.reload(true)', 2000);
+							},
+							error: function(HttpRequest, ajaxOptions, thrownError) {
+								alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+							}
+						});
+					}
+					return false;
+				},
+				focus: true
+			});
+	    },
+	    error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+}
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <form method="post" action="" name="searchform" id="searchform">
+		<input name="search" id="search" type="hidden" value="1" />
+		{lang('my-33')} ：
+		<input type="text" size=10 class="input-text" value="{$param['keyword']}" name="data[keyword]" />&nbsp;
+		{lang('my-36')} ：
+		{dr_field_input('start', 'Date', array('option'=>array('format'=>'Y-m-d','width'=>80)), (int)$param.start)}
+		-&nbsp;
+		{dr_field_input('end', 'Date', array('option'=>array('format'=>'Y-m-d','width'=>80)), (int)$param.end)}
+		&nbsp;
+		{lang('my-34')} ：
+		<input type="text" size=10 class="input-text" value="{$param['name']}" name="data[name]" />&nbsp;
+		{lang('my-37')} ：
+		<select name="data[status]">
+			<option value="0"> --- </option>
+			<option value="1" {if $param.status==1}selected{/if}> 待付款 </option>
+			<option value="2" {if $param.status==2}selected{/if}> 待发货 </option>
+			<option value="3" {if $param.status==3}selected{/if}> 待收货 </option>
+			<option value="4" {if $param.status==4}selected{/if}> 交易完成 </option>
+		</select>&nbsp;&nbsp;
+		<input type="submit" value="{lang('search')}" class="button" name="search" />
+		</form>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+        <input name="action" id="action" type="hidden" value="" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="80" align="center">Id</th>
+			<th align="left">{lang('mod-35')}</th>
+			<th width="100" align="center">{lang('my-34')}</th>
+			<th width="80" align="center">{lang('my-35')}</th>
+			<th width="120" align="left">{lang('my-36')}</th>
+			<th width="120" align="center">{lang('my-37')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr>
+			<td align="center">{$t.id}</td>
+			<td align="left" style="padding-left:0">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			{php $items = dr_string2array($t['items']);}
+			{loop $items $item}
+			  <tr>
+				<td><a href="{$item.url}" title="{$item.title}" target="_blank">{dr_strcut($item.title,50)}</a></td>
+			  </tr>
+			{/loop}
+			</table>
+			</td>
+			<td align="center"><input name="dr_author_{$t.id}" id="dr_author_{$t.id}" type="hidden" value="{$t.username}" /><a href="javascript:;" onclick="dr_dialog_member('author_{$t.id}')">{dr_strcut($t.username, 10)}</a></td>
+			<td align="center">{$t.price}</td>
+			<td align="left">{dr_date($t.inputtime, NULL, 'red')}</td>
+			<td align="center">
+			{if $t.status==0}
+			<font color="#FF0000">买家交易关闭</font>
+			{else if $t.status==1}
+			<font color="#FF9933">等待付款</font>
+			{else if $t.status==2}
+			<a href="javascript:;" onclick="dr_send_order({$t.id})"><font color="#0000FF">立即发货</font></a>
+			{else if $t.status==3}
+			<font color="#FF0000">等待确认收货</font>
+			{else if $t.status==4}
+			<font color="#009900">交易成功</font>
+			{/if}
+			</td>
+			<td align="left" class="dr_option">
+			<a href="{dr_url(APP_DIR.'/order/show',array('id'=>$t.id))}">{lang('my-38')}</a>
+			{if $t.status==1}<a href="javascript:;" onclick="dr_edit_order({$t.id})"><font color="#0000FF">改价</font></a>{/if}
+		</tr>
+		{/loop}
+		</tbody>
+		</table>
+		</form>
+        <div id="pages"><a>{dr_lang('html-346', $param.total)}</a>{$pages}</div>
+	</div>
+</div>
+{template footer.html}

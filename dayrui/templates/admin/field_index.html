@@ -1,0 +1,61 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}15.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+		<font color="gray">{lang('html-393')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<input name="action" id="action" type="hidden" value="order" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="30" align="center">{lang('order')}</th>
+			<th width="100" align="left">{lang('html-176')}</th>
+			<th width="150" align="left">{lang('html-177')}</th>
+			<th width="80" align="left">{lang('html-178')}</th>
+			<th width="50" align="center">{lang('html-179')}</th>
+			<th width="50" align="center">{lang('html-180')}</th>
+			<th width="50" align="center">{lang('html-181')}</th>
+			<th width="50" align="center">{lang('html-626')}</th>
+			<th align="left">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr style="color:{$group[$t.fieldname]}">
+			<td align="right"><input name="ids[]" type="checkbox" class="dr_select" value="{$t.id}" />&nbsp;</td>
+			<td align="center"><input class="input-text displayorder" type="text" name="data[{$t.id}][displayorder]" value="{$t.displayorder}" /></td>
+			<td align="left"{if $t.fieldtype=='Group'} style="font-weight:bold"{/if}>{$t.name}</td>
+			<td align="left">{$t.fieldname}</td>
+			<td align="left">{$t.fieldtype}</td>
+			<td align="center"><img src="{SITE_URL}dayrui/statics/images/{$t.issystem}.gif"></td>
+			<td align="center"><img src="{SITE_URL}dayrui/statics/images/{$t.ismain}.gif"></td>
+			<td align="center"><img src="{SITE_URL}dayrui/statics/images/{$t.ismember}.gif"></td>
+			<td align="center">{if $this->ci->is_auth('admin/field/edit')}<a href="javascript:;" onClick="return dr_dialog_set('{php echo $t['disabled'] ? lang('html-161') : lang('html-162');}','{dr_url('field/disabled', array('rname'=>$rname,'rid'=>$rid,'id'=>$t['id']))}');"><img src="{SITE_URL}dayrui/statics/images/{php echo $t.disabled ? 0 : 1}.gif"></a>{else}<img src="{SITE_URL}dayrui/statics/images/{php echo $t.disabled ? 0 : 1}.gif"></a>{/if}</td>
+			<td align="left">
+			{if $this->ci->is_auth('admin/field/edit')}<a href="{dr_url('field/edit', array('rname'=>$rname,'rid'=>$rid,'id'=>$t['id']))}">{lang('edit')}</a>&nbsp;&nbsp;&nbsp;{/if}
+			{if $this->ci->is_auth('admin/field/del') && !$t['issystem']}<a href="javascript:;" onClick="return dr_dialog_del('{lang('015')}','{dr_url('field/del', array('rname'=>$rname,'rid'=>$rid,'id'=>$t['id']))}');">{lang('del')}</a>{/if}
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th align="right"><input name="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="9" align="left"> 
+            {if $this->ci->is_auth('admin/field/del')}<input type="button" class="button" value="{lang('del')}" name="button" onClick="$('#action').val('del');return dr_confirm_set_all('{lang('015')}')" />&nbsp;{/if}
+			{if $this->ci->is_auth('admin/field/edit')}<input type="button" class="button" value="{lang('order')}" name="button" onclick="$('#action').val('order');return dr_confirm_set_all('{lang('015')}')" />{/if}
+            &nbsp;<div class="onShow">{if $this->ci->is_auth('admin/field/edit')}{lang('html-182')}&nbsp;{/if} &nbsp;
+            {if count($group)>0}&nbsp;{lang('html-183')}&nbsp;{/if}</div>
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

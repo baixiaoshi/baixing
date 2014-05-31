@@ -1,0 +1,114 @@
+{template "header.html"}
+<script language="javascript">
+// 这是加入收藏夹的ajax请求，我就随意写了一下提示信息，至于美化啊什么交给你们了
+function dr_favorite() {
+	$.get("{MODULE_URL}index.php?c=api&m=favorite&id={$id}", function(data){
+		if (data == 1) {
+			dr_tips("没有登录，不能收藏");
+		} else if (data == 2) {
+			dr_tips("文档不存在，无法收藏");
+		} else if (data == 3) {
+			dr_tips("更新收藏成功", 3, 1);
+		} else if (data == 4) {
+			dr_tips("收藏成功", 3, 1);
+		}
+	});
+}
+</script>
+<div class="clear"></div>
+<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+<div class="clear"></div>
+<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > {dr_catpos($catid, ' > ')} > {$title}<!--面包屑导航--></div>
+<div class="ipc_nr">
+	<h1>{$title}</h1>
+	<div class="pic_tt">
+    	<span style="padding-left:5px">上传时间：</span><font>{$updatetime}</font>
+        <span>分类：</span><font>{$cat.name}</font>
+        <span>上传者：</span><font><a href="{dr_space_url($uid)}" target="_blank">{$author}</a></font>
+        <span>点击数：</span><font style="color:#e00">{dr_show_hits($id)}</font>
+        <span><a href="javascript:dr_favorite();">加入收藏</a></span>
+    </div>
+	<div class="tp_ct">
+<!-- include CSS always before including js -->
+<link type="text/css" rel="stylesheet" href="{MODULE_THEME_PATH}skins/tn3/tn3.css"></link>
+<!-- include tn3 plugin -->
+<script type="text/javascript" src="{MODULE_THEME_PATH}js/jquery.tn3lite.min.js"></script>
+
+<!--  initialize the TN3 when the DOM is ready -->
+<script type="text/javascript">
+$(document).ready(function() {
+//Thumbnailer.config.shaderOpacity = 1;
+var tn1 = $('.mygallery').tn3({
+skinDir:"skins",
+imageClick:"fullscreen",
+image:{
+maxZoom:1.5,
+crop:true,
+clickEvent:"dblclick",
+transitions:[{
+type:"blinds"
+},{
+type:"grid"
+},{
+type:"grid",
+duration:980,
+easing:"easeInQuad",
+gridX:1,
+gridY:8,
+// flat, diagonal, circle, random
+sort:"random",
+sortReverse:false,
+diagonalStart:"bl",
+// fade, scale
+method:"scale",
+partDuration:460,
+partEasing:"easeOutSine",
+partDirection:"left"
+}]
+}
+		});
+	});
+</script>
+        <div class="mygallery">
+            <div class="tn3 album">
+            <ol>
+            {loop $images $t}
+                <li>
+                    <h4>{$t.title}</h4>
+                    <a href="{dr_thumb($t.file, 960)}">
+                    <img src="{dr_thumb($t.file, 35, 35)}" />
+                    </a>
+                </li>
+            {/loop}
+            </ol>
+            </div>
+        </div>
+        <div class="clear blank10"></div>
+    </div>
+    <div class="fy">
+   		<p style=" margin-bottom:10px;">
+            <strong>关键词：</strong>
+            <!--输出Tag标签，这个用法只能在当前show页面使用-->
+            {loop $keywords $name $url}
+            <a href="{$url}" target="_blank">{$name}</a>
+            {/loop}
+        </p>
+        <!--上下篇文章的调用，这个用法只能在当前show页面使用-->
+        <p class="f14">
+            <strong>上一篇：</strong>{if $prev_page}<a href="{$prev_page.url}">{$prev_page.title}</a>{else}没有了{/if}<br>
+            <strong>下一篇：</strong>{if $next_page}<a href="{$next_page.url}">{$next_page.title}</a>{else}没有了{/if}
+        </p>
+    </div>	
+    <div class="tp_into">
+       <h4>图片介绍</h4>
+       {$content}
+    </div>
+    <!--调用评论应用-->
+    {if dr_is_app('comment')}
+    <div class="ct_pl">
+    <script type="text/javascript" src="{SITE_URL}index.php?s=comment&module={APP_DIR}&catid={$catid}&cid={$id}"></script>
+    </div>
+    {/if}
+</div>	
+<div class="clear"></div>
+{template "footer.html","/"}

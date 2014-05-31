@@ -1,0 +1,27 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	{if IS_POST}
+	art.dialog.tips('{lang('000')}', 3, 1);
+	{/if}
+});
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+        	<div class="explain-col">
+                <font color="gray">{lang('html-525')}：{str_replace(FCPATH, '/', $path)}</font>
+            </div>
+            <div class="bk10"></div>
+			<textarea name="code" style="height:350px;width:99%;">{$body}</textarea>
+			<div class="bk10"></div>
+			<input type="submit" class="button pt" name="dosubmit" value="{lang('save')}" />
+			<input type="button" class="button pt" name="button" onclick="window.location.href='{$back}'" value="{lang('back')}" />
+		</form>
+	</div>
+</div>
+{template footer.html}

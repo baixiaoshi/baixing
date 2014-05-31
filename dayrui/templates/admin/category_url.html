@@ -1,0 +1,60 @@
+{template header.html}
+<script language="javascript">
+{if $error}
+$(function() {
+	art.dialog.tips('<font color=red>{$error}</font>', 3);
+});
+{/if}
+function dr_load_url() {
+	var catid = $("#dr_catid").val();
+	if (catid==0) {
+		art.dialog.tips("<font color=red>{lang('html-604')}</font>", 3);
+		return;
+	}
+}
+function dr_select_all() {
+	$("#dr_catid").find("option").attr("selected", "selected");
+}
+</script>
+<form action="" method="post" name="myform" id="myform">
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+		<font color="gray">{lang('html-602')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<div class="contentList pad-10">
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200">&nbsp;{lang('cat-19')}： </th>
+				<td>{$select}
+				<input value="{lang('html-605')}" type="button" onclick="dr_select_all()" name="button" class="button" />
+                <br>{lang('html-606')}
+                </td>
+			</tr>
+			<tr class="">
+				<th>{lang('149')}： </th>
+				<td>
+				<select name="urlrule">
+				<option value="0"> -- </option>
+				{list action=cache name=urlrule return=u}
+				{if $u.type==1}<option value="{$u.id}"> {$u.name} </option>{/if}
+				{/list}
+				</select>
+				<div class="onShow">{lang('html-694')}</div>
+				</td>
+            </tr>
+			<tr>
+				<th> </th>
+				<td><input value="{lang('submit')}" type="submit" name="submit" class="button" /></td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</form>
+{template footer.html}

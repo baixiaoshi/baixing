@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{$meta_title}</title>
+	<meta name="keywords" content="{$meta_keywords}" />
+	<meta name="description" content="{$meta_description}" />
+	<!--非授权用户请保留FineCMS的信息-->
+	<meta name="author" content="dayrui.com" />
+	<meta name="Copyright" content="FineCMS v{DR_VERSION}" />
+    <link href="{HOME_THEME_PATH}images/home.css" rel="stylesheet" />
+	<!--关键JS--> 
+	<script type="text/javascript">var memberpath = "{MEMBER_PATH}";</script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/{SITE_LANGUAGE}.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.min.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.artDialog.js?skin=default"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/dayrui.js"></script>
+	<!--[if IE 6]>
+	<script src="{HOME_THEME_PATH}js/ie6png.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	   EvPNG.fix('div, ul, img, li, input'); 
+	</script>
+	<![endif]-->
+    <script type="text/javascript">
+    $(function(){
+		// 回到顶部
+		$("#back-to-top").hide();
+		$(window).scroll(function(){
+		 if ($(window).scrollTop()>100){
+			$("#back-to-top").fadeIn(1500);
+			} else {
+			$("#back-to-top").fadeOut(1500);
+			}
+		});
+		$("#back-to-top").click(function(){
+			$('body,html').animate({scrollTop:0},1000);
+			return false;
+		});
+	});
+	</script>
+</head>
+<body style="background:url({HOME_THEME_PATH}images/zttit10.png); font-family:'微软雅黑';">
+<div id="back-to-top" style="display: block;"><a href="#top">TOP</a></div>
+<div class="zt_head">
+	<ul>
+		<div class="l">
+			<li class="li01"><a href="{SITE_URL}">首页</a></li>
+		</div>
+		<div class="r">
+			<div id="loginForm"><script type="text/javascript" src="{SITE_URL}member/index.php?c=api&m=userinfo"></script></div>
+		</div>
+	</ul>
+</div>
+<div style="text-align:center;margin: 15px auto 0;width: 980px;">
+	<link href="{HOME_THEME_PATH}images/slide.css" type="text/css" rel="stylesheet">
+	<div id="myslide" style="width:980px;height:281px">
+		<table width="100%" cellSpacing="0" cellPadding="0" style="height:281px">
+		<tr>
+		<td class="pic" id="bimg">
+			<!--查询推荐位2（首页幻灯）的内容，field需要用到的字段（不填表示全部），按displayorder（后台指定排序）排序-->
+			{loop $banner $key $t}
+			<div class="{if $key==0}dis{else}undis{/if}" name="f">
+			<img alt="{$t.title}" style="width:980px;height:281px;" src="{dr_thumb($t.file, 980, 280)}" border="0">
+			</div>
+			{/loop}
+			<table id="font_hd" width="100%" cellSpacing="0" cellPadding="0">
+			<tr>
+			<td class="" id="info">
+			{loop $banner $key $t}
+			<div class="{if $key==0}dis{else}undis{/if}" name="f">
+			{$t.title}
+			</div>
+			{/loop}
+			</td>
+			<td id="simg" nowrap="nowrap" style="text-align:right">
+		    {loop $banner $key $t}
+			<div class="{if $key==0}{else}f1{/if}" onclick=play(x[{$key}],{$key}) name="f">{$key+1}</div>
+			{/loop}
+			</td>
+			</tr>
+			</table>
+			<script src="{HOME_THEME_PATH}js/slide.js"></script>
+		</td>
+		</tr>
+		</table>
+	</div>
+</div>
+<div class="zt_maintwo" style="height:auto;">
+	<div class="tit"><span>专题</span><h4>介绍</h4></div>
+	<div style="padding-left:80px">{$content}</div>
+</div>
+<div class="zt_mainthree">
+	<div class="tit"><span>专题</span><h4>新闻列表</h4></div>
+	<div class="clear"></div>
+		<ul>
+		{list action=module module=news IN_id=$guanlian}
+		<li>
+			<a href="{$t.url}"><img src="{dr_thumb($t.thumb, 100)}" align="left" /></a>
+			<div class="r_ct">
+				<a href="{$t.title}" class="title">{$t.title}</a>
+				<div class="intro">{$t.description}<a href="{$t.url}">[详细]</a></div>
+			</div>
+		</li>
+		{/list}
+		</ul>
+	</div>
+</div>
+<div class="clear"></div>
+{template "footer.html"}

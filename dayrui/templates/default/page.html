@@ -1,0 +1,41 @@
+{template "header.html"}
+<script language="javascript">
+// 选中导航菜单
+$("#dr_nav_20").attr("class", "curr");
+</script>
+<div class="clear"></div>
+<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+<div class="clear"></div>
+<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > {dr_page_catpos($id, ' > ')}<!--面包屑导航--></div>
+<div class="aboutus">
+	<div class="aboutus_l">
+		<h4>{$parent.name}<!--上级栏目的名称--></h4>
+        <ul>
+        <!--循环同级栏目或者子栏目-->
+        {loop $related $t}
+        <li><a href="{$t.url}" {if $id==$t.id} style="font-weight:bold;background: none repeat scroll 0 0 #D3EDFD;"{/if}>{$t.name}</a></li>
+        {/loop}
+        </ul>
+	</div>
+	<div class="aboutus_r">
+		<div class="r_ctbox">
+			<h4>{if $title}{$title}{else}{$name}{/if}<!--单页标题或者名称--></h4>
+			<div class="intro">
+            	{$content}<!--单页内容-->
+            	<div id="fenye">
+                    <!--如果存在分页时循环输出分页数与标题-->
+                    {loop $content_page $i $t}
+                    {if $page==$i}
+                    	<span>{$i}</span>
+                    {else}
+                    	<a href="{dr_content_page_url($urlrule, $i)}" title="{$t.title}">{$i}</a>
+                    {/if}
+                    {/loop}
+             	</div>
+            </div>
+		</div>
+		<div class="ctboxbg"></div>
+	</div>
+</div>
+<div class="clear"></div>
+{template "footer.html"}

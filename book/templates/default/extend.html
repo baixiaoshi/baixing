@@ -1,0 +1,24 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > {dr_catpos($catid, ' > ')} > <a href="{$curl}">{$title}</a> > {$name}
+<!--面包屑导航--></div>
+<div class="exam_three">
+	<div class="exam_three_l photo_l">
+		{template "left.html"}
+	</div>
+	<div class="exam_intro">
+		<div class="box01">
+			<div class="tit"><h4>{$name}<!--章节名称--></h4></div>
+				<div class="ksnr_box dr_read">
+                    {$body}<!--内容-->
+                    <p class="f14"><!--上下篇文章的调用，这个用法只能在当前show页面使用-->
+                        <strong>上一篇：</strong>{if $prev_page}<a href="{$prev_page.url}">{$prev_page.name}</a>{else}没有了{/if}<br>
+                        <strong>下一篇：</strong>{if $next_page}<a href="{$next_page.url}">{$next_page.name}</a>{else}没有了{/if}
+                    </p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!--其实此页面可以做的更完美，比如说自体设置，js控制上下篇等，官方就不那么麻烦了，交给使用者设计吧-->
+<div class="clear"></div>
+{template "footer.html","/"}

@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>admin</title>
+<link href="{SITE_URL}dayrui/statics/css/index.css" rel="stylesheet" type="text/css" />
+<link href="{SITE_URL}dayrui/statics/css/table_form.css" rel="stylesheet" type="text/css" />
+<link href="{MEMBER_PATH}statics/js/swfupload/swfupload.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">var memberpath = "{MEMBER_PATH}";</script>
+<script type="text/javascript" src="{MEMBER_PATH}statics/js/{SITE_LANGUAGE}.js"></script>
+<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.min.js"></script>
+<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.artDialog.js?skin=default"></script> 
+<script type="text/javascript" src="{MEMBER_PATH}statics/js/validate.js"></script>
+<script type="text/javascript" src="{MEMBER_PATH}statics/js/admin.js"></script>
+<script type="text/javascript" src="{MEMBER_PATH}statics/js/dayrui.js"></script>
+<script type="text/javascript" src="{MEMBER_PATH}statics/js/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="{MEMBER_PATH}statics/js/swfupload/fileprogress.js"></script>
+<script type="text/javascript" src="{MEMBER_PATH}statics/js/swfupload/handlers.js"></script>
+<script type="text/javascript">
+var swfu = '';
+$(document).ready(function(){
+	SwapTab({$page});
+	swfu = new SWFUpload({
+		flash_url:"{MEMBER_PATH}statics/js/swfupload/swfupload.swf?"+Math.random(),
+		upload_url:memberpath+"index.php?c=api&m=swfupload",
+		file_post_name : "Filedata",
+		post_params:{"session":"{$session}", "code":"{$code}", "fileid":"{$fileid}"},
+		file_size_limit:"{$size}",
+		file_types:"{$types}",
+		file_types_description:"All Files",
+		file_upload_limit:"{$fcount}",
+		custom_settings : {progressTarget : "fsUploadProgress",cancelButtonId : "btnCancel"},
+
+		button_image_url: "",
+		button_width: 75,
+		button_height: 28,
+		button_placeholder_id: "buttonPlaceHolder",
+		button_text_style: "",
+		button_text_top_padding: 3,
+		button_text_left_padding: 12,
+		button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+		button_cursor: SWFUpload.CURSOR.HAND,
+
+		file_dialog_start_handler : fileDialogStart,
+		file_queued_handler : fileQueued,
+		file_queue_error_handler:fileQueueError,
+		file_dialog_complete_handler:fileDialogComplete,
+		upload_progress_handler:uploadProgress,
+		upload_error_handler:uploadError,
+		upload_success_handler:uploadSuccess,
+		upload_complete_handler:uploadComplete
+	});
+})
+</script>
+</head>
+<body>
+<div class="pad-10">
+    <div class="table-list col-tab" id="myform">
+        <ul class="tabBut cu-li">
+            <li onclick="SwapTab(0);" class="on">{lang('m-119')}</li>
+			<li onclick="SwapTab(1);">{lang('m-132')}</li>
+			<li onclick="SwapTab(2);set_iframe('myfile',memberpath+'index.php?c=api&m=myfile&ext={$ext}&fcount={$fcount}');">{lang('m-133')}</li>
+			{if $member.adminid}<li onclick="SwapTab(3);set_iframe('myattach',memberpath+'index.php?c=api&m=myattach&ext={$ext}&fcount={$fcount}');">{lang('m-310')}</li>{/if}
+			{if $notused}<li onclick="SwapTab(4);">{lang('m-134')}</li>{/if}
+        </ul>
+        <div class="content pad-10" style="clear:both">
+			<div id="cnt_0" style="display:block" class="dr_hide">
+				<div>
+					<div class="addnew" id="addnew">
+						<span id="buttonPlaceHolder"></span>
+					</div>
+					<input type="button" id="btupload" value="{lang('m-135')}" onClick="swfu.startUpload();" />
+					<div id="nameTip" class="onShow">{dr_lang('m-136', $fcount, $size/1024)}</div>
+					<div class="bk3"></div>
+					<div class="lh24">{dr_lang('m-138', str_replace('|', '、', $ext))}</div>
+				</div> 	
+				<div class="bk10"></div>
+				<fieldset class="blue pad-10" id="swfupload">
+				<legend>{lang('m-120')}</legend>
+				<ul class="attachment-list" id="fsUploadProgress">    
+				</ul>
+				</fieldset>
+			</div>
+			<div id="cnt_1" style="display: none;" class="dr_hide">
+				<input type="text" name="url" class="input-text" value="" style="width:99%;" onblur="addonlinefile(this)">
+				<br>{lang('m-139')}
+			</div>
+			<div id="cnt_2" style="display: none;" class="dr_hide">
+				<iframe name="myfile" src="{SITE_URL}dayrui/statics/images/loading.gif" frameborder="false" scrolling="auto" style="overflow-x:hidden;border:none" width="100%" height="330" allowtransparency="true" id="myfile"></iframe>
+			</div>
+			{if $member.adminid}
+			<div id="cnt_3" style="display: none;" class="dr_hide">
+				<iframe name="myfile" src="{SITE_URL}dayrui/statics/images/loading.gif" frameborder="false" scrolling="auto" style="overflow-x:hidden;border:none" width="100%" height="330" allowtransparency="true" id="myattach"></iframe>
+			</div>
+			{/if}
+			{if $notused}
+			<div id="cnt_4" style="display: none;" class="dr_hide">
+				<div class="explain-col">{lang('m-140')}</div>
+				<ul class="attachment-list" id="album">
+				{loop $notused $t}
+				<li>
+					<div class="img-wrap">
+						<a onclick="javascript:album_cancel(this)" href="javascript:;" class="off" title="{$t.filename}"><div class="icon"></div><img width="80" aid="{$t.id}" path="{$t.icon}" src="{$t.show}" size="{$t.size}" title="{$t.filename}"></a>
+					</div>
+				</li>
+				{/loop}
+			    </ul>
+			</div>
+			{/if}
+    	</div>
+        <div id="att-status" class="hidden"></div>
+        <div id="att-status-del" class="hidden">{$fileid}</div>
+        <!-- swf -->
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+if ($.browser.mozilla) {
+	window.onload=function(){
+	    if (location.href.indexOf("&rand=")<0) {
+			//location.href=location.href+"&rand="+Math.random();
+		}
+	}
+}
+function imgWrap(obj){
+	$(obj).hasClass('on') ? $(obj).removeClass("on") : $(obj).addClass("on");
+}
+
+function addonlinefile(obj) {
+	var strs = $(obj).val() ? '|'+ $(obj).val()+',{SITE_URL}dayrui/statics/images/ext/url.gif,' :'';
+	$('#att-status').html(strs);
+}
+
+function change_params(){
+	if($('#watermark_enable').attr('checked')) {
+		swfu.addPostParam('watermark_enable', '1');
+	} else {
+		swfu.removePostParam('watermark_enable');
+	}
+}
+function set_iframe(id,src){
+	$("#"+id).attr("src",src); 
+}
+function album_cancel(obj){
+	var aid = $(obj).children("img").attr("aid");
+	if ($(obj).hasClass('on')){
+		$(obj).removeClass("on");
+		var imgstr = $("#att-status").html();
+		var length = $("a[class='on']").children("img").length;
+		var strs = '';
+		for (var i=0;i<length;i++){
+			strs += '|'+$("a[class='on']").children("img").eq(i).attr('aid')+','+$("a[class='on']").children("img").eq(i).attr('path')+','+$("a[class='on']").children("img").eq(i).attr('size')+','+$("a[class='on']").children("img").eq(i).attr('title');
+		}
+		$('#att-status').html(strs);
+	} else {
+		var num = $('#att-status').html().split('|').length;
+		var file_upload_limit = '{$fcount}';
+		if(num > {$fcount}) {
+		    alert("{dr_lang('m-141', $fcount)}");
+			return false;
+		}
+		$(obj).addClass("on");
+		$('#att-status').append('|'+aid+','+$(obj).children("img").attr("path")+','+$(obj).children("img").attr("size")+','+$(obj).children("img").attr("title"));
+	}
+}
+</script>
+</html>

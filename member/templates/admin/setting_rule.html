@@ -1,0 +1,87 @@
+<script type="text/javascript">
+$(function() {
+	document.onkeydown = function(e){  //防止回车提交表单
+		var ev = document.all ? window.event : e;
+		if (ev.keyCode==13) {
+			$("#mark").val("1"); // 标识不能提交表单
+		}
+	}
+});
+function dr_form_check() {
+	if ($("#mark").val() == 0) { 
+		return true;
+	} else {
+		return false;
+	}
+}
+</script>
+<form action="" method="post" id="myform" name="myform" onsubmit="return dr_form_check()">
+<input name="mark" id="mark" type="hidden" value="0">
+<table width="550" border="0" cellspacing="0" cellpadding="0" class="table-list">
+  <tr>
+    <td colspan="2"><b>{SITE_EXPERIENCE}</b></td>
+    <td colspan="2"><b>{SITE_SCORE}</b></td>
+  </tr>
+  <tr>
+    <td width="160" align="right">{dr_lang('m-269', SITE_EXPERIENCE)}：</td>
+    <td><input type="text" name="data[login_experience]" value="{intval($data['login_experience'])}" size="5" class="input-text" /></td>
+    <td width="160" align="right">{dr_lang('m-269', SITE_SCORE)}：</td>
+    <td width=""><input type="text" name="data[login_score]" value="{intval($data['login_score'])}" size="5" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td align="right">{dr_lang('m-270', SITE_EXPERIENCE)}：</td>
+    <td><input type="text" name="data[avatar_experience]" value="{intval($data['avatar_experience'])}" size="5" class="input-text" /></td>
+    <td align="right">{dr_lang('m-270', SITE_SCORE)}：</td>
+    <td><input type="text" name="data[avatar_score]" value="{intval($data['avatar_score'])}" size="5" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td align="right">{dr_lang('m-271', SITE_EXPERIENCE)}：</td>
+    <td><input type="text" name="data[complete_experience]" value="{intval($data['complete_experience'])}" size="5" class="input-text" /></td>
+    <td align="right">{dr_lang('m-271', SITE_SCORE)}：</td>
+    <td><input type="text" name="data[complete_score]" value="{intval($data['complete_score'])}" size="5" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td align="right">{dr_lang('m-272', SITE_EXPERIENCE)}：</td>
+    <td><input type="text" name="data[bang_experience]" value="{intval($data['bang_experience'])}" size="5" class="input-text" /></td>
+    <td align="right">{dr_lang('m-272', SITE_SCORE)}：</td>
+    <td><input type="text" name="data[bang_score]" value="{intval($data['bang_score'])}" size="5" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td align="right">{dr_lang('m-273', SITE_EXPERIENCE)}：</td>
+    <td><input type="text" name="data[jie_experience]" value="{intval($data['jie_experience'])}" size="5" class="input-text" /></td>
+    <td align="right">{dr_lang('m-273', SITE_SCORE)}：</td>
+    <td><input type="text" name="data[jie_score]" value="{intval($data['jie_score'])}" size="5" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td align="right">{dr_lang('m-274', SITE_EXPERIENCE)}：</td>
+    <td><input type="text" name="data[update_experience]" value="{intval($data['update_experience'])}" size="5" class="input-text" /></td>
+    <td align="right">{dr_lang('m-274', SITE_SCORE)}：</td>
+    <td><input type="text" name="data[update_score]" value="{intval($data['update_score'])}" size="5" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td align="right">{dr_lang('m-323', SITE_EXPERIENCE)}：</td>
+    <td><input type="text" name="data[download_experience]" value="{intval($data['download_experience'])}" size="5" class="input-text" /></td>
+    <td align="right">{dr_lang('m-323', SITE_SCORE)}：</td>
+    <td><input type="text" name="data[download_score]" value="{intval($data['download_score'])}" size="5" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><b>{lang('html-261')}</b></td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td align="right">{lang('m-275')}：</td>
+    <td><input name="data[is_upload]" type="checkbox" value="1" {if $data['is_upload']}checked{/if} /></td>
+    <td align="right">{lang('m-276')}：</td>
+    <td><input name="data[is_download]" type="checkbox" value="1" {if $data['is_download']}checked{/if} /></td>
+  </tr>
+  <tr>
+    <td align="right">{lang('m-277')}：</td>
+    <td ><input type="text" name="data[attachsize]" value="{intval($data['attachsize'])}" size="5" class="input-text" />MB</td>
+    <td align="right"></td>
+    <td ></td>
+  </tr>
+  <tr>
+    <td style="border:none; text-align:center; color:#F00" colspan="4"><b>{lang('html-592')}</b></td>
+  </tr>
+</table>
+</form>

@@ -1,0 +1,20 @@
+
+<div class="l_ht" style="margin:0;">
+    <h4>达人空间</h4>
+    <ul>
+    <!--查询推荐位1（达人空间）的内容，field需要用到的字段（不填表示全部），按displayorder（后台指定排序）排序-->
+    {list action=space flag=1 field=name,uid,logo order=displayorder num=6}
+    <li><a href="{dr_space_url($t.uid)}" title="{$t.name}"><img src="{dr_thumb($t.logo, 85, 55)}" /><br />{dr_strcut($t.name, 10, '')}</a></li>
+    {/list}
+    {$error}<!--如果查询为空，error变量会返回错误提示，正式上线建议删-->
+    </ul>
+</div>
+<div class="l_ph">
+    <h4>热门空间</h4>
+    <ul>
+    <!--我们按点击排序-->
+    {list action=space field=uid,name order=hits num=10}
+    <li><span {if $key<3}class="one"{/if}>{$key+1}</span><a href="{dr_space_url($t.uid)}" title="{$t.name}">{dr_strcut($t.name, 27)}</a></li>
+    {/list} {$error}		
+    </ul>	
+</div>

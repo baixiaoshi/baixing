@@ -1,0 +1,45 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	$(".select-cat").hide();
+});
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}12.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+		<font color="gray">{lang('html-384')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<input name="action" id="action" type="hidden" value="order" />
+		<table width="100%">
+		<thead>
+        <tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="30" align="center">{lang('order')}</th>
+			<th width="40" align="left">Id</th>
+            <th align="left" width="300">{lang('html-542')}</th>
+            <th align="center" width="80">{lang('html-378')}</th>
+            <th align="center" width="50">{lang('html-379')}</th>
+			<th align="left">{if $this->ci->is_auth('admin/navigator/add')}<a class="add" title="{lang('add')}" href="{dr_url('navigator/add', array('type' => $type))}"></a>{/if}</th>
+        </tr>
+        </thead>
+		<tbody>
+		{$list}
+		<tr>
+			<th align="right"><input name="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="7" align="left"> 
+            {if $this->ci->is_auth('page/del')}<input type="button" class="button" value="{lang('del')}" name="button" onClick="$('#action').val('del');return dr_confirm_set_all('{lang('015')}')" />&nbsp;{/if}
+			{if $this->ci->is_auth('page/edit')}<input type="button" class="button" value="{lang('order')}" name="button" onclick="$('#action').val('order');return dr_confirm_set_all('{lang('015')}')" />&nbsp;<div class="onShow">{lang('html-054')}</div>{/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

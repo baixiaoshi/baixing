@@ -1,0 +1,100 @@
+{template header.html}
+<script>
+function dr_confirm_move() {
+	art.dialog.confirm("{lang('015')}", function(){
+		$('#action').val('move');
+		var _data = $("#myform").serialize();
+		var _url = window.location.href;
+		if ((_data.split('ids')).length-1 <= 0) {
+			$.dialog.tips(lang['select_null'], 2);
+			return true;
+		}
+		// 将表单数据ajax提交验证
+		$.ajax({type: "POST",dataType:"json", url: _url, data: _data,
+			success: function(data) {
+				//验证成功
+				if (data.status == 1) {
+					$.dialog.tips(data.code, 3, 1);
+					$("input[name='ids[]']:checkbox:checked").each(function(){
+						$.post("{SITE_URL}{APP_DIR}/index.php?c=show&m=create_html&id="+$(this).val(), {}, function(){});
+					});
+					setTimeout('window.location.reload(true)', 3000); // 刷新页
+				} else {
+					$.dialog.tips(data.code, 3, 2);
+					return true;
+				}
+			},
+			error: function(HttpRequest, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+			}
+		});
+		return true;
+	});
+	return false;
+}
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <form method="post" action="" name="searchform" id="searchform">
+		<select name="data[field]">
+			{loop $field $t}
+			<option value="{$t.fieldname}" {if $param.field==$t.fieldname}selected{/if}>{$t.name}</option>
+			{/loop}
+		</select>：
+		<input type="text" class="input-text" value="{$param.keyword}" name="data[keyword]" />&nbsp;
+		{lang('104')} ：
+		{dr_field_input('start', 'Date', array('option'=>array('format'=>'Y-m-d','width'=>80)), (int)$param.start)}
+		-&nbsp;
+		{dr_field_input('end', 'Date', array('option'=>array('format'=>'Y-m-d','width'=>80)), (int)$param.end)}
+		&nbsp;
+		<input type="submit" value="{lang('search')}" class="button" name="search" />
+		</form>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+        <input name="action" id="action" type="hidden" value="" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="50" align="center">Id</th>
+			<th align="left">{lang('html-214')}</th>
+			<th width="80" align="center">{lang('101')}</th>
+			<th width="120" align="left">{lang('104')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr id="dr_row_{$t.id}">
+			<td align="right"><input name="ids[]" type="checkbox" class="dr_select" value="{$t.id}" />&nbsp;</td>
+			<td align="center">{$t.id}</td>
+			<td align="left">{dr_keyword_highlight($t.subject, $param.keyword)}</td>
+			<td align="center">
+				<input name="dr_author_{$t.id}" id="dr_author_{$t.id}" type="hidden" value="{$t.author}" /><a href="javascript:;" onclick="dr_dialog_member('author_{$t.id}')">{dr_strcut($t.author, 10)}</a>
+			</td>
+			<td align="left">{dr_date($t.inputtime, NULL, 'red')}</td>
+			<td align="left" class="dr_option">
+				<a href="{dr_url(APP_DIR.'/'.$_class.'/edit',array('cid' => $t.cid, 'id' => $t.id))}">{lang('html-564')}</a>
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="8" align="left" style="border:none">
+				<input type="button" class="button" value="{lang('del')}" name="option" onClick="$('#action').val('del');dr_confirm_set_all('{lang('015')}', 1)" />
+				<div class="onShow">{dr_lang('html-673', 'listc', $tpl)}</div>
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+        <div id="pages"><a>{dr_lang('html-346', $total)}</a>{$pages}</div>
+	</div>
+</div>
+{template footer.html}

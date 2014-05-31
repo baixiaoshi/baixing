@@ -1,0 +1,59 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	{if $result}
+	art.dialog.tips('{$result}', 3, 1);
+	{/if}
+});
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}7.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+		<font color="gray">{lang('html-463')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="120" align="left">{lang('html-466')}</th>
+			<th width="120" align="left">{lang('html-467')}</th>
+			<th width="120" align="center">{lang('html-456')}</th>
+			<th align="left"></th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $name $t}
+		<tr>
+		  <td align="right"><input name="ids[]" class="dr_select" type="checkbox" value="{$name}" />&nbsp;</td>
+		  <td align="left">{$name}</td> 
+		  <td align="left">{dr_date($t['time'])}</td>
+		  <td align="center">{dr_format_file_size($t['filesize'])}</td>
+		  <td align="left">
+		  {if $t['version'] === DR_VERSION}
+		  <a href="javascript:;" onclick="dr_confirm_url('{lang('html-468')}','{dr_url('db/import',array('siteid'=>$siteid, 'name'=>$name))}')">{lang('html-465')}</a>
+		  {else}
+		  {lang('html-469')}
+		  {/if}
+		  </td>
+		</tr>
+		{/loop}
+		<tr >
+			<td align="right" style="border:none"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</td>
+			<td colspan="4" align="left">
+			<input type="submit" class="button" value="{lang('html-464')}" onclick="return dr_confirm_set_all('{lang('015')}')" name="submit" />&nbsp;
+			</td>
+		</tr>        
+		  </tbody>
+		</table>
+		</form>
+	</div>
+</div>
+
+</body>
+</html>

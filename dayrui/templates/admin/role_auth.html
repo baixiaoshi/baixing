@@ -1,0 +1,106 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	{if IS_POST}
+	$.dialog.tips("{lang('014')}", 3, 1);
+	{/if}
+	// 单击事件
+	$(".dr_index").click(function(){
+		if ($(this).attr('checked')) {
+			$(this).nextAll(".dr_orther").attr("disabled",false);
+		} else {
+			$(this).nextAll(".dr_orther").attr("disabled",true);
+		}
+	});
+	// 初始化
+	$(".dr_index").each(function(){
+		if ($(this).attr('checked')) {
+			$(this).nextAll(".dr_orther").attr("disabled",false);
+		} else {
+			$(this).nextAll(".dr_orther").attr("disabled",true);
+		}
+	});
+});
+function dr_auth_selected(_class) {
+	if ($("#dr_"+_class).attr('checked')) {
+		$(".dr_"+_class).attr("checked",true);
+	} else {
+		$(".dr_"+_class).attr("checked",false);
+	}
+	$(".dr_"+_class).each(function(){
+		if ($(this).attr('checked')) {
+			$(this).nextAll(".dr_orther").attr("disabled",false);
+		} else {
+			$(this).nextAll(".dr_orther").attr("disabled",true);
+		}
+	});
+}
+</script>
+<style>
+.menu_qx {
+	width:10px;
+}
+.menu_gx {
+	width:200px;
+}
+.menu_gg {
+	width:120px;
+}
+.null_hover {
+	background-color: #FFF !important;
+}
+.fixed {
+	left: 85%;
+    padding: 10px;
+    position: fixed;
+    top: 50%;
+	background: none repeat scroll 0 0 #FFFCED;
+    border: 1px solid #FFBE7A;
+    padding: 8px 10px;
+}
+</style>
+<form action="" method="post" name="myform" id="myform">
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x" id="cc">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+		<font color="gray">{lang('html-069')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+        <tr>
+            <th class="menu_qx" align="left"></th>
+            <th class="menu_gx" align="left">{lang('html-070')}</th>
+            <th align="left">{lang('html-071')}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {loop $list $c $t}
+            <tr>
+                <td align="left"><input type="checkbox" class="dr_{$c}" id="dr_{$c}" onClick="dr_auth_selected('{$c}')"></td>
+                <td align="left">{$t.name}</th>
+                <td align="left">
+                {loop $t.auth $uri $name}
+                <input type="checkbox" class="dr_{$c} {if strrchr($uri, 'index')=='index'} dr_index{else} dr_orther{/if}" name="data[]" value="{$uri}" {if @in_array($uri, $data.system)}checked="checked"{/if}>&nbsp;{$name}&nbsp;&nbsp;&nbsp;
+                {/loop}
+                </td>
+            </tr>
+        {/loop}
+        </tbody>
+        </table>
+	</div>
+</div>
+
+<div class="fixed-bottom">
+    <div class="fixed-but text-c">
+        <div class="button">
+        	<input value="{lang('save')}" type="submit" name="submit" class="cu" style="width:100px;" />
+        </div>
+    </div>
+</div>
+</form>
+{template footer.html}

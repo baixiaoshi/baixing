@@ -1,0 +1,293 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{dr_lang('html-001', SITE_NAME)}</title>
+<link rel="stylesheet" href="{SITE_PATH}dayrui/statics/css/bootstrap.css" />
+<link rel="stylesheet" href="{SITE_PATH}dayrui/statics/css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="{SITE_PATH}dayrui/statics/css/style.css" />
+<link rel="stylesheet" href="{SITE_PATH}dayrui/statics/css/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet" href="{SITE_URL}dayrui/statics/css/table_form.css" />
+<script type="text/javascript">var siteurl = "{SITE_PATH}{SELF}";var memberpath = "{MEMBER_PATH}";</script>
+<script type="text/javascript" src="{SITE_PATH}member/statics/js/{SITE_LANGUAGE}.js"></script>
+<script type="text/javascript" src="{SITE_PATH}member/statics/js/jquery.min.js"></script>
+<script type="text/javascript" src="{SITE_PATH}member/statics/js/jquery.artDialog.js?skin=default"></script> 
+<script type="text/javascript" src="{SITE_PATH}member/statics/js/validate.js"></script>
+<script type="text/javascript" src="{SITE_PATH}member/statics/js/admin.js"></script>
+<script type="text/javascript" src="{SITE_PATH}member/statics/js/dayrui.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#dr_select_site").bind({
+		'mouseover':function(){
+			$(this).addClass("open");
+		},
+		'mouseout':function(){
+			$(this).removeClass("open");
+		}
+	});
+	$("#dr_member").bind({
+		'mouseover':function(){
+			$(this).addClass("open");
+		},
+		'mouseout':function(){
+			$(this).removeClass("open");
+		}
+	});
+    $('.toggle-nav').click(function(e){
+        e.preventDefault();
+        hideNav();
+    });
+    wSize();
+    $(".toggle-subnav").click(function (e) {
+        e.preventDefault();
+        var $el = $(this);
+        $el.parents(".subnav").toggleClass("subnav-hidden").find('.subnav-menu,.subnav-content').slideToggle("fast");
+        $el.find("i").toggleClass("icon-angle-down").toggleClass("icon-angle-right");
+    
+        if($("#left").hasClass("mobile-show") || $("#left").hasClass("sidebar-fixed")){
+            getSidebarScrollHeight();
+            $("#left").getNiceScroll().resize().show();
+        }
+    });
+	{if $member.adminid == 1}
+	$.getScript("http://www.dayrui.com/index.php?c=sys&m=version&id={DR_VERSION_ID}&admin={SELF}");
+	{/if}
+	$("#sitelist li").click(function(){
+		var id=$(this).attr('id');
+		art.dialog.confirm("{lang('html-386')}", function(){
+			// ajax提交验证
+			$.ajax({type: "POST",dataType:"json", url: "admin.php?c=site&m=select", data: {id: id},
+				success: function(data) {
+					if (data.status == 1) {
+						//验证成功
+						$.dialog.tips(data.code.msg, 3, 1);
+						$("#rightMain").attr('src', $("#rightMain").attr('src'));
+						$("title").html(data.code.title);
+						$("#brand").attr('href', data.code.url);
+						$("#site_homepage").attr('href', data.code.url);
+						$("#site_homepage").attr('title', data.code.site);
+						$("#site_member").attr('href', data.code.url+'member/');
+					} else {
+						$.dialog.tips(data.code, 5);
+					}
+					return true;
+				},
+				error: function(HttpRequest, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+				}
+			});
+			return true;
+		});
+	});
+	{if $install}
+	var throughBox	= $.dialog.through;
+	throughBox({title: "{lang('html-434')}", content: "<p style='padding:10px 10px 0px 10px;font-size:14px;'><a href='{dr_url("home/cache")}' style=\"color:red\" target='right'><b>{lang('html-543')}</b></a></p><p style='padding:5px 10px 20px 10px;font-size:14px;'><a href='http://help.dayrui.com/index.php?c=category&id=17' style=\"color:blue\" target='_blank'><b>{lang('html-627')}</b></a></p>"});
+	{/if}
+});
+function getSidebarScrollHeight(){
+    var $el = $("#left"),
+    $w = $(window),
+    $nav = $("#navigation");
+    var height = $w.height();
+
+    if(($nav.hasClass("navbar-fixed-top") && $w.scrollTop() == 0) || $w.scrollTop() == 0) height -= 40;
+
+    if($el.hasClass("sidebar-fixed") || $el.hasClass("mobile-show")){
+        $el.height(height);
+    }
+}
+function hideNav(){
+    $("#left").toggle().toggleClass("forced-hide");
+    if($("#left").is(":visible")) {
+        $("#main").css("margin-left", $("#left").width());
+    } else {
+        $("#main").css("margin-left", 0);
+    }
+
+    if($('.dataTable').length > 0){
+        var table = $.fn.dataTable.fnTables(true);
+        if ( table.length > 0 ) {
+            $(table).each(function(){
+                if($(this).hasClass("dataTable-scroller")){
+                    $(this).dataTable().fnDraw();
+                }
+            });
+            $(table).dataTable().fnAdjustColumnSizing();
+        }
+    }
+
+    if($(".calendar").length > 0){
+        $(".calendar").fullCalendar("render");
+    }
+}
+if(!Array.prototype.map)
+	Array.prototype.map = function(fn,scope) {
+	  var result = [],ri = 0;
+	  for (var i = 0,n = this.length; i < n; i++){
+		if(i in this){
+		  result[ri++]  = fn.call(scope ,this[i],i,this);
+		}
+	}
+	return result;
+};
+
+var getWindowSize = function(){
+	return ["Height","Width"].map(function(name){
+	  return window["inner"+name] ||
+		document.compatMode === "CSS1Compat" && document.documentElement[ "client" + name ] || document.body[ "client" + name ]
+	});
+}
+window.onload = function (){
+	if(!+"\v1" && !document.querySelector) { // for IE6 IE7
+	  document.body.onresize = resize;
+	} else { 
+	  window.onresize = resize;
+	}
+	function resize() {
+		wSize();
+		return false;
+	}
+}
+function wSize(){
+	var str=getWindowSize();
+	var strs= new Array(); //定义一数组
+	strs=str.toString().split(","); //字符分割
+	var heights = strs[0]-80,Body = $('body');$('#rightMain').height(heights);
+}
+function _M(mid, sid, url, name) {
+	$('.main-nav > li').removeClass("active");
+	$('#_M_'+mid).addClass("active");
+	$(".d_menu").hide();
+	$("#D_M_"+mid).show();
+	_MP(sid, url);
+}
+function _MP(id, url) {
+	$("#rightMain").attr('src', url);
+	$(".subnav-menu > li").removeClass("dropdown");
+	$("#_MP_"+id).addClass("dropdown");
+}
+function _MAP(mid, sid, url) {
+	$('.main-nav > li').removeClass("active");
+	$('#_M_'+mid).addClass("active");
+	$(".d_menu").hide();
+	$("#D_M_"+mid).show();
+	dr_clear_map();
+	_MP(sid, url);
+}
+function logout(){
+	if (confirm("{lang('html-017')}"))
+	top.location = '{dr_url("login/logout")}';
+	return false;
+}
+function dr_get_map() {
+	$("#dr_backdrop").show();
+	$("#modal-map").show();
+}
+function dr_clear_map() {
+	$("#dr_backdrop").hide();
+	$("#modal-map").hide();
+}
+</script>
+</head>
+<body scroll="no" style="overflow:hidden">
+<div class="modal hide" id="modal-map" aria-hidden="true">
+    <div class="modal-header">
+        <button  onClick="dr_clear_map()" class="close" type="button">×</button>
+        <h3 id="user-infos"><i class="icon-sitemap"></i> {lang('html-025')}</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid">
+           {$sitemap}
+        </div>
+    </div>
+</div>
+<div id="navigation">
+    <div class="container-fluid">
+        <a href="{SITE_URL}" id="brand" target="_blank">FineCMS</a>
+        <a href="javascript:;" class="toggle-nav" rel="tooltip" data-placement="bottom"><i class="icon-reorder"></i></a>
+        <ul class="main-nav">
+            {php $i=0;}
+            {loop $top $id $t}
+                <li id="_M_{$id}" class="{if $i==0}active{/if}">
+                    <a href="javascript:_M({$id},'{$t.select}','{$t.selurl}','{$t.name}')">
+                        <span>{$t.name}</span>
+                    </a>
+                </li>
+            {php $i++;}
+            {/loop}
+            {if count($mysite)>1}
+            <li id="dr_select_site" class="">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span>{lang('html-008')}</span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" id="sitelist">
+                    {loop $mysite $sid $name}
+                    <li id="{$sid}"><a href="javascript:;">{$name}</a></li>
+                    {/loop}
+                </ul>
+            </li>
+            {/if}
+        </ul>
+        <div class="user">
+        	<ul class="icon-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="{SITE_URL}" target="_blank" title="{SITE_NAME}" id="site_homepage"><i class="icon-home"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="{dr_url('home/clear')}" title="{lang('html-573')}" target="right"><i class="icon-trash"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="{dr_url('home/cache')}" title="{lang('html-434')}" target="right"><i class="icon-refresh"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="{dr_url('route/index')}" title="{lang('html-503')}" target="right"><i class="icon-compass"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="javascript:;" onClick="dr_get_map()" title="{lang('html-025')}"><i class="icon-sitemap"></i></a>
+                </li>
+            </ul>
+            <div class="dropdown" id="dr_member">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">{$admin.username}&nbsp;{if $admin.realname}({$admin.realname}){/if} <img style="width:27px;height:27px;" src="{dr_avatar($uid)}" /></a>
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="{MEMBER_URL}" target="_blank" id="site_member"><i class="icon-user"></i> {lang('html-007')}</a></li>
+                    <li><a href="javascript:;" onClick="logout();"><i class="icon-signout"></i> {lang('html-005')}</a></li>
+					<li><div class="dr_hr"></div></li>
+                    {if $member.adminid == 1}
+                    <li><a href="{dr_url('check/index')}" target="right"><i class="icon-zoom-out"></i> {lang('html-533')}</a></li>
+                    {/if}
+                    <li><a href="javascript:;" onClick="dr_get_map()"><i class="icon-sitemap"></i> {lang('html-025')}</a></li>
+					<li><a href="{dr_url('home/clear')}" target="right"><i class="icon-trash"></i> {lang('html-573')}</a></li>
+					<li><a href="{dr_url('route/index')}" target="right"><i class="icon-compass"></i> {lang('html-503')}</a></li>
+					<li><a href="{dr_url('home/cache')}" target="right"><i class="icon-refresh"></i> {lang('html-434')}</a></li>
+					<li><div class="dr_hr"></div></li>
+                    <li><a href="http://www.dayrui.com/" target="_blank"><i class="icon-cloud"></i> {lang('html-003')}</a></li>
+                    <li><a href="http://www.finecms.net/" target="_blank"><i class="icon-comment"></i> {lang('html-004')}</a></li>
+                    <li><a href="http://help.dayrui.com/" target="_blank"><i class="icon-book"></i> {lang('html-002')}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="content">
+    <div id="left">
+        <form action="http://help.dayrui.com/index.php" method="get" target="_blank" class="search-form" style="margin:9px 0 0;">
+        	<input name="c" type="hidden" value="search" />
+			<input name="m" type="hidden" value="index" />
+            <div class="search-pane">
+                <input type="text" name="keyword" placeholder="{lang('html-146')}" />
+                <button type="submit" title="{lang('html-146')}"><i class="icon-search"></i></button>
+            </div>
+        </form>
+        {$left}
+    </div>
+    <div id="main">
+        <iframe name="right" id="rightMain" src="{dr_url('home/main')}" frameborder="false" scrolling="auto" style="border:none; margin-bottom:0px;" width="100%" height="auto" allowtransparency="true"></iframe>
+        <div style="background-color:#EEEEEE; height:100px; padding-top:8px; text-align:right; padding-right:10px;margin-top: -5px;">
+        &copy; 2011-{date('Y')}&nbsp;&nbsp;<strong><a class="fine-cms" href="http://www.dayrui.com/cms/" target="_blank">FineCMS for {DR_NAME}</a></strong>&nbsp;v{DR_VERSION} ({DR_UPDATE})&nbsp;&nbsp;<span id="finecms_version"></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+</div>
+<div id="dr_backdrop" class="modal-backdrop in hide"></div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	
+}); 
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}10.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <font color="gray">{lang('html-078')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="40" align="left">Id</th>
+			<th width="100" align="left">{lang('html-026')}</th>
+			<th width="80" align="center">{lang('html-079')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr id="dr_row_{$t['uid']}">
+			<td align="right"><input name="ids[]" type="checkbox" class="dr_select" value="{$t['id']}" />&nbsp;</td>
+			<td align="left">{$t['id']}</td>
+			<td align="left">{$t['name']}</td>
+			<td align="center">{$t['num']}</td>
+			<td align="left" class="dr_option">
+            <a href="javascript:;" onclick="dr_dialog_show('{lang('030')}', '{dr_url('verify/show', array('num'=>$t['num']))}')">{lang('030')}</a>
+			{if $this->ci->is_auth('admin/verify/edit')}<a href="{dr_dialog_url(dr_url('verify/edit',array('id'=>$t['id'])), 'edit')}">{lang('edit')}</a>{/if}
+			{if $this->ci->is_auth('admin/verify/del')}<a href="javascript:;" onClick="return dr_dialog_del('{lang('015')}','{dr_url('verify/del',array('id'=>$t['id']))}');">{lang('del')}</a>{/if}
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="4" align="left" style="border:none"> 
+			{if $this->ci->is_auth('admin/verify/del')}<input type="button" class="button" value="{lang('del')}" name="option" onClick="dr_confirm_set_all('{lang('015')}')" />{/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

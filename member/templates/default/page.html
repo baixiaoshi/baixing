@@ -1,0 +1,28 @@
+{template "header.html"}
+<div class="inner met_flash">
+	<div class="flash">
+    <a href='http://www.dayrui.com/' target='_blank'><img src='http://www.dayrui.com/dayrui/statics/dayrui/images/index_banner2.jpg' width='980' height='90'></a>
+    </div>
+</div>
+
+<div class="sidebar inner">
+    <div class="sb_nav">
+		{template "public.html"}
+    </div>
+    
+    <div class="sb_box">
+	    <h3 class="title">
+			<div class="position">
+            	当前位置：<a href="{dr_space_url($uid)}">网站首页</a> &gt; {dr_space_catpos($spaceid, $catid, ' > ')}
+            </div>
+			<span>{$cat.name}</span>
+		</h3>
+		<div class="clear"></div>
+        <div class="editor active" id="showtext">
+		    {$cat.body}
+			<div class="clear"></div>
+		</div>
+    </div>
+    <div class="clear"></div>
+</div>
+{template "footer.html"}

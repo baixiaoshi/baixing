@@ -1,0 +1,87 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab(0);
+});
+</script>
+<form action="" method="post" name="myform" id="myform">
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li>{lang('325')}</li>
+		</ul>
+		<div class="contentList pad-10">
+				<table width="100%" class="table_form">
+				<tr>
+                    <th width="200">{lang('html-028')}： </th>
+                    <td>
+                    <input name="is_all" type="radio" value="0" onclick="$('.dr_0').show();$('.dr_1').hide();" checked="checked" />&nbsp;{lang('html-651')}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input name="is_all" type="radio" value="1" onclick="$('.dr_1').show();$('.dr_0').hide();" />&nbsp;{lang('html-652')}
+                    </td>
+                </tr>
+				<tr class="dr_0">
+                    <th>{lang('html-062')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[mail]" style="width:250px;" />
+                    </td>
+                </tr>
+                <tr class="dr_1" style="display:none">
+                    <th>{lang('html-062')}： </th>
+                    <td>
+                    <textarea class="input-text" name="data[mails]" style="height:200px; width:250px;"></textarea>
+                    <br><font color="#999999">多个{lang('html-062')}按“回车符号”分隔，一行一个{lang('html-062')}</font>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-375')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[title]" style="width:450px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-654')}： </th>
+                    <td>
+                    {dr_field_input('message', 'Ueditor', array('option' => array( 'mode' => 1, 'height' => 300)), '')}
+                    </td>
+                </tr>
+                <tr>
+                    <th style="border:none;">&nbsp;</th>
+                    <td>
+                    <input class="button" type="button" name="button" value="{lang('html-655')}" onclick="dr_send()" />
+                    <span id="dr_send_note"></span>
+                    </td>
+                </tr>
+				</table>
+            </div>
+		</div>
+	</div>
+</div>
+</form>
+<script type="text/javascript">
+<!--
+function dr_send() {
+	$("#dr_send_note").html('<img src="{SITE_URL}dayrui/statics/images/loading.gif">');
+	$("#dr_message").val(editor.getContent());
+	var data = $("#myform").serialize();
+	$.ajax({type: "POST",dataType:"json", url: "{dr_url('mail/ajaxsend')}&"+Math.random(), data: data,
+		success: function(data) {
+			if (data.status == 1) {
+				$("#dr_send_note").html('<font color=green>'+data.code+'</font>');
+			} else {
+				$("#dr_send_note").html('<font color=red>'+data.code+'</font>');
+			}
+		},
+		error: function(HttpRequest, ajaxOptions, thrownError) {
+			$("#dr_send_note").html('');
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+	return false;
+}
+//-->
+</script>
+{template footer.html}

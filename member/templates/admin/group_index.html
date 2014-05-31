@@ -1,0 +1,59 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}19.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <font color="gray">{lang('html-267')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+        <input name="action" id="action" type="hidden" value="" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="20" align="left">Id</th>
+			<th width="50" align="center">{lang('order')}</th>
+			<th width="200" align="left">{lang('html-026')}</th>
+			<th width="60" align="center">{lang('html-268')}</th>
+			<th width="60" align="center">{lang('html-269')}</th>
+			{if MEMBER_OPEN_SPACE}<th width="90" align="center">{lang('html-229')}</th>{/if}
+			<th width="60" align="center">{lang('html-270')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr id="dr_row_{$t['id']}">
+			<td align="right"><input name="ids[]" type="checkbox" value="{$t.id}" class="dr_select" />&nbsp;</td>
+			<td align="left">{$t.id}</td>
+			<td align="center"><input class="input-text displayorder" type="text" name="data[{$t.id}][displayorder]" value="{$t.displayorder}" /></td>
+			<td align="left">{$t.name}</td>
+			<td align="center">{$t.price}</td>
+			<td align="center"><img src="{SITE_URL}dayrui/statics/images/{$t.allowapply}.gif"></td>
+			{if MEMBER_OPEN_SPACE}<td align="center"><img src="{SITE_URL}dayrui/statics/images/{$t.allowspace}.gif"></td>{/if}
+			<td align="center"><a href="{dr_url('member/group/edit',array('id'=>$t.id, 'page'=>1))}">{count($t.allowfield)}</a></td>
+			<td align="left" class="dr_option">
+			{if $t['id']>2 && $this->ci->is_auth('member/admin/level/index')}<a href="{dr_url('member/level/index',array('gid'=>$t.id))}">{lang('m-034')}</a>{/if}
+			{if $this->ci->is_auth('member/admin/group/edit')}<a href="{dr_url('member/group/edit',array('id'=>$t.id))}">{lang('edit')}</a>{/if}
+			{if $this->ci->is_auth('member/admin/group/del')}<a href="javascript:;"{if $t.id<=3} style="color:ButtonShadow" {else}onClick="return dr_dialog_del('{lang('015')}','{dr_url('member/group/del',array('id'=>$t.id))}');"{/if}>{lang('del')}</a>{/if}
+			{if $t.id>2 && !$t.level}<b><font color=red>{lang('html-359')}</font></b>{/if}
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="8" align="left" style="border:none"> 
+			{if $this->ci->is_auth('member/admin/group/del')}<input type="button" class="button" value="{lang('del')}" name="option" onClick="$('#action').val('del');dr_confirm_set_all('{lang('015')}')" />{/if}
+            {if $this->ci->is_auth('member/admin/group/edit')}<input type="button" class="button" value="{lang('order')}" name="option" onClick="$('#action').val('edit');dr_confirm_set_all('{lang('015')}')" />&nbsp;<div class="onShow">{lang('html-271')}</div>{/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

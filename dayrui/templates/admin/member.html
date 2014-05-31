@@ -1,0 +1,55 @@
+<link href="{SITE_PATH}dayrui/statics/css/table_form.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+*{ font-size:12px;}
+.input-text-c, .input-text, .measure-input, textarea, input.date, input.endDate, .input-focus {
+	height:25px;
+}
+td{ color:gray;}
+</style>
+<div class="table-list">
+<table width="440" border="0" cellspacing="0" cellpadding="0" class="table_form">
+<tr>
+    <th align="right" width="120">{lang('html-347')}：</th>
+    <td align="left">{$data.username}&nbsp;({$data.email})</td>
+</tr>
+<tr>
+    <th align="right">{lang('html-348')}：</th>
+    <td align="left">{MEMBER.group.$data[groupid].name}{if $data.levelid}&nbsp;({MEMBER.group.$data[groupid].level.$data[levelid].name})&nbsp;{/if}{if $data.overdue} {dr_lang('html-488', dr_date($data.overdue))}{/if}</td>
+</tr>
+{if $data.name}
+<tr>
+    <th align="right">{lang('html-226')}：</th>
+    <td align="left">{$data.name}{if $data.phone}&nbsp;({$data.phone}){/if}</td>
+</tr>
+{/if}
+{if $data.regtime}
+<tr>
+    <th align="right">{lang('html-351')}：</th>
+    <td align="left">{dr_date($data.regtime)} (<a href="http://www.baidu.com/baidu?wd={$data.regip}&tn=monline_dg" target="_blank">{$data.regip}</a>)</td>
+</tr>
+{/if}
+{php $login=dr_string2array($data['loginlog']);$login=end($login);}
+{if $login}
+<tr>
+    <th align="right">{lang('html-487')}：</th>
+    <td align="left">{dr_date($login.login_time)} (<a href="http://www.baidu.com/baidu?wd={$login.login_ip}&tn=monline_dg" target="_blank">{$login.login_ip}</a>)</td>
+</tr>
+{/if}
+<tr>
+    <th align="right">{SITE_MONEY}：</th>
+    <td align="left">{$data.money}</td>
+</tr>
+<tr>
+    <th align="right">{SITE_SCORE}：</th>
+    <td align="left">{$data.score}</td>
+</tr>
+<tr>
+    <th align="right">{SITE_EXPERIENCE}：</th>
+    <td align="left">{$data.experience}</td>
+</tr>
+<tr>
+    <td align="right" style="border:none"></td>
+    <td align="left" style="border:none"></td>
+</tr>
+</table>
+</div>

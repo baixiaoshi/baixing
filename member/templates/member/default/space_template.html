@@ -1,0 +1,21 @@
+{template header.html}
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+        <div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main dr_table">
+                <div class="bk10"></div>
+                <div class="brand_list clearfix">
+                    <ul class="clearfix">
+                    	{loop $list $t}
+                        <li><a {if $style==$t.name} href="javascript:;" style="border: 1px solid #F00"{else} href="{dr_member_url('space/template', array('style'=>$t.name))}" {/if}><img width="150" height="145" src="{$t.preview}">{$t.name}</a></li>
+                        {/loop}
+                    </ul>
+                </div>
+                <div class="bk10"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

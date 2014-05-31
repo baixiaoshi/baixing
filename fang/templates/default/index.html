@@ -1,0 +1,67 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="photo">
+	<div class="photo_l">
+		{template "left.html"}	
+    </div>
+	<div class="photo_r">
+        <div class="newhot">
+        	<!--首页幻灯 begin-->
+			<link href="{HOME_THEME_PATH}images/slide.css" type="text/css" rel="stylesheet">
+			<div id="myslide" style="width:750px;height:290px">
+                <table width="100%" cellSpacing="0" cellPadding="0">
+                <tr>
+                <td class="pic" id="bimg" style="height:292px">
+                	<!--查询推荐位1（首页幻灯）的内容，field需要用到的字段（不填表示全部），按displayorder（后台指定排序）排序-->
+    				{list action=module flag=1 field=title,url,thumb order=displayorder,updatetime num=6}
+                    <div class="{if $key==0}dis{else}undis{/if}" name="f">
+                    <a href="{$t.url}" title="{$t.title}" {if $t.target}target="_blank"{/if}><img alt="{$t.title}" style="width:750px;height:295px;" src="{dr_thumb($t.thumb, 750, 295)}" border="0"></a>
+                    </div>
+                    {/list}
+                    {$error}<!--如果查询为空，error变量会返回错误提示，正式上线建议删除-->
+                    <table id="font_hd" width="100%" cellSpacing="0" cellPadding="0">
+                    <tr>
+                    <td class="title" id="info">
+                    <!--查询推荐位1（图文精选）的内容，field需要用到的字段（不填表示全部），按displayorder（后台指定排序）排序-->
+    				{list action=module flag=1 field=title,url,thumb order=displayorder,updatetime num=6}
+                    <div class="{if $key==0}dis{else}undis{/if}" name="f">
+                    <a href="{$t.url}" title="{$t.title}">{$t.title}</a>
+                    </div>
+                    {/list}
+                    {$error}<!--如果查询为空，error变量会返回错误提示，正式上线建议删-->
+                    </td>
+                    <td id="simg" nowrap="nowrap" style="text-align:right">
+                    <!--查询推荐位1（图文精选）的内容，field需要用到的字段（不填表示全部），按displayorder（后台指定排序）排序-->
+    				{list action=module flag=1 field=title,url,thumb order=displayorder,updatetime num=6}
+                    <div class="{if $key==0}{else}f1{/if}" onclick=play(x[{$key}],{$key}) name="f">{$key+1}</div>
+                    {/list}
+                    {$error}<!--如果查询为空，error变量会返回错误提示，正式上线建议删-->
+                    </td>
+                    </tr>
+                    </table>
+                    <script src="{HOME_THEME_PATH}js/slide.js"></script>
+                </td>
+                </tr>
+                </table>
+			</div>
+        	<!--首页幻灯 end-->
+        </div>
+        <!--循环输出顶级栏目下面的子栏目及其内容，运用到了双list循环标签因此需要定义返回值return=c（都懂得）-->
+		{list action=category pid=0 return=c}
+		<div class="r_lmlist" >
+			<div class="tit">
+            	<h4 class="l">{$c.name}</h4>
+                <div class="r"><a href="{$c.url}"><img src="{HOME_THEME_PATH}images/more.png" /></a></div>
+            </div>
+			<ul>
+                <!--循环输出当前栏目下面的数据，我们按时间排序-->
+                {list action=module catid=$c.id field=thumb,title,url,description order=updatetime num=4}
+                <li><img src="{dr_thumb($t.thumb, 165)}" width="100%" /><br /><span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 20)}</a></span></li>
+                {/list}{$error}
+				</ul>
+			</div>
+        {/list}
+    </div>	
+</div>
+<div class="clear"></div>
+{template "footer.html","/"}

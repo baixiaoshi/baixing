@@ -1,0 +1,90 @@
+{template header.html}
+<script type="text/javascript">
+function dr_space_dialog(url) {
+	var throughBox = $.dialog.through; // 创建窗口
+	var dr_Dialog = throughBox({title: "{lang('html-527')}"});
+	// ajax调用窗口内容
+	$.ajax({type: "GET", url:url+"&"+Math.random(), dataType:'text', success: function (text) {
+			var win = $.dialog.top;
+			dr_Dialog.content(text);
+			// 添加按钮
+			dr_Dialog.button({name: fc_lang[36], callback:function() {
+					win.$("#mark").val("0"); // 标示可以提交表单
+					if (win.dr_form_check()) { // 按钮返回验证表单函数
+						var _data = win.$("#myform").serialize();
+						$.ajax({type: "POST",dataType:"json", url: url, data: _data, // 将表单数据ajax提交验证
+							success: function(data) {
+								$.dialog.tips(data.code, 2, 1);
+								dr_Dialog.close();
+							},
+							error: function(HttpRequest, ajaxOptions, thrownError) {
+								alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+							}
+						});
+					}
+					return false;
+				},
+				focus: true
+			});
+	    },
+	    error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+}
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+		<font color="gray">{lang('html-390')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<table width="100%" cellspacing="0">
+		<tbody>
+		<tr>
+			<td align="left">{lang('html-525')}：{str_replace(FCPATH, '/', $path)}</td>
+			<td align="left" width="70%">
+			{if $this->ci->is_auth($auth.'add')}
+				<a class="add" title="{lang('add')}" href="javascript:dr_dialog('{dr_url($furi.'add', array('dir'=> $dir))}', 'add');"></a>
+			{/if}
+			</td>
+		</tr>
+		{if $parent}
+		<tr>
+			<td align="left">
+				<a href="{dr_url($furi.'index', array('dir' => $parent))}"><img src="{SITE_URL}dayrui/statics/images/folder-closed.gif">{lang('html-526')}</a>
+			</td>
+			<td align="left" width="70%"></td>
+		</tr>
+		{/if}
+		{loop $list $file}
+		<tr>
+		{if is_dir($path.$file)}
+			<td align="left">
+				<a href="{dr_url($furi.'index', array('dir' => $dir.'/'.basename($file)))}"><img src="{SITE_URL}dayrui/statics/images/folder-closed.gif"> <b>{basename($file)}</b></a>
+			</td>
+		{else}
+			<td align="left">
+				<a href="{dr_url($furi.'edit', array('file' => $dir.'/'.$file))}"><img src="{SITE_URL}dayrui/statics/images/file.gif"> {$file}
+			</td>
+			{/if}
+			<td align="left" width="70%">
+				{if $this->ci->is_auth($auth.'del')}
+				<a class="del" title="{lang('del')}" href="javascript:;" onClick="return dr_dialog_del('<span>{lang('015')}</span>','{dr_url($furi.'del', array('file' => $dir.'/'.$file))}');"></a>
+				{/if}
+                {if $space && !$parent}
+				<a class="edit" title="{lang('html-527')}" href="javascript:;" onClick="return dr_space_dialog('{dr_url($furi.'permission', array('dir'=>basename($file)))}');"></a>
+				{/if}
+			</td>
+		</tr>
+		{/loop}
+		<tr><td align="left" colspan="2"></td></tr>
+		</tbody>
+		</table>
+	</div>
+</div>
+{template footer.html}

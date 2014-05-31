@@ -1,0 +1,59 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <form method="get" action="" name="searchform" id="searchform">
+		<input name="s" type="hidden" value="{APP_DIR}" />
+		<input name="c" type="hidden" value="tag" />
+		<input name="m" type="hidden" value="index" />
+		{lang('mod-34')} ：
+		<input type="text" class="input-text" value="" name="kw" />
+		&nbsp;
+		<input type="submit" value="{lang('search')}" class="button" name="search" />
+		</form>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="50" align="left">Id</th>
+			<th width="200" align="left">{lang('html-026')}</th>
+			<th width="100" align="left">Tag</th>
+			<th width="80" align="center">{lang('html-324')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr id="dr_row_{$t['id']}">
+			<td align="right"><input name="ids[]" type="checkbox" class="dr_select" value="{$t['id']}" />&nbsp;</td>
+			<td align="left">{$t['id']}</td>
+			<td align="left">{dr_keyword_highlight($t['name'], $param['kw'])}</a></td>
+			<td align="left">{$t['code']}</td>
+			<td align="center">{$t['hits']}</td>
+			<td align="left" class="dr_option">
+			<a href="{dr_tag_url($mod, $t['name'])}" target="_blank">{lang('go')}</a>
+			{if $this->ci->is_auth(APP_DIR.'/admin/tag/edit')}<a href="{dr_dialog_url(dr_url(APP_DIR.'/tag/edit', array('id' => $t['id'])), 'edit')}">{lang('edit')}</a>{/if}
+			{if $this->ci->is_auth(APP_DIR.'/admin/tag/del')}<a href="javascript:;" onClick="return dr_dialog_del('{lang('015')}','{dr_url(APP_DIR.'/tag/del',array('id'=>$t['id']))}');">{lang('del')}</a>{/if}
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="6" align="left" style="border:none">
+			{if $this->ci->is_auth(APP_DIR.'/admin/tag/del')}<input type="button" class="button" value="{lang('del')}" name="option" onClick="$('#action').val('del');dr_confirm_set_all('{lang('015')}')" />{/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+        <div id="pages"><a>{dr_lang('html-346', $param['total'])}</a>{$pages}</div>
+	</div>
+</div>
+{template footer.html}

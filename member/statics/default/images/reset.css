@@ -1,0 +1,18 @@
+@charset "utf-8";
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,input,button,p,th,td{margin:0;padding:0;}
+img{border:none;}
+:focus{outline:none;}
+em,strong,th{font-style:normal;font-weight:normal;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+li{list-style:none;}
+table{border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+sup,sub{font-size:100%;vertical-align:baseline;}
+button{cursor:pointer;}
+textarea{display:block;resize:none;overflow-y:auto;}
+html,body{width:100%;height:100%;}
+body{font:12px/1.5 "Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;color:#333;background-color:#FFF;}
+a{color:#369;text-decoration:none;}
+a:hover{text-decoration:underline;}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{zoom:1;}

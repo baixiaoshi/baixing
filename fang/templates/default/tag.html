@@ -1,0 +1,35 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+<div class="clear"></div>
+<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > Tag<!--面包屑导航--></div>
+<div class="digg" style="margin-top:5px">
+	<div class="digg_l">
+		
+		<div class="left02">
+			<h4>热门排行榜</h4>
+			<ul>
+                <!--我们按点击排序-->
+                {list action=module field=title,url order=hits num=10}
+                <li><span {if $key<3}class="one"{/if}>{$key+1}</span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 27)}</a></li>
+                {/list} {$error}
+			</ul>	
+        </div>
+    </div>
+	<div class="lmlist">
+		<h4>{$tag}<!--Tag的名称，支持多个tag--></h4>
+		<ul>
+        <!--采用sql的方式查询数据sql由系统生成，action=sql使用方式参考帮助手册-->
+        {list action=sql sql='$tagsql' module=$dirname page=1 urlrule=$urlrule pagesize=$pagesize}
+        <li><span>{$t.updatetime}</span><a title="{$t.title}" href="{$t.url}">{$t.title}</a></li>
+        {/list}{$error}
+        </ul>
+        <div class="n_fy" style="padding-left:0px">
+            <div class="fenye" id="fenye">
+            {$pages}
+            </div>
+		<div>
+	</div>
+	</div></div>
+	<div class="clear"></div>
+{template "footer.html","/"}

@@ -1,0 +1,19 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	setTimeout(function(){ location.href = "{$url}"; }, 100);
+});
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list" id="online">
+		<div style="text-align:center; padding:80px;">
+        	<img src="{SITE_URL}dayrui/statics/images/loading-yun.gif" />
+            正在努力访问云端服务器 ...
+        </div>
+	</div>
+</div>
+{template footer.html}

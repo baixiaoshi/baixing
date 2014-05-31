@@ -1,0 +1,112 @@
+<script type="text/javascript">
+$(function() { //防止回车提交表单
+	document.onkeydown = function(e){ 
+		var ev = document.all ? window.event : e;
+		if (ev.keyCode==13) {
+			$("#mark").val("1"); // 标识不能提交表单
+		}
+	}
+	$(".t_1").hide();
+	$(".t_2").hide();
+	$(".t_{$menu_url}").show();
+	$("._type").click(function(){
+		var t = $(this).val();	
+		$(".t_1").hide();
+		$(".t_2").hide();
+		$(".t_"+t).show();
+	});
+	$(".table_form th").last().css('border','none');
+	$(".table_form td").last().css('border','none');
+});
+function dr_form_check() {
+	if ($("#dr_name").val() == '') {
+		dr_form_tips('name', false, '{dr_lang("020", lang("html-026"))}');
+		return false;
+	} else {
+		dr_form_tips('name', true, '&nbsp;');
+	}
+	if ($("#mark").val() == 0) { 
+		return true;
+	} else {
+		return false;
+	}
+}
+</script>
+<div class="table-list" style="width:550px;">
+<form action="" method="post" id="myform" name="myform" onsubmit="return dr_form_check()">
+<input name="mark" id="mark" type="hidden" value="0">
+<input name="data[istop]" type="hidden" value="{$data['istop']}">
+<input name="data[pid]" type="hidden" value="{$data['pid']}">
+<table width="100%" class="table_form">
+<tr>
+    <th width="100"><font color="red">*</font>&nbsp;{lang('html-028')}： </th>
+    <td>{$menu_name}</td>
+</tr>
+{if $select}
+<tr>
+    <th width="100"><font color="red">*</font>&nbsp;{lang('html-074')}： </th>
+    <td>{$select}</td>
+</tr>
+{/if}
+<tr>
+    <th><font color="red">*</font>&nbsp;{lang('html-026')}： </th>
+    <td>
+    <input class="input-text" type="text" name="data[name]" id="dr_name" value="{$data['name']}" size="20" />
+    <div class="onShow" id="dr_name_tips">{lang('html-027')}</div>
+    </td>
+</tr>
+{if $menu_type}
+<tr>
+    <th>&nbsp;{lang('html-042')}： </th>
+    <td>
+    <input name="_type" type="radio" value="2" class="_type" {if $menu_url==2} checked{/if}>&nbsp;&nbsp;{lang('html-043')}
+    <input name="_type" type="radio" value="1" class="_type" {if $menu_url==1} checked{/if}>&nbsp;&nbsp;{lang('html-044')}
+    </td>
+</tr>
+<tr class="t_2">
+    <th>&nbsp;Directory： </th>
+    <td>
+    <input name="data[directory]" type="radio" value="admin" {if empty($uri['directory']) || $uri['directory']=='admin'} checked{/if}>&nbsp;&nbsp;admin
+    <input name="data[directory]" type="radio" value="member" {if $uri['directory']=='member'} checked{/if}>&nbsp;&nbsp;member
+    <div class="onShow" id="dr_s_tips">{lang('html-045')}</div>
+    </td>
+</tr>
+<tr class="t_2">
+    <th>&nbsp;{lang('html-046')}： </th>
+    <td>
+    <input class="input-text" type="text" name="data[dir]" id="dr_c" value="{$uri['dir']}" size="20" />
+    <div class="onShow" id="dr_s_tips">{lang('html-047')}</div>
+    </td>
+</tr>
+<tr class="t_2">
+    <th>&nbsp;Class： </th>
+    <td>
+    <input class="input-text" type="text" name="data[class]" id="dr_c" value="{$uri['class']}" size="20" />
+    <div class="onShow" id="dr_c_tips">{lang('html-048')}</div>
+    </td>
+</tr>
+<tr class="t_2">
+    <th>&nbsp;Method： </th>
+    <td>
+	<input class="input-text" type="text" name="data[method]" id="dr_m" value="{$uri['method']}" size="20" />
+    <div class="onShow" id="dr_m_tips">{lang('html-049')}</div>
+    </td>
+</tr>
+<tr class="t_2">
+    <th>&nbsp;{lang('html-050')}： </th>
+    <td>
+	<input class="input-text" type="text" name="data[param]" id="dr_param" value="{$uri['param_str']}" size="20" />
+    <div class="onShow" id="dr_param_tips">{lang('html-051')}</div>
+    </td>
+</tr>
+<tr class="t_1">
+    <th>&nbsp;Url： </th>
+    <td>
+	<input class="input-text" type="text" name="data[url]" id="dr_url" value="{$data['url']}" size="30" />
+    <div class="onShow" id="dr_url_tips">{lang('html-052')}</div>
+    </td>
+</tr>
+{/if}
+</table>
+</form>
+</div>

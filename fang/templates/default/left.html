@@ -1,0 +1,29 @@
+<div class="l_fl">
+    <h4>分类</h4>
+    <ul>
+        <!--循环栏目作为导航栏目，pid=0表示顶级栏目-->
+        {list action=category pid=0}
+        <!--下面那句if表示当前栏目时就加粗高亮显示-->
+        <li {if in_array($catid, $t.catids)} class="curr"{/if}><a href="{$t.url}">{$t.name}</a></li>
+        {/list}{$error}
+    </ul>
+</div>
+<div class="l_ht">
+    <h4>推荐房源</h4>
+    <ul>
+    <!--查询推荐位2（好图推荐）的内容，field需要用到的字段（不填表示全部），按displayorder（后台指定排序）排序-->
+    {list action=module flag=2 field=title,url,thumb order=displayorder,updatetime num=6}
+    <li><a href="{$t.url}" title="{$t.title}"><img src="{dr_thumb($t.thumb, 85, 55)}" /><br />{dr_strcut($t.title, 10, '')}</a></li>
+    {/list}
+    {$error}<!--如果查询为空，error变量会返回错误提示，正式上线建议删-->
+    </ul>
+</div>
+<div class="l_ph">
+    <h4>热门排行榜</h4>
+    <ul>
+    <!--我们按点击排序-->
+    {list action=module catid=$catid field=title,url order=hits num=10}
+    <li><span {if $key<3}class="one"{/if}>{$key+1}</span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 27)}</a></li>
+    {/list} {$error}		
+    </ul>	
+</div>

@@ -1,0 +1,86 @@
+/* wrapper css */
+body{ background:#f2f2f2}
+.shoppictitle{width:980px;margin: 0 auto;margin-top:15px; height:30px; line-height:30px;border-bottom:2px solid #aaa}
+.shoppictitle h4{background:#5db7d1 url(shoppictitle.png) no-repeat 100% 0;padding:0px 75px 0px 15px; height:32px; position:relative; font-size:16px;color:#fff;}
+.shoppictitle .r{ padding-right:10px}
+.shoppictitle .r a{border:1px solid #ddd; background:#fff; float:left;padding:0px 6px; height:20px; line-height:20px;margin:0px -1px 0px 0px;}
+.shoppictitle .r a.curr{background:#999;border:1px solid #777;color:#fff;margin-right:0px}
+#wrapper{
+	
+	
+}
+#wrapper hgroup{
+	text-align:center;
+}
+#wrapper h2{
+	margin:5px 0;
+	color:#FF6D99;
+	text-shadow:1px 1px 2px #A50031;
+	font-size:33px;
+	font-family:Arial Narrow, Arial, sans-serif;
+}
+#wrapper h3{
+	font-style:italic;
+	font-weight:normal;
+	font-size:18px;
+	text-shadow:1px 1px 0 #fff;
+	color:#888;
+	margin:5px 0;
+}
+
+#container{
+	position:relative;
+	width:990px;
+	margin:0 auto;
+	padding-bottom: 10px;
+	
+}
+.grid{
+	min-height:100px;
+	padding: 15px 15px 5px 15px;
+	background:#fff;
+	margin:5px;
+	font-size:12px;
+	float:left;
+}
+
+.grid strong {
+	
+	margin-top:10px;
+	display:block;
+	padding:0 0 5px;
+}
+.grid strong a{font-size:15px;font-family:"\5FAE\8F6F\96C5\9ED1";color:#333;}
+.grid .intro{
+	color:#888; line-height:22px;
+}
+.grid .jgbox{ padding-top:5px}
+.grid .jgbox font{font-size:13px;color:#e00;font-weight:bold}
+.grid .jgbox em{ color:#888; text-decoration:line-through; padding-left:5px}
+.grid .jgbox span{color:#666;background:#eee; padding:1px 10px; float:right; height:20px; line-height:20px; }
+.grid .imgholder img{
+	max-width:100%;
+	background:#ccc;
+	display:block;
+}
+
+@media screen and (max-width : 1240px) {
+	body{
+		overflow:auto;
+	}
+}
+@media screen and (max-width : 900px) {
+	#backlinks{
+		float:none;
+		clear:both;
+	}
+	#backlinks a{
+		display:inline-block;
+		padding-right:20px;
+	}
+	#wrapper{
+		margin-top:90px;
+	}
+}
+
+#fenye a{ background:#ddd}

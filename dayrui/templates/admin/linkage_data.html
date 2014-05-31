@@ -1,0 +1,96 @@
+{template header.html}
+<script type="text/javascript">
+function dr_to_cache() {
+	dr_tips("{lang('html-476')}", 999999, 2);
+	location.href = "{dr_url('linkage/cache')}";
+}
+function _dr_confirm_set_all(title, del) {
+	art.dialog.confirm(title, function(){
+		dr_tips("{lang('html-476')}", 999999, 2);
+		var _data = $("#myform").serialize();
+		var _url = window.location.href;
+		if ((_data.split('ids')).length-1 <= 0) {
+			$.dialog.tips(lang['select_null'], 2);
+			return true;
+		}
+		// 将表单数据ajax提交验证
+		$.ajax({type: "POST",dataType:"json", url: _url, data: _data,
+			success: function(data) {
+				//验证成功
+				if (data.status == 1) {
+					$.dialog.tips(data.code, 3, 1);
+					if (del == 1) {
+						$(".dr_select").each(function(){ 
+							if ($(this).attr('checked')) { 
+								$("#dr_row_"+$(this).val()).remove();
+							} 
+						});
+					} else {
+						setTimeout('window.location.reload(true)', 3000); // 刷新页
+					}
+				} else {
+					$.dialog.tips(data.code, 3, 2);
+					return true;
+				}
+			},
+			error: function(HttpRequest, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+			}
+		});
+		return true;
+	});
+	return false;
+}
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<a href="javascript:;" onclick="dr_to_cache()"><em>{lang('001')}</em></a><span>|</span><a href="{SYS_HELP_URL}79.html" target="_blank"><em>{lang('help')}</em></a><span>|</span>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+		<font color="gray">{lang('html-417')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<input name="action" id="action" type="hidden" value="order" />
+		<table width="100%">
+		<thead>
+        <tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="30" align="center">{lang('order')}</th>
+			<th width="40" align="left">Id</th>
+            <th align="left" width="200">{lang('html-026')}</th>
+			<th align="left">{if $this->ci->is_auth(APP_DIR.'/admin/linkage/adds')}<a href='javascript:dr_dialog("{dr_url(APP_DIR.'/linkage/adds', array('key'=>$key))}&pid={$pid}", "add");'>{lang('html-474')}</a>{/if}</th>
+        </tr>
+        </thead>
+		<tbody>
+		{loop $list $t}
+		<tr>
+			<td align='right'><input name='ids[]' type='checkbox' class='dr_select' value='{$t.id}' />&nbsp;</td>
+			<td align='left'><input class='input-text displayorder' type='text' name='data[{$t.id}][displayorder]' value='{$t.displayorder}' /></td>
+			<td align='left'>{$t.id}</td>
+			{if $this->ci->is_auth(APP_DIR.'/admin/linkage/edits')}
+			<td><a href='javascript:dr_dialog("{dr_url(APP_DIR.'/linkage/edits', array('key'=>$key))}&id={$t.id}", "edit");'>{$t.name}</a></td>
+			{else}
+			<td>{$t.name}</td>
+			{/if}
+			<td align='left'>
+			{if $t.child}<a href="{dr_url(APP_DIR.'/linkage/data', array('key'=>$key, 'pid'=>$t['id']))}">{lang('html-475')}</a>&nbsp;&nbsp;&nbsp;{/if}
+			{if $this->ci->is_auth(APP_DIR.'/admin/linkage/edits')}<a href='javascript:dr_dialog("{dr_url(APP_DIR.'/linkage/edits', array('key'=>$key))}&id={$t.id}", "edit");'>{lang('edit')}</a>&nbsp;&nbsp;&nbsp;{/if}
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th align="right"><input name="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="7" align="left"> 
+            {if $this->ci->is_auth('category/del')}<input type="button" class="button" value="{lang('del')}" name="button" onClick="$('#action').val('del');return _dr_confirm_set_all('{lang('015')}');" />&nbsp;{/if}
+			{if $this->ci->is_auth('model/edit')}<input type="button" class="button" value="{lang('order')}" name="button" onclick="$('#action').val('order');return _dr_confirm_set_all('{lang('015')}')" />&nbsp;<div class="onShow">{lang('html-182')}</div>{/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

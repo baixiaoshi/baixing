@@ -1,0 +1,24 @@
+	<div class="page_url"><a href="{SITE_URL}">首页</a> <span>&gt;</span> <a href="{dr_member_url('home/index')}">会员中心</a> <span>&gt;</span> {$meta_name}</div>
+    <div class="aside">
+		<div class="round memberinfo">
+            <table width="178" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td rowspan="2" width="50"><div class="memberinfo_avatar"><a href="{dr_member_url('account/avatar')}"><img src="{dr_avatar($uid)}"></a></div></td>
+                <td><b>&nbsp;{$member.username}</b></td>
+                </tr>
+              <tr>
+                <td colspan="2"><div class="dr_stars"><a href="{dr_member_url('account/permission')}" title="{$member.level.name}">{dr_show_stars($member.level.stars)}</a></div></td>
+              </tr>
+            </table>   
+		</div>
+        {loop $menu[$menu_tid]['left'] $m}
+        <div class="menu round">
+            <h4><strong>{$m.name}</strong></h4>
+            <ul>
+				{loop $m.link $t}
+                <li><a href="{if $t.url}{$t.url}{else}{dr_member_url($t.uri)}{/if}" {if $t.target}target="_blank"{/if} {if $menu_id==$t.id}class="cur"{/if}>{$t.name}</a></li>
+                {/loop}
+            </ul>
+        </div>
+		{/loop}
+    </div>

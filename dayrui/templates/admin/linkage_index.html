@@ -1,0 +1,56 @@
+{template header.html}
+<script type="text/javascript">
+function dr_to_cache() {
+	dr_tips("{lang('html-476')}", 999999, 2);
+	location.href = "{dr_url('linkage/cache')}";
+}
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<a href="javascript:;" onclick="dr_to_cache()"><em>{lang('001')}</em></a><span>|</span><a href="{SYS_HELP_URL}79.html" target="_blank"><em>{lang('help')}</em></a><span>|</span>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <font color="gray">{lang('html-417')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="40" align="left">Id</th>
+			<th width="100" align="left">{lang('html-026')}</th>
+			<th width="100" align="left">{lang('html-418')}</th>
+			<th width="80" align="left">{lang('html-419')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr>
+			<td align="right"><input name="ids[]" type="checkbox" class="dr_select" value="{$t.id}" />&nbsp;</td>
+			<td align="left">{$t.id}</td>
+			<td align="left">{$t.name}</td>
+			<td align="left">{$t.code}</td>
+			<td align="left">{if $t.type}{lang('html-421')}{else}{lang('html-420')}{/if}</td>
+			<td align="left" class="dr_option">
+			{if $this->ci->is_auth('admin/linkage/edit')}<a href="{dr_dialog_url(dr_url('linkage/edit',array('id'=>$t.id)), 'edit')}">{lang('edit')}</a>{/if}
+			{if $this->ci->is_auth('admin/linkage/data')}<a href="{dr_url('linkage/data',array('key'=>$t.id))}">{lang('185')}</a>{/if}
+			{if $this->ci->is_auth('admin/linkage/edit') && $t.id==1}<a href="javascript:;" onClick="return dr_confirm_url('{lang('html-581')}','{dr_url('linkage/import')}');">{lang('html-580')}</a>{/if}
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="6" align="left" style="border:none"> 
+			{if $this->ci->is_auth('admin/linkage/del')}<input type="button" class="button" value="{lang('del')}" name="option" onClick="dr_confirm_del_all()" />{/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

@@ -1,0 +1,22 @@
+{template header.html}
+<div class="wp" id="wp">
+    <div class="wp cl w" id="ct">
+        <div class="nfl">
+            <div class="f_c altw">
+                <div class="alert_right" id="messagetext">
+                	{if $edit}
+					<p>文档修改成功，请等待管理员的审核，您还可以：</p>
+					{else}
+					<p>文档发布成功，请等待管理员的审核，您还可以：</p>
+					{/if}
+               		<p class="alert_btnleft">
+                    <a href="{$add}">继续发布</a>&nbsp;
+					<a href="{$url}">查看审核</a>&nbsp;
+					<a href="{$list}">返回列表</a>&nbsp;
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

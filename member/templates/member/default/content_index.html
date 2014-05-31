@@ -1,0 +1,183 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	$(".msearch a").click(function(){
+		var name = $(this).attr("name");
+		$(".msearch a").removeClass("cur");
+		$(this).addClass("cur");
+		$("#dr_order").val(name);
+	});
+	$("#dr_loadmore a").click(function(){
+		var page = $("#dr_page").val();
+		$("#dr_loading").html("<div style='padding:30px;text-align:center;width:678px;'><img src='{MEMBER_THEME_PATH}images/loading.gif' /></div>");
+		$.get("{$searchurl}", {page:page}, function(data){
+			if (data != "null") {
+				$("#dr_body").append(data);
+				$("#dr_page").val(Number(page) + 1);
+			}
+			$("#dr_loading").html("");
+		});
+	});
+	// 排序操作
+	$('.dr_table th').click(function(e) {
+		var _class = $(this).attr("class");
+		if (_class == undefined) return;
+		var _name = $(this).attr("name");
+		var _order = '';
+		if (_class == "sorting") {
+			_order = 'desc';
+		} else if (_class == "sorting_desc") {
+			_order = 'asc';
+		} else {
+			_order = 'desc';
+		}
+		var url = "{dr_member_order($searchurl)}&order="+_name+" "+_order;
+		location.href=url;
+	});
+});
+function dr_flag() {
+    $("#action").val('flag');
+	var _data = $("#myform").serialize();
+	var _url = window.location.href;
+	if ((_data.split('ids')).length-1 <= 0) {
+		$.dialog.tips("到底推荐谁？您还没有选择呢", 2);
+		return true;
+	}
+	// 将表单数据ajax提交验证
+	$.ajax({type: "POST",dataType:"json", url: _url, data: _data,
+		success: function(data) {
+			//验证成功
+			if (data.status == 1) {
+				$.dialog.tips(data.code, 3, 1);
+				// 刷新页
+				setTimeout('window.location.reload(true)', 3000);
+			} else {
+				$.dialog.tips(data.code, 3, 2);
+				return true;
+			}
+		},
+		error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+	return false;
+}
+function dr_update() {
+    $("#action").val('update');
+	var _data = $("#myform").serialize();
+	var _url = window.location.href;
+	if ((_data.split('ids')).length-1 <= 0) {
+		$.dialog.tips("到底更新谁？您还没有选择呢", 2);
+		return true;
+	}
+	$.ajax({type: "POST",dataType:"json", url: _url, data: _data,
+		success: function(data) {
+			if (data.status == 1) {
+				$.dialog.tips(data.code, 3, 1);
+				$("input[name='ids[]']:checkbox:checked").each(function(){
+					$.post("{SITE_URL}{APP_DIR}/index.php?c=show&m=create_html&id="+$(this).val(), {}, function(){});
+				});
+				setTimeout('window.location.reload(true)', 3000);
+			} else {
+				$.dialog.tips(data.code, 3, 2);
+				return true;
+			}
+		},
+		error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+	return false;
+}
+function dr_delete(catid, id) {
+    art.dialog.confirm("你确认要删除吗？", function(){
+		$.ajax({type: "POST",dataType:"json", url: "{dr_member_url(APP_DIR.'/home/del')}",data: {catid:catid,id:id}, success: function(data) {
+				if (data.status == 1) {
+					$.dialog.tips(data.code, 3, 1);
+					$("#dr_row_"+id).hide();
+				} else {
+					$.dialog.tips(data.code, 3, 0);
+				}
+                art.dialog.close();
+                return false;
+			},
+			error: function(HttpRequest, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+			}
+		});
+		return true;
+	});
+	return false;
+}
+</script>
+<input name="page" id="dr_page" type="hidden" value="2" />
+<input name="order" id="dr_order" type="hidden" value="{$get.order}" />
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+        <div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main dr_table">
+				<div class="msearch mbutton">
+                	<form method="get" action="">
+						<input name="s" type="hidden" value="{APP_DIR}" />
+						<input name="c" type="hidden" value="home" />
+						<input name="m" type="hidden" value="index" />
+						<input id="dr_order" name="order" type="hidden" value="{$get.order}" />
+						<a href="{dr_member_url(APP_DIR.'/home/add')}" class="cur">发布</a>
+						<button type="submit" class="red_button" style="float:right;margin-left:20px">查询</button>
+						<input type="text" id="dr_keywords" name="kw" value="{$kw}" class="input_text" style="color:#999;width:220px;float:right">
+						<span style="color:#333;padding-right:8px;float:right;">{$select}</span>
+               		</form>
+				</div>
+                <div class="bk10"></div>
+                <form action="" method="post" name="myform" id="myform">
+                <input name="action" id="action" type="hidden" value="" />
+				<table style="table-layout:fixed;margin-bottom: 0;">
+				<thead>
+					<tr>
+						<th style="width:20px;" class="algin_r">&nbsp;</th>
+						<th class="{ns_sorting('title')}" name="title">主题</th>
+						<th style="width:80px;text-align:center" class="{ns_sorting('catid')}" name="catid">栏目</th>
+						<th style="width:120px;" class="{ns_sorting('updatetime')}" name="updatetime">更新时间</th>
+						<th style="width:120px;">操作</th>
+					</tr>
+				</thead>
+				<tbody id="dr_body">
+				{template content_data.html}
+				</tbody>
+				</table>
+                <table style="table-layout:fixed;" class="mbutton">
+                <tr>
+                    <td style="width:20px;border:none" class="algin_r"><input type="checkbox" onclick="dr_selected()" id="dr_select" name="dr_select"></td>
+					<td class="algin_l" style="padding-top:8px;border:none">
+                    <button type="button" class="blue_button" onClick="dr_update()">更新</button>
+                    {if $flagdata}
+                    <button type="button" class="blue_button" onClick="dr_flag()" style="margin-right:11px;">推荐到</button>
+                    <select name="flag">
+                    <option value=""> -- </option>
+                    {loop $flagdata $i $t}
+                    <option value="{$i}"> {$t.name} </option>
+                    {/loop}
+                    </select>
+                    {/if}
+					{if $member_rule.update_score}
+                    <div class="onShow">
+                    {if $member_rule.update_score > 0}
+                    更新一次增加<font color="#0000FF"><b>{$member_rule.update_score}</b></font>{SITE_SCORE}
+                    {else}
+                    更新一次减少<font color="#FF0000"><b>{abs($member_rule.update_score)}</b></font>{SITE_SCORE}
+                    {/if}
+                    </div>
+					{/if}
+                    </td>
+                </tr>
+				</table>
+                </form>
+				<div id="dr_loading"></div>
+                <div id="dr_loadmore" class="load-more"><a href="javascript:;">查 看 更 多</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

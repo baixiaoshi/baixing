@@ -1,0 +1,66 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab(0);
+	$(".table_form tr>th").attr("width", 200);
+	{if $error}
+	art.dialog.tips('<font color=red>{$error['msg']}</font>', 3);
+	d_tips('{$error['error']}', 0);
+	{/if}
+	var catid = $("#dr_catid").val();
+	if (catid) {
+		show_category_field(catid);
+	}
+});
+function show_category_field(catid) {
+	$.post(siteurl+'?s={APP_DIR}&c=category&m=field&rand='+Math.random(),{ catid:catid, data:{json_encode(dr_array2string($data))} }, function(data){
+		$('#dr_category_field').html(data);
+	});
+}
+function setflag(i) {
+    if (i == -1) {
+        $('#flag_back').show();
+    } else {
+        $('#flag_back').hide();
+    }
+}
+</script>
+<form action="" method="post" name="myform" id="myform">
+<input name="action" id="dr_action" type="hidden" value="back" />
+<input name="page" id="page" type="hidden" value="{$page}" />
+<input name="backurl" type="hidden" value="{$backurl}" />
+<input name="dr_id" id="dr_id" type="hidden" value="{$data.id}" />
+<input name="dr_module" id="dr_module" type="hidden" value="{APP_DIR}" />
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list contentList dr_table">
+        <table width="100%" class="table_form">
+        <tr>
+            <th width="200"><font color="red">*</font>&nbsp;{lang('cat-00')}： </th>
+            <td>{$select}</td>
+        </tr>
+        {$myfield}
+        <tr>
+            <th width="200"><font color="red">*</font>&nbsp;{lang('html-322')}： </th>
+            <td>
+            <select name="flagid" onchange="setflag(this.value)">
+            	<option value="1">{lang('html-320')}</option>
+            	<option value="-1" {if $data['backinfo']}selected="selected"{/if}>{lang('html-321')}</option>
+            </select>
+            <input id="flag_back" type="text" name="back" value="{$data.backinfo.backcontent}" class="input-text" style="{if !$data.backinfo}display:none;{/if}width:80%;" />
+            </td>
+        </tr>
+        </table>
+	</div>
+</div>
+<div class="fixed-bottom">
+    <div class="fixed-but text-c">
+        <div class="button"><input value="{lang('html-362')}" type="submit" name="submit" class="cu" onclick="$('#dr_action').val('back')" style="width:100px;" /></div>
+        <div class="button"><input value="{lang('html-363')}" type="submit" name="submit" class="cu" onclick="$('#dr_action').val('continue')" style="width:100px;" /></div>
+    </div>
+</div>
+</form>
+{template footer.html}

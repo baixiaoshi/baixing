@@ -1,0 +1,75 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	$("#dr_loadmore a").click(function(){
+		var page = $("#dr_page").val();
+		$("#dr_loading").html("<div style='padding:30px;text-align:center;width:678px;'><img src='{MEMBER_THEME_PATH}images/loading.gif' /></div>");
+		$.get("{$searchurl}", {page:page}, function(data){
+			if (data != "null") {
+				$("#dr_body").append(data);
+				$("#dr_page").val(Number(page) + 1);
+			}
+			$("#dr_loading").html("");
+		});
+	});
+});
+function dr_delete(id) {
+	var _url = window.location.href;
+    art.dialog.confirm("你确认要删除吗？", function(){
+		var _data = $("#myform").serialize();
+		if ((_data.split('ids')).length-1 <= 0) {
+			$.dialog.tips("到底标删除？您还没有选择呢", 2);
+			return true;
+		}
+		$.ajax({type: "POST",dataType:"json", url: _url, data: _data, success: function(data) {
+				if (data.status == 1) {
+					$.dialog.tips(data.code, 3, 1);
+					$("input[name='ids[]']:checkbox:checked").each(function(){
+						$("#dr_row_"+$(this).val()).remove();
+					});
+				} else {
+					$.dialog.tips(data.code, 3, 0);
+				}
+                art.dialog.close();
+                return false;
+			},
+			error: function(HttpRequest, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+			}
+		});
+		return true;
+	});
+	return false;
+}
+</script>
+<input name="page" id="dr_page" type="hidden" value="2" />
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+        <div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main dr_table">
+				
+                <div class="bk10"></div>
+                <form action="" method="post" name="myform" id="myform">
+				<table style="table-layout:fixed;margin-bottom: 0;">
+				<tbody id="dr_body">
+				{template notice_data.html}
+				</tbody>
+				</table>
+                <table style="table-layout:fixed;" class="mbutton">
+                <tr>
+                    <td style="width:20px;border:none" class="algin_r"><input type="checkbox" onclick="dr_selected()" id="dr_select" name="dr_select"></td>
+					<td class="algin_l" style="padding-top:8px;border:none">
+                    <button type="button" class="red_button" onClick="dr_delete()">删除</button>
+                    </td>
+                </tr>
+				</table>
+                </form>
+				<div id="dr_loading"></div>
+                <div id="dr_loadmore" class="load-more"><a href="javascript:;">查 看 更 多</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

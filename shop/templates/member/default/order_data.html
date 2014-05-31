@@ -1,0 +1,57 @@
+{loop $list $t}
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="dr_order_table">
+  <tr>
+    <th colspan="3">
+    <div style="width:173px; float:left;">订单编号：<a href="{dr_url(APP_DIR.'/order/show', array('id'=>$t['id']))}">{$t.id}</a></div>
+    <div style="width:200px; float:left;">下单时间：{dr_date($t.inputtime, '', 'red')}</div>
+    </th>
+  </tr>
+  <tr>
+    <td width="500">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="dr_order_item">
+        {php $items = dr_string2array($t['items']);}
+        {loop $items $item}
+          <tr>
+            <td width="90"><a href="{$item.url}" target="_blank" class="dr_order_item_thumb"><img src="{dr_thumb($item.thumb, 70, 60)}" width="70" /></a></td>
+            <td width="245" style="padding-right:5px;"><a href="{$item.url}" target="_blank">{$item.title}</a><div style="padding-top:3px; color:#999">{$item.format}</div></td>
+            <td width="50" style="text-align:center" class="dr_price">
+            {if $item.discount}
+            <del>{number_format($item.price, 2)}</del><br>
+            {number_format($item.discount, 2)}
+            {else}
+            {number_format($item.price, 2)}
+            {/if}
+            </td>
+            <td width="50" style="text-align:center">{$item.num}</td>
+            <td width="50" style="text-align:center" class="dr_price">{number_format($item.total, 2)}</td>
+          </tr>
+        {/loop}
+        </table>
+    </td>
+    <td width="100" style="text-align:center">
+    <span class="dr_price">{number_format($t.price, 2)}</span><br>
+	(含运费:{number_format($t.freight, 2)} ) 
+	{if $t.score}
+    <br>{SITE_SCORE}：{$t.score}
+    {/if}
+	</td>
+    <td width="95" style="text-align:center">
+    	{if $t.status==0}
+        <font color="#FF0000">交易关闭</font>
+        {else if $t.status==1}
+        <font color="#0000FF">等待付款</font><br>
+        <a href="{dr_url(APP_DIR.'/order/pay', array('id'=>$t['id']))}">立即付款</a>
+        {else if $t.status==2}
+        <font color="#FF9933">等待发货</font>
+        {else if $t.status==3}
+        <a href="javascript:;" onclick="dr_confirm_url('<b><font color=red>您确认要收货吗？</font></b>', '{dr_url(APP_DIR.'/order/confirm', array('id'=>$t['id']))}')"> <font color="#FF0000">确认收货</font></a>
+        {else if $t.status==4}
+        <font color="#009900">交易成功</font>
+        {/if}
+    <br>
+    <a href="{dr_url(APP_DIR.'/order/show', array('id'=>$t['id']))}">订单详情</a>
+	<br /><script type="text/javascript" src="{dr_member_url(APP_DIR.'/order/isreview', array('oid'=>$t.id, 'iid'=>$item.id, 'fid'=>$item.fid))}"></script>
+    </td>
+  </tr>
+</table>
+{/loop}
