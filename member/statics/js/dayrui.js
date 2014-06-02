@@ -223,8 +223,12 @@ function dr_upload_file(name, url) {
 
 function dr_show_file_info(name) {
 	var throughBox = $.dialog.through;
+
 	var dr_dialog = throughBox({title: lang['fileinfo']});
-	var url = memberpath+"index.php?c=api&m=fileinfo&name="+name+"&rand="+Math.random();
+
+	//var url = memberpath+"index.php?c=api&m=fileinfo&name="+name+"&rand="+Math.random();
+	var url = "/member/index.php?c=api&m=fileinfo&name="+name+"&rand="+Math.random();
+
 	// ajax调用窗口内容
 	$.ajax({type: "GET", url:url, dataType:'text',
 	    success: function (text) {

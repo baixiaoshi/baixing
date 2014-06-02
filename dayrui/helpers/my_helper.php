@@ -27,6 +27,26 @@ function get_city() {
 	//获取城市信息
 	echo $arr->data->city;
 }
+/**
+ * 通过会员名称取会员id
+ *
+ * @param	string	$username
+ * @return  intval
+ */
+function get_mymember_id($username) {
+
+	if (!$username) return 0;
+	
+	$ci	= &get_instance();
+	$data = $ci->db
+			   ->select('uid')
+			   ->where('username', $username)
+			   ->limit(1)
+			   ->get('member')
+			   ->row_array();
+			   
+	return (int)$data['uid'];
+}
 
 /**
  * 打印函数

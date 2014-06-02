@@ -8,7 +8,9 @@ class City extends M_Controller{
 	public function __construct(){
 		parent::__construct();
 	}
-
+    /**
+     * 切换城市页面
+     */
 	public function get_city_list(){
 		$result = $this->db->where('id<=',532)->order_by('path')->get('district')->result_array();
      
@@ -29,4 +31,34 @@ class City extends M_Controller{
         $this->template->assign('html',$html);
         $this->template->display('city.html');
 	}
+
+    /**
+     * ajax获取城市列表
+     */
+    public function getcity(){
+        $id = $this->input->post('id');
+        //获取parentid的城市
+        $citys = $this->db->where('parentid',$id)->get('district')->result_array();
+        $html = '<select id="form_citys" onchange="getcitys(this.value)" name="data[city]">';
+        foreach($citys as $k=>$v){
+            $html .= '<option value='.$v['id'].','.$v['name'].'>'.$v['name'].'</option>';
+        }
+        $html .= '</select>';
+        echo $html;
+    }
+     /**
+     * ajax获取县列表
+     */
+    public function getarea(){
+        $id = $this->input->post('id');
+        //获取parentid的城市
+        $areas = $this->db->where('parentid',$id)->get('district')->result_array();
+        if(empty($areas)) return;
+        $html = '<select id="form_citys" name="data[area]" >';
+        foreach($areas as $k=>$v){
+            $html .= '<option value='.$v['id'].','.$v['name'].'>'.$v['name'].'</option>';
+        }
+        $html .= '</select>';
+        echo $html;
+    }
 }

@@ -103,6 +103,7 @@ class D_Admin_Home extends M_Controller {
 		);
 		$this->where = NULL;
 		$field = $this->get_cache('module-'.SITE_ID.'-'.APP_DIR, 'field');
+		
 		$this->field = $field ? array_merge($field, $this->sysfield) : $this->sysfield;
 		if ($this->admin['adminid'] > 1) $this->verify = $this->_get_verify();
 	}
@@ -486,7 +487,6 @@ class D_Admin_Home extends M_Controller {
 				}
 			}
 		}
-		
 		$this->template->assign(array(
 			'page' => max((int)$this->input->post('page'), 0),
 			'data' => $data,
@@ -502,6 +502,7 @@ class D_Admin_Home extends M_Controller {
 			'backurl' => $backurl ? $backurl : $_SERVER['HTTP_REFERER'],
 			'myfield' => $this->field_input($this->field, $data, TRUE),
 		));
+
 		$this->template->display('content_add.html');
 	}
 	

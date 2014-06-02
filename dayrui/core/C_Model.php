@@ -224,14 +224,14 @@ class C_Model extends CI_Model {
 	 * @return	array	
 	 */
 	private function index($data) {
-		
+		//return dump($data);
 		$this->link->insert($this->prefix.'_index', array(
 			'uid' => $data[1]['uid'],
 			'catid' => $data[1]['catid'],
 			'status' => $data[1]['status'],
-			'inputtime' => $data[1]['inputtime']
+			'inputtime' =>time()
 		));
-		
+		return $this->db->last_query();
 		return $this->link->insert_id();
 	}
 	
@@ -242,7 +242,6 @@ class C_Model extends CI_Model {
 	 * @return	array	
 	 */
 	public function add($data) {
-
 		// 生成索引id
 		$data[0]['id'] = $data[1]['id'] = $id = $this->index($data);
 		$data[0]['uid'] = $data[1]['uid'];
@@ -255,6 +254,7 @@ class C_Model extends CI_Model {
 		$data[1]['tableid'] = floor($id/50000);
 		// 格式化字段值
 		$data = $this->get_content_data($data);
+
 		if ($data[1]['status'] == 9) { // 审核通过
 			$data = $this->replace_category_data($id, $data);
 			$data[1]['url'] = dr_show_url($this->ci->get_cache('module-'.SITE_ID.'-'.APP_DIR), $data[1]);

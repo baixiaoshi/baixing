@@ -191,3 +191,63 @@ a:focus {
 	margin:20px 0px;
 	background-color:#F5F5F5;
 }
+
+
+
+/*addinfo.html页面样式*/
+.field_box{
+	position: relative;
+	width:980px;
+	margin:10px auto;
+	background:#FAF7F7;
+
+}
+#dr_row_hits ,#dr_row_author,#dr_row_inputtime,#dr_row_updatetime,#dr_row_inputip{
+	display: none;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.428571429;
+  vertical-align: top;
+  border-top: 0px solid #dddddd;
+}
+
+.btn-primary {
+  background-image: -webkit-linear-gradient(top, #EB9316 0%, #F68118 100%);
+  background-image: linear-gradient(to bottom, ##EB9316 0%, #F68118 100%);
+  background-repeat: repeat-x;
+  border-color: #2b669a;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.btn-primary {
+  color: #ffffff;
+  background-color: #EB9316;
+  border-color: #F68118;
+}
+.blue{
+	color:#557ADD;
+	font-weight: bold;
+	font-size: 12px;
+}
+.picBut {
+    background: url('/dayrui/statics/images/picBnt.png') no-repeat scroll 0px -28px transparent;
+    color: #FFF;
+    float: left;
+    text-align: center;
+    font-weight: 700;
+    height: 28px;
+    line-height: 26px;
+    margin-right: 10px;
+    width: 75px;
+    margin-top:10px;
+}
+.picBut a{
+	color:#FFF;
+	font-size:12px;
+}

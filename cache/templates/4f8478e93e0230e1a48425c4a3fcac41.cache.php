@@ -121,7 +121,7 @@
 		
 		<!--发布信息按钮-->
 		<div class="fabu">
-			<button type="button" class="btn btn-warning">
+			<button type="button" class="btn btn-warning" onclick="window.location.href='<?php echo MODULE_URL; ?>index.php?c=info&m=add_info'">
 			<span class="glyphicon glyphicon-pencil"></span>免费发布信息</button>
 		</div>
 	</div>

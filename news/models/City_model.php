@@ -21,7 +21,12 @@ class City_model extends C_Model {
     }
     public function get_provinces() {
        $provinces = $this->db->where('parentid',0)->get('district')->result_array();
-        return $provinces;
+       $html = '<select id="form_provinces" name="data[provinces]">';
+       foreach($provinces as $k=>$v){
+            $html .= '<option value='.$v['id'].','.$v['name'].'>'.$v['name'].'</option>';
+       }
+       $html .= '</select>';
+       return $html;
     }
     /**
      * 获取获取城市列表

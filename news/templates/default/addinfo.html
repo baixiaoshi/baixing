@@ -10,14 +10,33 @@
 	<!--关键JS--> 
 	<script type="text/javascript" src="{MEMBER_PATH}statics/js/{SITE_LANGUAGE}.js"></script>
 	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.min.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.artDialog.js?skin=default"></script>
-	<script type="text/javascript" src="{MEMBER_PATH}statics/js/dayrui.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/validate.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/admin.js"></script>
+	
 	<!--引入bootstrap-->
 	<link rel="stylesheet" type="text/css" href="{SITE_URL}news/statics/bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="{SITE_URL}news/statics/bootstrap/css/bootstrap-theme.css">
 	<script type="text/javascript" src="{SITE_URL}news/statics/bootstrap/js/bootstrap.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/dayrui.js"></script>
+	<script type="text/javascript" src="{SITE_URL}news/statics/js/common.js"></script>
 	<link rel="stylesheet" type="text/css" href="{SITE_URL}news/statics/css/common.css">
-
+	<script type="text/javascript">
+		$(function() {
+			SwapTab(0);
+			$(".table_form tr>th").attr("width", 200);
+				var catid = $("#dr_catid").val();
+			if (catid) {
+				show_category_field(catid);
+			}
+		});
+		function show_category_field(catid) {
+			$.post(siteurl+'?s=news&c=category&m=field&rand='+Math.random(),{ catid:catid, data:"" }, function(data){
+				$('#dr_category_field').html(data);
+			});
+		}
+	</script>
 	<!--[if IE 6]>
 	<script src="{HOME_THEME_PATH}js/ie6png.js" type="text/javascript"></script>
 	<script type="text/javascript">
@@ -31,6 +50,7 @@
 	<div class="head_box">
 	    <div id="loginForm">
 	        <div id="haslogin">
+	   
 	       		<script type="text/javascript" src="{SITE_URL}member/index.php?c=api&m=userinfo"></script>
 	        </div>
 	    </div>
@@ -63,6 +83,7 @@
 		<button type="button" class="btn btn-warning">
 		<span class="glyphicon glyphicon-pencil"></span>免费发布信息</button>
 	</div>
+
 	<div class="clearfix"></div>
 </div>
 <div class="clearfix"></div>
@@ -72,20 +93,37 @@
 	  <li class="active">发布信息</li>
 	</ol>
 </div>
+
+
+
 <div class="content_box">
 	<div class="content_tit">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本信息</div>
 	
+	<form class="form-horizontal" role="form" action="" method="post" name="myform" id="myform">
 
+	<input name="action" id="dr_action" type="hidden" value="back" />
+	<input name="backurl" type="hidden" value="{MODULE_URL}index.php?s=news&c=info&m=add_info" />
+	<div class="field_box">
 
+	 	<table class="table">
+	 		<tr><th>&nbsp;&nbsp;类别:</th><td>{$select}</td></tr>
+	 		<tr><th>区域:</th><td><span class="form_provinces">{$provinces}</span>&nbsp;&nbsp;&nbsp;<span class="citys"></span>&nbsp;&nbsp;&nbsp;<span class="areas"></span></td></tr>
+	 		{$myfield}
+	 		<tr>
 
-	<form class="form-horizontal" role="form">
-	  <div class="form-group">
-	    <label for="inputEmail3" class="col-sm-2 control-label">标题</label>
-	    <div class="col-sm-10">
-	      <input type="text" class="form-control" id="title" name="title" >
-	    </div>
-	  </div>
+	 	<th></th>
+	 	<td>
+			 <div class="fixed-but text-c">
+		        <div class="button">
+		        	<input value="发布信息" type="submit" name="submit" class="cu btn btn-warning" onclick="$('#dr_action').val('back')" style="width:100px;" />
+		        </div>
+		        </div>
+			</div>
+		</td>
+		</tr>
+	 	</table>
 
+	</div>
 	</form>
 
 

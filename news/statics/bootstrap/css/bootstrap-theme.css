@@ -60,11 +60,11 @@
 }
 
 .btn-primary {
-  background-image: -webkit-linear-gradient(top, #428bca 0%, #2d6ca2 100%);
-  background-image: linear-gradient(to bottom, #428bca 0%, #2d6ca2 100%);
+  background-image: -webkit-linear-gradient(top, #F68118 0%, #F68118 100%);
+  background-image: linear-gradient(to bottom, #F68118 0%, #F68118 100%);
   background-repeat: repeat-x;
   border-color: #2b669a;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F68118', endColorstr='#F68118', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 

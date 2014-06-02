@@ -14,6 +14,12 @@
 <script type="text/javascript" src="{MEMBER_PATH}statics/js/validate.js"></script>
 <script type="text/javascript" src="{MEMBER_PATH}statics/js/admin.js"></script>
 <script type="text/javascript" src="{MEMBER_PATH}statics/js/dayrui.js"></script>
+
+	<!--引入bootstrap-->
+	<link rel="stylesheet" type="text/css" href="{SITE_URL}news/statics/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="{SITE_URL}news/statics/bootstrap/css/bootstrap-theme.css">
+	<script type="text/javascript" src="{SITE_URL}news/statics/bootstrap/js/bootstrap.js"></script>
+	<link href="{MEMBER_PATH}statics/{MEMBER_THEME}/images/member.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
 $(function(){
 	$(".account").bind({
@@ -75,10 +81,10 @@ function dr_flash_title() {
 <body>
 <div class="topnav_w">
     <div class="topnav">
-    	<a target="_blank" href="{SITE_URL}" class="site">网站首页</a>
-		{if $member}
-    	<a target="_blank" href="{dr_space_url($uid)}" class="site">我的空间</a>
-		{/if}
+		<!--获取城市信息-->
+		<a target="_blank" href="{SITE_URL}" class="site">网站首页</a>
+	 <span id="city">{get_city()}</span>[<a href="{SITE_URL}news/index.php?c=city&m=get_city_list">切换城市</a>]
+    	
         <div class="login">
         {if $member}
             <strong>欢迎回来，{$member.username}，{$member.group.name}，{$member.level.name}，<a href="{MEMBER_URL}index.php?c=pm">{if $newpm}<img src="{MEMBER_THEME_PATH}images/new_pm.gif" align="absmiddle" style="margin-right:3px;" />{/if}短消息</a>，<a href="{MEMBER_URL}index.php?c=notice"><img id="dr_notece_img" src="{MEMBER_THEME_PATH}images/notice.gif" align="absmiddle" style="margin-right:3px;display:none" />提醒</a></strong>
@@ -98,16 +104,28 @@ function dr_flash_title() {
     </div>
 </div>
 <div class="header">
-    <div class="logo"><a href="{SITE_URL}">FineCMS</a><sub>这是一套神奇的系统</sub></div>
+    <div class="logo"><a href="{SITE_URL}">FineCMS</a> </div>
+    <!--搜索框-->
+	<div class="search_wrap">
+		<div class="search_box">
+			<input type="text" class="form-control" value="搜索">
+			<span class="glyphicon glyphicon-search"></span>
+		</div>
+
+		<div class="hotkey">
+			热搜词:
+			{list action=tag module=news num=8}
+				<a href="{$t.url}" title="点击量：{$t.hits}">{$t.name}</a>
+			{/list}
+			{$error}
+		</div>
+	</div>
+	<div class="fabu">
+		<button type="button" class="btn btn-warning">
+		<span class="glyphicon glyphicon-pencil"></span>免费发布信息</button>
+	</div>
+
+	<div class="clearfix"></div>
 </div>
-<div class="nav_wrapper">
-    <div class="nav drop_downs">
-        <ul class="nav_list">
-            <li><a href="{dr_member_url('home/index')}">首页</a></li>
-            {loop $menu $m}
-            <li><a href="{dr_member_url($m.uri)}" {if $menu_tid==$m.id}class="cur" style="color:#D5D5D5"{/if}>{$m.name}</a></li>
-			{/loop}
-        </ul>
-    </div>
-</div>
+
 <div id="back-to-top" style="display: block;"><a href="#top">TOP</a></div>

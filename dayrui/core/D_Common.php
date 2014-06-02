@@ -994,9 +994,10 @@ class D_Common extends CI_Controller {
 		
 		$group = array();
 		$myfield = $mygroup = $mycat = $mark = '';
+
 		if ($cat == TRUE) $mycat = '<tbody id="dr_category_field"></tbody>';
-		
 		// 分组字段筛选
+
 		foreach ($field as $t) {
 			if ($t['fieldtype'] == 'Group' && preg_match_all('/\{(.+)\}/U', $t['setting']['option']['value'], $value)) {
 				foreach ($value[1] as $v) {
@@ -1007,8 +1008,9 @@ class D_Common extends CI_Controller {
 		$this->load->library('dfield', array(APP_DIR));
 		
 		// 主字段
+
 		foreach ($field as $t) {
-			if (!IS_ADMIN && !$t['ismember']) continue;
+			//if (!IS_ADMIN && !$t['ismember']) continue;
 			$obj = $this->dfield->get($t['fieldtype']);
 			if (is_object($obj)) {
 				// 百度地图特殊字段
@@ -1026,6 +1028,7 @@ class D_Common extends CI_Controller {
 					}
 					$myfield .= $input;
 				}
+
 			}
 		}
 		
@@ -1035,7 +1038,7 @@ class D_Common extends CI_Controller {
 				$myfield = str_replace('{'.$name.'}', $t, $myfield);
 			}
 		}
-		
+	
 		return $myfield;
 	}
 	

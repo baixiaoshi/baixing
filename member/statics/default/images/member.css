@@ -4,7 +4,7 @@ body{background-color:#FBFBFB; min-width:1000px;overflow-y:scroll;}
 .dr_title { width:250px;overflow:hidden;height:30px;line-height:30px;}
 .dr_stars { width:120px; height:25px; line-height:25px; overflow:hidden;}
 .topnav_w{background-color:#222; height:30px;}
-.topnav{height:30px; line-height:30px; color:#B5B5B5; width:980px; margin:0 auto; position:relative; z-index:999;}
+.topnav{height:30px; line-height:30px; color:#B5B5B5; width:980px; margin:0 auto; position:relative; z-index:999;font-size: 12px}
 .topnav a{color:#B5B5B5;}
 .topnav .site{display:inline-block; padding-left:6px; padding-right:6px; text-decoration:none;}
 .topnav .site:hover{background-color:#585858;}
@@ -52,9 +52,9 @@ body{background-color:#FBFBFB; min-width:1000px;overflow-y:scroll;}
 strong .mbutton{display:block; float:left; height:48px; width:164px; text-indent:-999em; text-decoration:none; overflow:hidden;}
 
 body{background-color:#FBFBFB; min-width:1000px;}
-.topnav_w{background-color:#222; height:30px;}
-.topnav{height:30px; line-height:30px; color:#B5B5B5; width:980px; margin:0 auto; position:relative; z-index:999;}
-.topnav a{color:#B5B5B5;}
+.topnav_w{background-color:#504F50; height:30px;}
+.topnav{height:30px; line-height:30px; color:#fff; width:980px; margin:0 auto; position:relative; z-index:999;}
+.topnav a{color:#FFF;}
 .topnav .login{position:absolute; right:0; top:0;}
 .topnav .login .bt_l{display:inline-block; background-color:#666; color:#FFF; padding:0 24px; text-decoration:none; margin-left:2px;}
 .topnav .login .bt_r{display:inline-block; background-color:#1D8BD8; color:#FFF; padding:0 24px; text-decoration:none; margin-left:1px;}
@@ -65,11 +65,83 @@ body{background-color:#FBFBFB; min-width:1000px;}
 .topnav .account ul{background-color:#FFF; width:85px; border:#D5D5D5 solid 1px; box-shadow:0 2px 4px 0 rgba(0,0,0,0.2); position:absolute; right:0; top:29px; display:none;}
 .topnav .account li a{display:block; height:28px; line-height:28px; color:#369; text-decoration:none; padding-left:10px;}
 .topnav .account li a:hover{background-color:#EEE;}
+
+.search_wrap{
+	float: left;
+	width:500px;
+	height: 65px;
+	position: relative;
+	left:0px;
+}
+.search_box{
+	position: relative;
+	top:10px;
+	width: 500px;
+	height: 34px;
+	border:2px solid #F6851F;
+}
+
+.form-control {
+  display: block;
+  width: 450px;
+  height: 30px;
+  padding: 6px 12px;
+  font-size: 12px;
+  line-height: 1.428571429;
+  color: #bbb;
+  vertical-align: middle;
+  background-color: #ffffff;
+  background-image: none;
+  border: 0px solid #cccccc;
+  border-radius: 0px;
+   float: left;
+}
+.form-control:focus {
+  border-color: #FFF;
+  outline: 0;
+}
+.search_box .glyphicon-search{
+	color:#FFF;
+	background-color:#F68118;
+	float: right;
+	width: 40px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 16px;
+	text-align: center;
+	top:0px;
+	cursor:pointer;
+}
+.hotkey{
+	color:#333;
+	position: relative;
+	top:12px;
+	font-size: 12px;
+}
+.hotkey a{
+	color:#BBB;
+}
+
+.fabu{
+	position: relative;
+	width:120px;
+	float: right;
+	height: 40px;
+	line-height: 40px;
+	margin:0px auto;
+	text-align: right;
+	font-size:16px;
+	top:10px;
+	margin-right: 5px
+
+}
+
+
 .topnav .account_mouseover span{background:#FFF url(../images/topnav_icon_bg.png) 35px 13px no-repeat; border:#D5D5D5 solid 1px; border-bottom-color:#FFF; color:#666;}
 .topnav .account_mouseover ul{display:block;}
-.header{height:48px; padding:20px 0; width:980px; margin:0 auto;}
+.header{height:90px; padding:20px 0; width:980px; margin:0 auto;}
 .header .logo{float:left;}
-.header .logo a{display:block; background:url(../images/logo_new.png) no-repeat; height:60px; width:296px; text-indent:-999em; float:left;}
+.header .logo a{display:block; background:url(/dayrui/statics/default/images/logo.gif) no-repeat; height:60px; width:256px; text-indent:-999em; float:left;}
 .header .logo sub{display:block; background:url(../images/logo_subtitle.png) right bottom no-repeat; height:45px; padding-top:15px; width:350px; text-indent:-999em; float:left;}
 
 .content{width:980px; margin:0 auto;}
