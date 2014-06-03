@@ -1,0 +1,53 @@
+{template header.html}
+<script type="text/javascript">
+// 定位到被修改的地方
+$(function() {
+	var _url = art.dialog.data('dr_row');
+	if (_url) {
+		art.dialog.data('dr_row', '');
+		window.location.href=_url;
+	}
+	var _id = window.location.hash;
+	if (_id && $(_id).length > 0) {
+		var pos = $(_id).offset().top - 100;
+		$("html,body").animate({ scrollTop: pos }, 1000);
+	}
+}); 
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <font color="gray">短消息相关配置信息</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<table width="100%" class="table_form">
+		<tr>
+			<th width="200"><font color="red">*</font>&nbsp;{lang('a-48')}： </th>
+			<td>
+			<input class="input-text" type="text" name="data[name]" value="{dr_set_value('name', $data['name'])}" size="20" />
+			<div class="onShow">{lang('a-55')}</div>
+			</td>
+		</tr>
+		<tr>
+			<th><font color="red">*</font>&nbsp;{lang('a-49')}： </th>
+			<td>
+			<input class="input-text" type="text" name="data[url]" value="{dr_set_value('url', $data['url'])}" size="40" />
+			<div class="onShow">{lang('a-56')}</div>{
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td>
+			<input class="button" type="submit" name="submit" value="{lang('a-submit')}" />
+			</td>
+		</tr>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

@@ -1,0 +1,37 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	{if $error}
+	dr_tips("<font color=red>{$error}</font>", 3);
+	{/if}
+});
+function dr_set_score(value) {
+	$("#dr_price").html(parseFloat(value/{intval(SITE_CONVERT)}));
+}
+</script>
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+    	<div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main">
+                <form method="post" action="">
+                <ul class="form_ul">
+                <li><strong>兑换比率</strong>1 {SITE_MONEY}&nbsp;=&nbsp;{SITE_CONVERT}&nbsp;{SITE_SCORE}，可用{SITE_MONEY}&nbsp;<span class="dr_price">{$member.money}</span></li>
+                <li>
+                <strong>兑换{SITE_SCORE}数量</strong>
+                <input type="text" value="" name="score" onblur="dr_set_score(this.value)" style="width:100px" class="input_text" />&nbsp;&nbsp;需要&nbsp;<span class="dr_price" id="dr_price">0</span>&nbsp;{SITE_MONEY}
+                </li>
+                <li class="mbutton">
+                <button value="" type="submit" class="blue_button">兑换</button>
+                </li>
+                </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{template footer.html}

@@ -1,0 +1,9 @@
+{loop $list $t}
+<tr id="dr_row_{$t.id}">
+	<td class="algin_l"><a href="{$t.attachment}" target="_blank">{$t.filename}</a></td>
+	<td class="algin_c">{dr_format_file_size($t.filesize)}</td>
+	<td class="algin_c">{$t.fileext}</td>
+	<td class="algin_c">{dr_date($t['inputtime'])}</td>
+	<td class="algin_c"><a href="javascript:;" onclick="dr_delete('{$t.id}')">删除</a></td>
+</tr>
+{/loop}

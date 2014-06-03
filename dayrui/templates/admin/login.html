@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>{dr_lang('html-001', SITE_NAME)}</title>
+		<meta name="robots" content="noindex,nofollow">
+		<link href="{SITE_PATH}dayrui/statics/css/admin_login.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="{SITE_PATH}member/statics/js/jquery.min.js"></script>
+		<script type="text/javascript">
+        $(function() {
+            {if $username}
+            $("#password").focus();
+            {else}
+            $("#username").focus();
+            {/if}
+        }); 
+        </script>
+	</head>
+<body>
+<div class="wrap">
+    <h1><a href="{SITE_PATH}">{dr_lang('html-001', SITE_NAME)}</a></h1>
+    <form method="post" name="login" action="" autoComplete="off">
+        <div class="login">
+            <ul>
+                <li>
+                    <input id="username" class="input" required name="username" value="{$username}" type="text" placeholder="{lang('html-532')}" title="{lang('html-532')}" />
+                </li>
+                <li>
+                    <input id="password" class="input" type="password" required name="password" placeholder="{lang('html-061')}" title="{lang('html-061')}" />
+                </li>
+                {if SITE_ADMIN_CODE}
+                <li>
+                    <input style="width:130px" class="input" type="text" name="code" placeholder="{lang('html-077')}" />
+					{dr_code(90,32)}
+                </li>
+                {/if}
+            </ul>
+            <button type="submit" name="submit" class="btn">{lang('html-076')}</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

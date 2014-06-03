@@ -1,0 +1,30 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		<a class="on" href="{dr_url('check/index')}"><em>{lang('html-533')}</em></a><span>|</span>
+		<a href="{dr_url('check/phpinfo')}" target="_blank"><em>{lang('html-534')}</em></a><span>|</span>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<table width="100%" id="dr_result">
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+$("#dr_result").html("");
+{loop $step $id $name}
+$.ajax({
+	type: "GET",
+	url: "{dr_url('check/todo', array('step'=>$id))}&"+Math.random(),
+	contentType: "application/json; charset=utf-8",
+	dataType: "text",
+	success: function (data) {
+		$("#dr_result").append(data);
+	},
+	error: function(HttpRequest, ajaxOptions, thrownError) {
+		alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+	}
+});
+{/loop}
+</script>
+{template footer.html}

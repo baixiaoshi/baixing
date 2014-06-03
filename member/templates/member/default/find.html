@@ -1,0 +1,69 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	{if $error}
+	dr_tips("<font color=red>{$error}</font>", 3);
+	{/if}
+});
+</script>
+<div class="register_wp">
+    <div class="content">
+
+        <div class="section create">
+            <div class="main">
+                <div class="flowstep flowstep_{$step}">
+                <ul>
+                    <li class="step_1"><em>1</em> 输入注册邮箱或手机号码 </li>
+                    <li class="step_2"><em>2</em> 接收验证码重新设置密码 </li>
+                    <li class="step_3"><em>3</em> 重新设置密码完成</li>
+                </ul>
+                </div>
+
+                <div class="section_main drbox">
+                    <form action="" method="post">
+                    <input name="uid" type="hidden" value="{$uid}" />
+                    <input name="step" type="hidden" value="{$step}" />
+                    {if $step == 1}
+                        <table width="100%" class="table_form">
+                        <tr>
+                            <th width="300"><select name="name">
+                            <option {if $_POST['name']=='email'}selected{/if} value="email">注册邮箱</option>
+                            {if $mobile}<option {if $_POST['name']=='phone'}selected{/if} value="phone">手机号码</option>{/if}
+                            </select> </th>
+                            <td><input class="input-text" style="height:22px;" required type="text" name="value" size="30" /></td>
+                        </tr>
+                        <tr>
+                            <th style="border-bottom:none">&nbsp;</th>
+                            <td style="border-bottom:none;padding-top: 20px;"><div class="mbutton"><button value="" type="submit" class="next_bt">提交</button></div></td>
+                        </tr>
+                        </table>
+                    {else if $step == 2}
+                    	<table width="100%" class="table_form">
+                        <tr>
+                            <th width="300"><font color="red">*</font>&nbsp;验证码： </th>
+                            <td><input class="input-text" style="height:22px;" value="{$_POST['code']}" required type="text" name="code" size="30" /></td>
+                        </tr>
+                        <tr>
+                            <th width="300"><font color="red">*</font>&nbsp;重置密码： </th>
+                            <td><input class="input_text" required type="password" name="password1" size="30" /></td>
+                        </tr>
+                        <tr>
+                            <th><font color="red">*</font>&nbsp;确认密码： </th>
+                            <td><input class="input_text" required type="password" name="password2" size="30" /></td>
+                        </tr>
+                        <tr>
+                            <th style="border-bottom:none">&nbsp;</th>
+                            <td style="border-bottom:none;padding-top: 20px;"><div class="mbutton"><button value="" type="submit" class="next_bt">提交</button></div></td>
+                        </tr>
+                        </table>
+                    {/if}
+                    </form>
+                </div>
+            
+            </div>
+        </div>
+    
+    </div>
+</div>
+
+{template footer.html}

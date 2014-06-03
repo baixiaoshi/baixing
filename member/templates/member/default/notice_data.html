@@ -1,0 +1,13 @@
+{loop $list $t}
+<tr id="dr_row_{$t.id}">
+	<td width="20" class="algin_r" style="padding-top:10px;border:none"><input type="checkbox" value="{$t.id}" class="dr_select" name="ids[]"></td>
+    <td valign="top" style="padding-top:10px;border:none">
+		<div class="bubble-main left" style="padding: 10px;line-height:20px;">
+			<p style="color:#444">
+			{dr_fdate($t.inputtime)}
+			</p>
+			{$t.content}
+		</div>
+    </td>
+</tr>
+{/loop}

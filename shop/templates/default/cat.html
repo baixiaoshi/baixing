@@ -1,0 +1,29 @@
+{php $i=1;}
+{list action=category pid=0 return=c1}
+<div class="sidelist" {if $i%2==0} style="background:#eee"{/if}>
+        <div class="bck">
+            <span>
+                <a href="{$c1.url}" class="title"><img src="{MODULE_THEME_PATH}cat-{$i}.png" align="left" />{$c1.name}</a><br />
+                {list action=category pid=$c1.id num=6 return=c2}
+                <a href="{$c2.url}">{$c2.name}</a>
+                {/list}
+            </span>
+        </div>
+        <div class="i-list" >
+            <ul>
+                <div class="llbg"></div>
+                {list action=category pid=$c1.id return=c2}
+                {if $c2.child}
+                <h5 style="clear:both"><a href="{$c2.url}">{$c2.name}</a></h5>
+                {list action=category pid=$c2.id return=c3}
+                <a href="{$c3.url}" class="a_cor">{$c3.name}</a>
+                {/list}
+                {else}
+                <a href="{$c2.url}" class="a_cor">{$c2.name}</a>
+                {/if}
+                {/list}
+            </ul>
+        </div>
+</div>
+{php $i++;}
+{/list}

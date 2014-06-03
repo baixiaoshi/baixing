@@ -1,0 +1,101 @@
+.listclassnew {
+	width:918px;
+	height:267px;
+	border:1px solid #cbe0ff;
+	background:#f2f7ff;
+	position:relative;
+}
+.listclassnew .sortList_step {
+	float:left;
+	width:172px;
+	height:235px;
+	margin-right:5px;
+	border:1px #ccc solid;
+	border-top:0;
+	border-bottom:0;
+	background:#fff;
+	margin-left:-1px;
+}
+.listclassnew .sortList_step {
+	height:235px;
+	overflow:auto;
+}
+.listclassnew .sortList_step li {
+	margin-left:3px;
+	height:auto;
+	line-height:20px;
+	text-align:left;
+	text-indent:4px;
+	cursor:pointer;
+	margin-top:5px;
+	padding:2px 10px 0 10px;
+	clear:both;
+	background:url(images/sortarrow.gif) no-repeat;
+	background-position:94% 50%;
+	text-indent:0;
+	margin-right:3px;
+	border:1px #fff solid;
+	position:;
+}
+.listclassnew .sortList_step li a {
+	height:auto;
+	line-height:20px;
+	display:block;
+	color:#000;
+}
+.listclassnew .sortList_step li.onbox,.listclassnew .sortList_step li.noncebox {
+	background:url(images/sortarrow.gif) #eff5fe no-repeat;
+	background-position:94% 50%;
+	height:auto;
+	line-height:20px;
+	margin-right:3px;
+	border:1px solid #cbe0ff;
+	color:#06c;
+}
+.listsprtbody {
+	width:881px;
+	height:235px;
+	overflow:hidden;
+	background-color:#e5effe;
+	border:1px #ccc solid;
+	margin-top:6px;
+	float:left;
+	margin-left:17px;
+	display:inline;
+	position:relative;
+}
+.listsprtbody #slgame {
+	width:2000px;
+}
+.sortsearchbox {
+	width:147px;
+}
+.sortsearch {
+	width:189px;
+	height:18px;
+	margin:3px 0 2px 3px;
+	* margin-top:2px;
+	border:1px solid #7f9db9;
+	font-size:12px;
+	background-position:1px 1px;
+	padding-left:20px;
+	color:#333;
+	line-height:18px;
+	font-family:"微软雅黑";
+}
+.load_layer {
+	background:url("images/load_bg.gif") no-repeat scroll 0 0 transparent;
+	height:70px;
+	left:50%;
+	position:absolute;
+	top:50%;
+	width:220px;
+	z-index:1001;
+	margin-left:-110px;
+	margin-top:-35px;
+}
+.doorbox {
+	width:2000px;
+	position:absolute;
+	left:0;
+}

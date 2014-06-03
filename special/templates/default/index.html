@@ -1,0 +1,42 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+<div class="subject" style="margin-top:10px;">
+	<div class="subject_l">
+		<div class="l_one">
+			<h4>专题分类</h4>
+			<ul>
+			<!--循环栏目作为导航栏目，pid=0表示顶级栏目-->
+			{list action=category pid=0}
+			<!--下面那句if表示当前栏目时就加粗高亮显示-->
+			<li {if in_array($catid, $t.catids)} style="font-weight:bold;"{/if}><a href="{$t.url}">{$t.name}</a></li>
+			{/list}{$error}
+			</ul>
+		</div>
+		<div class="l_two">
+			<h4>专题排行榜</h4>
+			<ul>
+			{list action=module order=hits num=10}
+			<li><span>{$key+1}</span><a href="{$t.url}">{dr_strcut($t.title, 25)}</a></li>
+			{/list}
+			</ul>
+		</div>
+	</div>
+	<div class="subject_r">
+		<h4>最新专题列表</h4>
+		<ul>
+		{list action=module order=updatetime num=10}
+		<li>
+			<a href="{$t.url}"><img src="{dr_thumb($t.thumb, 100, 70)}" align="left" /></a>
+			<div class="r_ct">
+				<a href="{$t.url}" class="title">{$t.title}</a>
+				<div class="intro">{$t.description}<a href="{$t.url}">[详细]</a></div>
+			</div>
+		</li>
+		{/list}
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>	
+<div class="clear"></div>
+{template "footer.html","/"}

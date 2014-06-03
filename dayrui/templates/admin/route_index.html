@@ -1,0 +1,65 @@
+{template header.html}
+<script type="text/javascript">
+function dr_test() {
+	$.ajax({
+		type: "GET",
+		url: "{SITE_URL}test/",
+		contentType: "application/json; charset=utf-8",
+		dataType: "text",
+		success: function (data) {
+			alert(data);
+		},
+		error: function (msg) {
+			alert('{lang('html-507')}');
+		}
+	});
+}
+function dr_todo() {
+	$("#dr_result").html("<img src='{SITE_URL}dayrui/statics/images/loading.gif'>");
+	$.ajax({
+		type: "GET",
+		url: "{dr_url('route/todo')}",
+		contentType: "application/json; charset=utf-8",
+		dataType: "text",
+		success: function (data) {
+			$("#dr_result").html(data);
+		},
+		error: function (msg) {
+			alert(msg);
+		}
+	});
+}
+</script>
+<style type="text/css">
+#dr_result td {
+	height:22px !important;
+	line-height:22px !important;
+	padding:0;
+	margin:0;
+}
+</style>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		<a class="on" href="{dr_url('route/index')}"><em>{lang('html-503')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        {dr_lang('html-504', $name, $note)}
+        {if $code}
+        <li style="padding:5px 0;"><textarea name="" style="width:90%; height:{php echo $count * 17;}px;">{$code}</textarea></li>
+        {/if}
+        <li>{lang('html-508')}</li>
+        <li>{lang('html-509')}</li>
+        <li>&nbsp;</li>
+        <li>
+        <input type="button" class="button" value="{lang('html-505')}" name="option" onClick="dr_test()" />
+        <input type="button" class="button" value="{lang('html-503')}" name="option" onClick="dr_todo()" />
+        </li>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<table width="100%" id="dr_result">
+		</table>
+	</div>
+</div>
+{template footer.html}

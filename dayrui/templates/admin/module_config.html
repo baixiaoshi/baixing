@@ -1,0 +1,342 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab({$page});
+	{if $result}
+	art.dialog.tips('{$result}', 3);
+	{/if}
+	{if $member_rule}
+	$(".dr_select_all input").click(function(data){
+		var _class = $(this).attr("class");
+		if ($(this).attr('checked')) {
+			$("."+_class).attr("checked",true);
+		} else {
+			$("."+_class).attr("checked",false);
+		}
+	});
+	{/if}
+});
+function sitetips(_this) {
+	var id = $(_this).attr("sid");
+	if (!$(_this).attr("checked")) {
+		art.dialog.confirm("{lang('html-152')}", function(){
+			$(".dr_site_"+id).hide();
+			return true;
+		}, function(){
+			$(".dr_site_"+id).show();
+			$(_this).attr("checked", "checked");
+		});
+	} else {
+		$(".dr_site_"+id).show();
+	}
+}
+
+function dr_admin_rule(id, url, title) {
+	var throughBox = $.dialog.through; // 创建窗口
+	var dr_Dialog = throughBox({title: title});
+	// ajax调用窗口内容
+	$.ajax({type: "GET", url:url, dataType:'text', success: function (text) {
+			var win = $.dialog.top;
+			dr_Dialog.content(text);
+			// 添加按钮
+			dr_Dialog.button({name: fc_lang[36], callback:function() {
+					win.$("#mark").val("0"); // 标示可以提交表单
+					if (win.dr_form_check()) { // 按钮返回验证表单函数
+						var _data = win.$("#myform").serialize();
+						$.ajax({type: "POST",dataType:"json", url: url, data: _data, // 将表单数据ajax提交验证
+							success: function(data) {
+								$("#dr_status_"+id).attr("class", "onCorrect");
+								$("#dr_status_"+id).html("&nbsp;&nbsp;");
+								$.dialog.tips(fc_lang[37], 2, 1);
+								dr_Dialog.close();
+							},
+							error: function(HttpRequest, ajaxOptions, thrownError) {
+								alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+							}
+						});
+					}
+					return false;
+				},
+				focus: true
+			});
+	    },
+	    error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+}
+
+function dr_set_flag(id) {
+	art.dialog.open('{dr_url("module/flag")}', {
+		title: '{lang("html-175")}',
+		init: function () {
+			var iframe = this.iframe.contentWindow;
+			$(".dr_flag_"+id).each(function(){
+				var iid = $(this).attr('iid');
+				iframe.document.getElementById('top_dr_flag_'+iid).value = $("#dr_flag_"+id+"_"+iid).val();
+			});
+		},
+		ok: function () {
+			var iframe = this.iframe.contentWindow;
+			if (!iframe.document.body) {
+				alert('iframe loading')
+				return false;
+			};
+			$(".dr_flag_"+id).each(function(){
+				var iid = $(this).attr('iid');
+				$("#dr_flag_"+id+"_"+iid).val(iframe.document.getElementById('top_dr_flag_'+iid).value);
+			});
+			$("#dr_status_"+id).attr("class", "onCorrect");
+			$("#dr_status_"+id).html("&nbsp;&nbsp;");
+			return true;
+		},
+		cancel: true
+	});
+}
+</script>
+<form action="" method="post" name="myform" id="myform">
+<input name="page" id="page" type="hidden" value="{$page}" />
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}83.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-156')}</li>
+			<li onclick="SwapTab(1)">{lang('html-217')}</li>
+			<li onclick="SwapTab(2)">{lang('html-218')}</li>
+			<li onclick="SwapTab(3)">{lang('html-174')}</li>
+			<li onclick="SwapTab(4)">{lang('html-084')}</li>
+			<li onclick="SwapTab(5)">{lang('html-327')}</li>
+			<li onclick="SwapTab(6)">{lang('html-544')}</li>
+			<li onclick="SwapTab(7)">{lang('html-550')}</li>
+		</ul>
+		<div class="contentList pad-10">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				{loop $SITE $sid $t}
+				<tr>
+					<th width="200" style="font-weight:700;{if $sid>1}padding-top:30px;{/if}">{$t['SITE_NAME']}： </th>
+					<td style="font-weight:700;{if $sid>1}padding-top:30px;{/if}">
+                    {lang('html-153')}&nbsp;&nbsp;<input name="data[site][{$sid}][use]" type="checkbox" onclick="sitetips(this)" sid="{$sid}" value="{$sid}" {if $data['site'][$sid]['use']}checked="checked"{/if} />
+                    </td>
+				</tr>
+				<tr class="dr_site_{$sid}" {if !$data['site'][$sid]['use']}style="display:none"{/if}>
+					<th>{lang('html-097')}： </th>
+					<td>
+					<select name="data[site][{$sid}][theme]">
+                    <option value="default"> -- </option>
+                    {loop $theme $t}
+                    <option{if $t==$data['site'][$sid]['theme']} selected=""{/if} value="{$t}">{$t}</option>
+                    {/loop}
+                    </select>
+					<div class="onShow">{dr_lang('html-619', $data['dirname'])}</div>
+					</td>
+				</tr>
+				<tr class="dr_site_{$sid}" {if !$data['site'][$sid]['use']}style="display:none"{/if}>
+					<th>{lang('html-099')}： </th>
+					<td>
+					<select name="data[site][{$sid}][template]">
+                    <option value="default"> -- </option>
+                    {loop $template_path $t}
+                    <option{if $t==$data['site'][$sid]['template']} selected=""{/if} value="{$t}">{$t}</option>
+                    {/loop}
+                    </select>
+					<div class="onShow">{dr_lang('html-620', $data['dirname'])}</div>
+					</td>
+				</tr>
+				<tr class="dr_site_{$sid}" {if !$data['site'][$sid]['use']}style="display:none"{/if}>
+					<th>{lang('html-621')}： </th>
+					<td>
+                    <input type="radio" name="data[site][{$sid}][html]" value="1" {if $data['site'][$sid]['html']}checked{/if} />&nbsp;{lang('open')}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="data[site][{$sid}][html]" value="0" {if !$data['site'][$sid]['html']}checked{/if} />&nbsp;{lang('close')}
+					{if $sid>1}<div class="onShow">{lang('html-622')}</div>{/if}
+                    </td>
+				</tr>
+				<tr class="dr_site_{$sid}" {if !$data['site'][$sid]['use']}style="display:none"{/if}>
+					<th>{lang('html-155')}： </th>
+					<td>
+                    <input class="input-text" type="text" name="data[site][{$sid}][domain]" value="{$data['site'][$sid]['domain']}" size="30" />
+                    <div class="onShow">{lang('html-090')}</div>
+                    </td>
+				</tr>
+				<tr class="dr_site_{$sid}" {if !$data['site'][$sid]['use']}style="display:none"{/if}>
+					<th>{lang('html-623')}： </th>
+					<td>{FCPATH}{$data.dirname}/</td>
+				</tr>
+				{if $sid>1}
+				<tr class="dr_site_{$sid}" {if !$data['site'][$sid]['use']}style="display:none"{/if}>
+					<th>{lang('html-624')}： </th>
+					<td>{FCPATH}{$data.dirname}/html/{$sid}/</td>
+				</tr>
+				{/if}
+                {/loop}
+				</table>
+			</div>
+            <div id="cnt_1" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                {loop $role $t}
+                {if $t.id>1}
+                <tr>
+                    <th width="200">{$t['name']}： </th>
+                    <td><a href="javascript:;" onclick="dr_admin_rule('{$t.id}', '{dr_url("module/role", array("dir"=>$data.dirname, "id"=>$t.id))}', '{$t['name']}')" class="blue">[{lang('028')}]</a>
+					<div id="dr_status_{$t.id}" class="onShow"></div>
+					</td>
+                </tr>
+                {/if}
+                {/loop}
+                <tr class="">
+                    <th> </th>
+                    <td> </td>
+                </tr>
+				</table>
+			</div>
+            <div id="cnt_2" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				{list action=cache name=MEMBER.group return=group}
+				{if $group['id'] > 2}
+				<tr>
+					<td align="left">&nbsp;</td>
+					<td align="left">{$group['name']}</td>
+					<td align="left"></td>
+				</tr>
+				{loop $group['level'] $level}
+				<tr>
+					{php $id=$group['id'].'_'.$level['id'];}
+					<td align="left">&nbsp;</td>
+					<td align="left" style="padding-left:40px">{$level['name']}&nbsp;&nbsp;{dr_show_stars($level['stars'])}</td>
+					<td align="left">
+					{lang('html-511')}&nbsp;<input class="dr_show" name="data[setting][member][{$id}]" {if $data['setting']['member'][$id]}checked{/if} value=1 type="checkbox" />
+					</td>
+				</tr>
+				{/loop}
+				{else}
+				<tr>
+					{php $id=$group['id'];}
+					<td align="left">&nbsp;</td>
+					<td align="left">{$group['name']}</td>
+					<td align="left">
+					{lang('html-511')}&nbsp;<input class="dr_show" name="data[setting][member][{$id}]" {if $data['setting']['member'][$id]}checked{/if} value=1 type="checkbox" />
+					</td>
+				</tr>
+				{/if}
+				{/list}
+				<tr>
+                    <td width="100"> </td>
+                    <td> </td>
+                    <td><font color="gray">{lang('html-512')}</font></td>
+                </tr>
+				</table>
+			</div>
+			<div id="cnt_3" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                {php for ($i = 1; $i <= 9; $i ++) {}
+                <tr {if $i==9}class=""{/if}>
+                    <th width="200">&nbsp;({$i})</th>
+                    <td align="left">
+                    <input class="input-text" name="data[setting][flag][{$i}][name]" type="text" value="{php echo isset($data['setting']['flag'][$i]['name']) ? $data['setting']['flag'][$i]['name'] : '';}" style="width:200px;"/>
+                    {list action=cache name=MEMBER.group return=group}
+					{if $group['id'] > 2}
+                    	{loop $group['level'] $level}
+							{php $iid=$group['id'].'_'.$level['id'];}
+                            <input name="data[setting][flag][{$i}][{$iid}]" class="dr_flag_{$i}" iid="{$iid}" id="dr_flag_{$i}_{$iid}" type="hidden" value="{intval($data['setting']['flag'][$i][$iid])}" />
+                        {/loop}
+                    {/if}
+                    {/list}
+                    <a href="javascript:;" onclick="dr_set_flag('{$i}')" style="color:#06F">[{lang('html-175')}]</a>
+					<div id="dr_status_{$i}" class="onShow"></div>
+                    </td>
+                </tr>
+                {php }}
+				</table>
+			</div>
+            <div id="cnt_4" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+					<th width="200">Title： </th>
+					<td><input class="input-text" type="text" name="data[setting][seo][module_title]" value="{$data['setting']['seo']['module_title']}" size="80" />
+					</td>
+				</tr>
+				<tr>
+					<th>Keywords： </th>
+					<td><input class="input-text" type="text" name="data[setting][seo][module_keywords]" value="{$data['setting']['seo']['module_keywords']}" size="80" />
+					</td>
+				</tr>
+				<tr class="">
+					<th>Description： </th>
+					<td><input class="input-text" type="text" name="data[setting][seo][module_description]" value="{$data['setting']['seo']['module_description']}" size="80" />
+					</td>
+				</tr>
+				</table>
+			</div>
+           	<div id="cnt_5" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-332')}： </th>
+                    <td><input class="input-text" type="text" name="data[setting][tag][pagesize]" value="{$data['setting']['tag']['pagesize']}" size="10" />
+                    <div class="onShow">{lang('html-333')}</div></td>
+                </tr>
+                <tr>
+                    <th>{lang('html-328')}： </th>
+                    <td><input class="input-text" type="text" name="data[setting][tag][url]" value="{$data['setting']['tag']['url']}" size="40" />
+                    <div class="onShow">{lang('html-330')}</div></td>
+                </tr>
+                <tr class="">
+                    <th>{lang('html-329')}： </th>
+                    <td><input class="input-text" type="text" name="data[setting][tag][url_page]" value="{$data['setting']['tag']['url_page']}" size="40" />
+                    <div class="onShow">{lang('html-331')}</div></td>
+                </tr>
+				</table>
+			</div>
+            <div id="cnt_6" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-545')}： </th>
+                    <td><input class="input-text" type="text" name="data[setting][search][cache]" value="{if isset($data['setting']['search']['cache'])}{$data['setting']['search']['cache']}{else}10000{/if}" size="10" />
+                    <div class="onShow">{lang('html-547')}</div></td>
+                </tr>
+                <tr>
+                    <th>{lang('html-633')}： </th>
+                    <td><input class="input-text" type="text" name="data[setting][search][total]" value="{if isset($data['setting']['search']['total'])}{$data['setting']['search']['total']}{else}500{/if}" size="10" />
+                    <div class="onShow">{lang('html-634')}</div></td>
+                </tr>
+                <tr>
+                    <th>{lang('html-546')}： </th>
+                    <td><input class="input-text" type="text" name="data[setting][search][length]" value="{if $data['setting']['search']['length']}{$data['setting']['search']['length']}{else}4{/if}" size="10" />
+                    <div class="onShow">{lang('html-548')}</div></td>
+                </tr>
+                <tr class="">
+                    <th>{lang('html-328')}： </th>
+                    <td>
+					<input type="radio" name="data[setting][search][rewrite]" {if $data['setting']['search']['rewrite']}checked{/if} value="1" />&nbsp;{lang('yes')}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[setting][search][rewrite]" {if !$data['setting']['search']['rewrite']}checked{/if} value="0" />&nbsp;{lang('no')}
+                    &nbsp;&nbsp;
+                    <div class="onShow">{lang('html-585')}</div>
+					</td>
+                </tr>
+				</table>
+			</div>
+            <div id="cnt_7" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr class="">
+                    <th width="200">{lang('html-551')}： </th>
+                    <td><input class="input-text" type="text" name="data[setting][show_cache]" value="{if $data['setting']['show_cache']}{$data['setting']['show_cache']}{else}10000{/if}" size="10" />
+                    <div class="onShow">{lang('html-547')}</div></td>
+                </tr>
+				</table>
+			</div>
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200" style="border:none;">&nbsp;</th>
+				<td>
+				<input class="button" type="submit" name="submit" value="{lang('submit')}" />
+				</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</form>
+{template footer.html}

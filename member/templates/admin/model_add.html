@@ -1,0 +1,92 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab(0);
+	{if $result}
+	art.dialog.tips('{$result}', 3);
+	{/if}
+});
+</script>
+<form action="" method="post" name="myform" id="myform">
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-083')}</li>
+			<li onclick="SwapTab(1)">{lang('html-218')}</li>
+		</ul>
+		<div class="contentList pad-10">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+                <table width="100%" class="table_form">
+                <tr>
+					<th width="200"><font color="red">*</font>&nbsp;{lang('html-026')}：</th>
+					<td>
+						<input class="input-text" type="text" name="data[name]" value="{$data['name']}" id="dr_name" onblur="d_topinyin('table','name');" size="20" />
+						<div class="onShow">{lang('html-027')}</div>
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>&nbsp;{lang('html-453')}：</th>
+					<td>
+						<input class="input-text" type="text" name="data[table]" value="{$data['table']}" {if $data['id']}disabled{/if} id="dr_table" size="20" />
+						<div class="onShow" id="dr_table_tips">{lang('html-187')}</div>
+					</td>
+				</tr>
+                </table>
+			</div>
+            <div id="cnt_1" style="display:none" class="dr_hide">
+                <table width="100%" class="table_form">
+                <tr>
+					<th width="200">&nbsp;{lang('028')}：</th>
+					<td colspan="5"><font color="#777777">{lang('html-556')}</font></td>
+				</tr>
+				{list action=cache name=MEMBER.group return=group}
+				{if $group['id'] > 2}
+				<tr>
+					<th>{$group['name']}：</th>
+					<td align="center" width="60" style="color:#777777">{lang('html-337')}</td>
+					<td align="center" width="60" style="color:#777777">{lang('html-338')}</td>
+					<td align="center" width="100" style="color:#777777">{dr_lang('html-256', SITE_EXPERIENCE)}</td>
+					<td align="center" width="100" style="color:#777777">{dr_lang('html-256', SITE_SCORE)}</td>
+					<td align="center"></td>
+				</tr>
+				{loop $group['level'] $level}
+				<tr>
+					{php $id=$group['id'].'_'.$level['id'];}
+					<th>{$level.name}&nbsp;&nbsp;{dr_show_stars($level.stars)}&nbsp;：</th>
+					<td align="center">
+						<input type="checkbox" {if $data['setting'][$id]['use']}checked="checked"{/if} value="1"  name="data[setting][{$id}][use]" />
+					</td>
+					<td align="center">
+						<input type="checkbox" {if $data['setting'][$id]['verify']}checked="checked"{/if} value="1"  name="data[setting][{$id}][verify]" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[setting][{$id}][experience]" value="{$data['setting'][$id]['experience']}" size="9" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[setting][{$id}][score]" value="{$data['setting'][$id]['score']}" size="9" />
+					</td>
+					<td align="center"></td>
+				</tr>
+				{/loop}
+				{/if}
+				{/list}
+                </table>
+			</div>
+            
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200" style="border:none;">&nbsp;</th>
+				<td>
+				<input class="button" type="submit" name="submit" value="{lang('submit')}" />
+				</td>
+			</tr>
+			</table>
+        </div>
+	</div>
+</div>
+</form>
+{template footer.html}

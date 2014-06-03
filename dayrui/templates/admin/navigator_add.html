@@ -1,0 +1,79 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	{if $error}art.dialog.tips('<font color=red>{$error}</font>', 3, 0);{/if}
+});
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<form action="" method="post" id="myform" name="myform">
+		<table width="100%" class="table_form">
+		<tr>
+			<th width="200"><font color="red">*</font>&nbsp;{lang('html-374')}：</th>
+			<td>{$typename}</td>
+		</tr>
+		<tr>
+			<th><font color="red">*</font>&nbsp;{lang('html-424')}： </th>
+			<td>{$select}</td>
+		</tr>
+		<tr>
+			<th><font color="red">*</font>&nbsp;{lang('html-542')}： </th>
+			<td>
+			{dr_field_input('name', 'Text', $field['name']['setting'], $data['name'])}
+			<div class="onShow">{lang('html-027')}</div>
+			</td>
+		</tr>
+		<tr>
+			<th>{lang('html-375')}： </th>
+			<td>
+			{dr_field_input('title', 'Text', $field['title']['setting'], $data['title'])}
+			<div class="onShow">{lang('html-380')}</div>
+			</td>
+		</tr>
+		<tr class="dr_mark_0">
+			<th><font color="red">*</font>&nbsp;{lang('html-377')}： </th>
+			<td>
+			{dr_field_input('url', 'Text', $field['url']['setting'], $data['url'])}
+			<div class="onShow">{lang('html-382')}</div>
+			</td>
+		</tr>
+		<tr>
+			<th>{lang('html-376')}： </th>
+			<td>
+			{dr_field_input('thumb', 'File', $field['thumb']['setting'], $data['thumb'])}
+			<div class="onShow">{lang('html-381')}</div>
+			</td>
+		</tr>
+		<tr>
+			<th>{lang('html-378')}： </th>
+			<td>
+			{dr_field_input('target', 'Radio', $field['target']['setting'], $data['target'])}
+			<div class="onShow">{lang('html-383')}</div>
+			</td>
+		</tr>
+		<tr>
+			<th>{lang('html-379')}： </th>
+			<td>
+			{dr_field_input('show', 'Radio', $field['show']['setting'], $data['show'])}
+			</td>
+		</tr>
+		<tr>
+			<th>{lang('order')}： </th>
+			<td>
+			{dr_field_input('displayorder', 'Text', $field['displayorder']['setting'], $data['displayorder'])}
+			</td>
+		</tr>
+		<tr>
+			<th> </th>
+			<td><input value="{lang('submit')}" type="submit" name="submit" class="button" onclick="$('#dr_action').val('back')" />
+			</td>
+		</tr>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

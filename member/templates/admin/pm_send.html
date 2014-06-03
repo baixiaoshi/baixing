@@ -1,0 +1,86 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<form action="" method="post" name="myform" id="myform">
+		<ul class="tabBut cu-li">
+			<li {if $type==0}class="on"{/if}>1、选取目标会员</li>
+			<li {if $type==1}class="on"{/if}>2、填写短信内容</li>
+		</ul>
+		<div class="contentList pad-10">
+			{if $type==0}
+			<div id="ctab_1">
+				<table width="100%" class="table_form">
+				<tr>
+					<th width="200">&nbsp;会员名： </th>
+					<td>
+					<input class="input-text" type="text" name="data[username]" value="" size="40" />
+					<div class="onShow">多个会员名用半角逗号 "," 隔开</div>
+					</td>
+				</tr>
+				<tr>
+					<th>会员组： </th>
+					<td>
+					<input class="input-text" type="text" name="data[url]" value="{dr_set_value('url', $data['url'])}" size="40" />
+					<div class="onShow">设置允许参与搜索的会员组，可以按住 CTRL 多选</div>
+					</td>
+				</tr>
+				<tr>
+					<th>会员等级： </th>
+					<td>
+					<input class="input-text" type="text" name="data[url]" value="{dr_set_value('url', $data['url'])}" size="40" />
+					<div class="onShow">设置允许参与搜索的会员等级，可以按住 CTRL 多选</div>
+					</td>
+				</tr>
+				</table>
+			</div>
+			{else}
+			<div id="ctab_2">
+				{if $error}
+				<table width="100%" class="table_form">
+				<tr>
+					<th width="200">&nbsp;选取结果： </th>
+					<td><div class="onError">{$error}</div> <a href="{dr_admin_url('pm/send', '', 'member')}">重新搜索</a> </td>
+				</tr>
+				</table>
+				{else}
+				<input type="hidden" name="is_send" value="1">
+				<table width="100%" class="table_form">
+				<tr>
+					<th width="200">&nbsp;选取结果： </th>
+					<td>共搜索到 {$total} 名符合条件的用户 <a href="{dr_admin_url('pm/send', '', 'member')}">重新搜索</a> </td>
+				</tr>
+				<tr>
+					<th>短信标题： </th>
+					<td><input class="input-text" type="text" name="data[title]" value="" size="40" /></td>
+				</tr>
+				<tr>
+					<th>短信内容： </th>
+					<td><textarea style="width: 500px; height: 90px;" name="data[content]"></textarea></td>
+				</tr>
+				<tr>
+					<th>分批发送数量： </th>
+					<td><input class="input-text" type="text" name="data[pszie]" value="50" size="10" /></td>
+				</tr>
+				{/if}
+				</table>
+			</div>
+			{/if}
+			{if !$error}
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200">&nbsp;</th>
+				<td>
+				<input class="button" type="submit" name="submit" value="{$submit}" />
+				</td>
+			</tr>
+			</table>
+			{/if}
+		</div>
+		</form>
+	</div>
+</div>
+{template footer.html}

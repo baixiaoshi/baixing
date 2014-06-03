@@ -1,0 +1,82 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab(0);
+	{if $data.uid && !$data.third}
+	$.getScript("{$service}?c=check&uid={$data.uid}&key={$data.key}");
+	{/if}
+	{if $data.third}
+	$('.dr_1').show();$('.dr_0').hide();
+	{else}
+	$('.dr_0').show();$('.dr_1').hide();
+	{/if}
+});
+</script>
+<form action="" method="post" name="myform" id="myform">
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}83.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li>{lang('316')}</li>
+		</ul>
+		<div class="contentList pad-10">
+            <table width="100%" class="table_form">
+            <tr>
+                <th width="200">{lang('html-659')}： </th>
+                <td>
+                <input name="aa" type="radio" value="0" onclick="$('.dr_0').show();$('.dr_1').hide();" {if !$data.third}checked="checked"{/if} />&nbsp;{lang('html-660')}&nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="aa" type="radio" value="1" onclick="$('.dr_1').show();$('.dr_0').hide();" {if $data.third}checked="checked"{/if} />&nbsp;{lang('html-661')}
+                </td>
+            </tr>
+            <tr class="dr_0">
+                <th width="200">{lang('html-637')}： </th>
+                <td><a href="http://help.dayrui.com/107.html" target="_blank">http://help.dayrui.com/107.html</a></td>
+            </tr>
+            <tr class="dr_0">
+                <th>SMS Uid： </th>
+                <td>
+                <input class="input-text" type="text" name="data[uid]" value="{$data.uid}" size="10" />
+                </td>
+            </tr>
+            <tr class="dr_0">
+                <th>SMS Key： </th>
+                <td>
+                <input class="input-text" type="text" name="data[key]" value="{$data.key}" size="25" />
+                </td>
+            </tr>
+            <tr class="dr_0">
+                <th>{lang('html-639')}： </th>
+                <td>
+                <input class="input-text" type="text" name="data[note]" value="{$data.note}" size="25" />
+                <div class="onShow">保持在10个字符以内</div>
+                </td>
+            </tr>
+            {if $data.uid && !$data.third}
+            <tr class="dr_0">
+                <th>{lang('html-638')}： </th>
+                <td><span id="dr_sms">...</span></td>
+            </tr>
+            {/if}
+            <tr class="dr_1">
+                <th width="200">{lang('html-637')}： </th>
+                <td><a href="http://help.dayrui.com/108.html" target="_blank">http://help.dayrui.com/108.html</a></td>
+            </tr>
+            <tr class="dr_1">
+                <th>{lang('html-662')}： </th>
+                <td>
+                <textarea class="input-text" name="data[third]" style="height:100px; width:220px;">{$data.third}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th style="border:none;">&nbsp;</th>
+                <td><input class="button" type="submit" name="submit" value="{lang('submit')}" /></td>
+            </tr>
+            </table>
+		</div>
+	</div>
+</div>
+</form>
+{template footer.html}

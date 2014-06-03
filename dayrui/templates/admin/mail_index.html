@@ -1,0 +1,63 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	{if $result}
+	art.dialog.tips('{lang('000')}', 3, 1);
+	{/if}
+});
+function test_email(id) {
+	$("#dr_sending_"+id).html("Sending ... ");
+	$.post("{dr_url('mail/test')}&id="+id+"&"+Math.random(), function(data){
+		alert(data);
+		$("#dr_sending_"+id).html("");
+	});
+}
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <font color="gray">{lang('html-425')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+       	<input name="action" type="hidden" value="smtp" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="150" align="left">{lang('html-426')}</th>
+			<th width="150" align="left">{lang('html-427')}</th>
+			<th width="40" align="center">{lang('html-429')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr>
+			<td align="right"><input name="ids[]" type="checkbox" class="dr_select" value="{$t.id}" />&nbsp;</td>
+			<td align="left">{$t.host}</td>
+			<td align="left">{$t.user}</td>
+			<td align="center">{$t.port}</td>
+			<td align="left" class="dr_option">
+			{if $this->ci->is_auth('admin/mail/edit')}<a href="{dr_dialog_url(dr_url('mail/edit',array('id'=>$t.id)), 'edit')}">{lang('edit')}</a>{/if}
+            <a href="javascript:;" onclick="test_email('{$t.id}')">{lang('html-430')}</a>
+			<span id="dr_sending_{$t.id}"></span>
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="5" align="left" style="border:none"> 
+			{if $this->ci->is_auth('admin/mail/del')}<input type="button" class="button" value="{lang('del')}" name="option" onClick="dr_confirm_set_all('{lang('015')}')" />{/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

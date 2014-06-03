@@ -1,0 +1,40 @@
+<script type="text/javascript">
+$(function() {
+	document.onkeydown = function(e){  //防止回车提交表单
+		var ev = document.all ? window.event : e;
+		if (ev.keyCode==13) {
+			$("#mark").val("1"); // 标识不能提交表单
+		}
+	}
+});
+function dr_form_check() {
+	if ($("#mark").val() == 0) { 
+		return true;
+	} else {
+		return false;
+	}
+}
+</script>
+<form action="" method="post" id="myform" name="myform" onsubmit="return dr_form_check()">
+<input name="mark" id="mark" type="hidden" value="0">
+<table class="table_form" width="400">
+<tr>
+    <th width="100"><font color="red">*</font>&nbsp;{lang('html-408')}： </th>
+    <td>
+    <input class="input-text" type="text" name="data[money]"  style="width:97px" />
+    <div class="onShow" id="dr_money_tips"></div>
+    </td>
+</tr>
+<tr>
+    <th><font color="red">*</font>&nbsp;{lang('html-409')}： </th>
+    <td>{dr_field_input('endtime', 'Date', array('option'=>array('format'=>'Y-m-d','width'=>80,)), strtotime('+1 year'))}
+    </td>
+</tr>
+<tr>
+    <th width="100"><font color="red">*</font>&nbsp;{lang('html-410')}： </th>
+    <td>
+    <input class="input-text" type="text" name="data[num]" style="width:97px" value="10" />
+    </td>
+</tr>
+</table>
+</form>

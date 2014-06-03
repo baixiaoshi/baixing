@@ -1,0 +1,99 @@
+html, body, h1, dl, dt, dd, p, from, button, input, h1, h2 { margin: 0; padding: 0; }
+html {background:#f2f2f2;}
+body {height: 100%; font: normal 12px 宋体, Arial, Sans-Sarif;overflow:hidden;}
+a, a:visited { text-decoration: none; color: #000;}
+a:hover { text-decoration: underline;}
+a:focus { outline-offset:4px;}
+img { border: 0;}
+.center{text-align:center;}
+.wrap { width: 100%; margin: 0 auto; background: #f2f2f2 url(bg.png) center -12px no-repeat; overflow: hidden;display:inline-block;}
+.header {min-width: 607px; height: 40px; padding: 5px 0 0 0; background: url(header-bg.gif) repeat-x 0 0;}
+.innerHeader { position: relative; width: 607px; margin: 0 auto;}
+.header h1 { width: 126px; height: 35px; margin: 0 0 0 13px; background: url(logo-png.png) no-repeat 0 0; _background-image: url(logo-png.gif); text-indent: -999em;}
+.userInfo { position: absolute; top: 14px; right: 27px; color: #fff;}
+.userInfo a { margin-left: 10px; color: #9fddff; text-decoration: none;padding:5px;}
+.userInfo a:hover { text-decoration: underline;}
+.content{width:610px;min-height:382px;border:1px solid #D4D4D4;-webkit-box-shadow:0 0 5px #D4D4D4;border-radius:10px;margin:15px auto 0;background:#fff;position:relative;}
+.main_head{margin:20px auto 0;width:530px;font-size:14px;color:#373737;position:relative;}
+.main_head .nickname{color:#006AA3;}
+.main_head_tit{margin-bottom:19px;line-height:20px;}
+.main_head_app{width:60px;height:60px;position:absolute;right:0px;top:0px;text-align:center;}
+.main_head_app_num{line-height:34px;font-size:12px;}
+.main_head_app_count{color:#f50;font-weight:normal;}
+
+.main { position: relative;}
+.login { width: 325px; margin: 0 auto 35px;min-height:140px}
+.login .errorTipWrap{position:relative;vertical-align:middle;}
+.login .errorTip {color: #f00;overflow: hidden;vertical-align:middle;white-space:nowrap;margin-left:54px;}
+.login p { position: relative; margin: 0 0 12px 0;* display:inline;zoom:1;}
+.login .txtWrap { display: inline-block;background: transparent url(login-user.png) no-repeat 236px 7px;vertical-align:middle;position:relative;}
+.login .pwdWrap { background-image: url(login-password.png);}
+.login .codeWrap { background-image: none; width: 177px;}
+.login .txt{ width: 225px; height: 14px; line-height: 14px; padding: 9px 30px 9px 8px; border: 1px solid #ccc; background-color: transparent; outline: none;border-radius: 3px;}
+.login .txt:focus,.login .focus{border-color:#7DB6D8;outline:0;-webkit-box-shadow:0 0 10px rgba(123,214,246,1);box-shadow:0 0 10px rgba(123,214,246,1);}
+.login .pwd {}
+.login .code { width: 160px; }
+.login .tips { color: #333;vertical-align:middle;}
+.login .holder { display:inline-block; width: 248px; height: 32px; line-height: 35px; padding: 0 8px 0 13px; margin-bottom: -30px; overflow: hidden; color: #ccc; cursor: text; vertical-align: middle; text-align: left;position:absolute;left:0;top:0;}
+.login .codeWrap .txt{width:158px;padding:9px 8px;}
+.login .codeWrap .holder{width:158px;}
+.login .lnkPwd { position: absolute; top: 6px; right: -75px; color: #006aa3; text-decoration: none;padding:5px;border-radius:5px;}
+.login .lnkPwd:hover { text-decoration: underline;}
+.login .loginBtn,.login .login_cancel { width: 93px; height: 34px; background: url(btn-login.gif) 0 0 no-repeat; border: 0; font-size: 14px; color: #fff;cursor:pointer;vertical-align:middle;overflow:hidden;}
+.login .loginBtn:focus,.login .login_cancel:focus{border-color:#7DB6D8;outline:0;-webkit-box-shadow:0 0 10px rgba(123,214,246,1),inset 0 34px rgba(255,255,255,0.3);}
+.login .login_cancel {background-position:-103px 0;color:#777;}
+.login .loginBtn:focus{-webkit-box-shadow:0 0 10px rgba(123,214,246,1),inset 0 34px rgba(255,255,255,0.3);}
+.login .rmd { position: absolute; top: 10px; right: 60px; _top: 6px; *top: 6px;}
+.login .rmd input { vertical-align: top; _vertical-align: middle; *vertical-align: middle;}
+.login .spanCode { display: block; width: 82px; height: 32px; position: absolute; top: 2px; right: 0;}
+.login .login_btns{padding-left:54px;}
+.quickLogin {position: absolute; bottom:10px; right:10px;text-align:right;}
+.quickLogin a {color: #759aad;}
+
+.bottom{margin-bottom:65px;}
+.fleft { float: left;}
+.fright { float: right;}
+.separator { height: 0; border: none; border-top: 1px dotted #ccc; width: 99%; margin: 0 auto 20px; margin-left:3px;clear:both;display:inline-block;font-size:0;}
+.lowLoginEnable { margin: 0 0 0 15px; }
+.errorTip a { color: #FFEBEA; cursor: default ;display:none;}
+.tv{width:900px;-webkit-transition:all 0.3s ease-in-out;}
+.tv .main_head,.tv .login,.tv .pageTip{zoom:1.5;}
+#verifytip{display:none;}
+#verifyshow{* position:absolute;}
+#qlogin{margin-bottom:20px;}
+h2 {text-align:left;padding:10px;}
+.code { padding:0 10px 0 10px;}
+.login_tab {
+height: 34px;
+border-left: 1px solid #d4d4d4;
+margin-left: 71px;
+margin-top:20px;
+}
+.login_tab li.curr {
+font-weight: bold;
+background: #fff;
+border-bottom: 1px solid #fff;
+}
+.login_tab li {
+padding: 0 10px;
+height: 33px;
+text-align: center;
+line-height: 33px;
+border: 1px solid #d4d4d4;
+border-left: none;
+background: #f4f4f4;
+float: left;
+position: relative;
+margin-bottom: -1px;
+cursor: pointer;
+border-bottom:none;
+}
+ ul, li {
+margin: 0;
+padding: 0;
+list-style:none;
+}
+ul {
+display: block;
+list-style-type: disc;
+}

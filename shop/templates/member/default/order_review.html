@@ -1,0 +1,83 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	{if $error}
+	art.dialog.tips('<font color=red>{$error}</font>', 3);
+	{/if}
+	$('.dr_value_img').click(function(){
+		var id = $(this).attr('rid');
+		var vid = $(this).attr('vid');
+		$('#dr_value_'+id).val(vid);
+		$(this).nextUntil().each(function(index) {
+            $(this).attr('src', '{MEMBER_THEME_PATH}images/x0.png');
+        });
+		$(this).attr('src', '{MEMBER_THEME_PATH}images/x1.png');
+		$(this).prevAll().each(function(index) {
+            $(this).attr('src', '{MEMBER_THEME_PATH}images/x1.png');
+        });
+	});
+});
+</script>
+<div class="content clearfix">
+	<div class="page_url">
+    	<a href="{SITE_URL}">首页</a> <span>&gt;</span> <a href="{dr_member_url('home/index')}">会员中心</a> <span>&gt;</span> <a href="{$back}">返回</a> <span>&gt;</span> {$meta_name}
+    </div>
+
+    <div class="section create">
+		<form action="" method="post">
+		<input name="dr_module" id="dr_module" type="hidden" value="{APP_DIR}" />
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="250">&nbsp;订单编号： </th>
+				<td>&nbsp;<a href="{dr_url(APP_DIR.'/order/show', array('id'=>$data.oid))}" target="_blank">{$data.oid}</a></td>
+			</tr>
+			<tr>
+				<th>&nbsp;商品信息： </th>
+				<td>&nbsp;<a href="{$data.item.url}" target="_blank">{$data.item.title}</a>&nbsp;
+				{if $data.fid}({$data.item.format}){/if}
+				</td>
+			</tr>
+			<tr>
+			  <th>订单价格：</th>
+			  <td>&nbsp;<span class="dr_pirce">{$data.item.price}</span></td>
+			</tr>
+			{if $data.review}
+			<tr>
+			  <th>评价总分：</th>
+			  <td>&nbsp;<span class="dr_pirce">{$data.avgsort}</span></td>
+			</tr>
+			{else}
+			{loop $review $id $name}
+			<tr>
+			  <th>{$name}：</th>
+			  <td>&nbsp;<img src="{MEMBER_THEME_PATH}images/x0.png" class="dr_value_img" style="cursor:pointer" rid="{$id}" vid="1" />
+			  &nbsp;<img src="{MEMBER_THEME_PATH}images/x0.png" class="dr_value_img" style="cursor:pointer" rid="{$id}" vid="2" />
+			  &nbsp;<img src="{MEMBER_THEME_PATH}images/x0.png" class="dr_value_img" style="cursor:pointer" rid="{$id}" vid="3" />
+			  &nbsp;<img src="{MEMBER_THEME_PATH}images/x0.png" class="dr_value_img" style="cursor:pointer" rid="{$id}" vid="4" />
+			  &nbsp;<img src="{MEMBER_THEME_PATH}images/x0.png" class="dr_value_img" style="cursor:pointer" rid="{$id}" vid="5" />
+			  <input name="data[value][{$id}]" id="dr_value_{$id}" type="hidden" value="" />
+			  </td>
+			</tr>
+			{/loop}
+			{/if}
+			<tr>
+			  <th>评价内容：</th>
+			  <td style="padding-top:0">&nbsp;<textarea name="data[content]" style="width:330px; height:100px;margin-top:-5px;">{$data.content}</textarea></td>
+			</tr>
+			<tr>
+			  <th colspan="2" style="border:none; text-align: center; padding-left:400px;">
+			  <div class="mbutton">
+				{if $data.review}
+				<button class="blue_button" type="submit" value="" onclick="location.href='{$back}';return false;">返回</button>
+				{else}
+				<button class="blue_button" type="submit" value="">评价</button>
+				{/if}
+			  </div >
+			  </th>
+			</tr>
+			</table>
+		</form>
+    </div>
+
+</div>
+{template footer.html}

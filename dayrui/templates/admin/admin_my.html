@@ -1,0 +1,64 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		<a href="{dr_url('root/my')}" class="on"><em>{lang('html-554')}</em></a>
+	</div>
+    <div class="bk10"></div>
+	<div class="explain-col">
+		<font color="gray">{lang('html-555')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" id="myform" name="myform">
+        <table width="100%" class="table_form">
+        <tr>
+            <th width="230">{lang('html-060')}： </th>
+            <td><input class="input-text" type="text" name="data[realname]" value="{$admin['realname']}" size="20" /></td>
+        </tr>
+        <tr>
+            <th>{lang('html-063')}： </th>
+            <td>
+            	<font color="gray" style="float:left">{lang('html-064')}</font>
+                <a class="add" title="{lang('add')}" href="javascript:;" onClick="add_menu()" style="background-repeat:no-repeat;padding-left:20px;width:auto"></a>
+            </td>
+        </tr>
+        <tr>
+            <th style="border:none">&nbsp; </th>
+            <td style="border:none">
+                <div id="menu_body" style="width:530px; overflow:hidden">
+                {if !empty($admin['usermenu'])}
+                {loop $admin['usermenu'] $k $t}
+                <table width="100%" class="menu-sort">
+                <tbody>
+                <tr>
+                    <td width="140">{lang('html-026')}：<input class="input-text" type="text" name="data[usermenu][name][{$k}]" value="{$t['name']}" style="width:90px" /></td>
+                    <td align="left" style="width:320px">URL：<input class="input-text" type="text" name="data[usermenu][url][{$k}]" value="{$t['url']}" style="width:270px" /></td>
+                    <td align="left"><a class="del" title="{lang('del')}" href="javascript:;" onClick="remove_menu(this)"></a></td>
+                </tr>
+                </tbody>
+                </table>
+                {/loop}
+                {/if}
+                </div>
+            </td>
+        </tr>
+        <tr>
+			<th style="border:none;">&nbsp;</th>
+			<td><input class="button" type="submit" name="submit" value="{lang('submit')}" /></td>
+		</tr>
+        </table>
+        </form>
+        </div>
+	</div>
+</div>
+
+<script type="text/javascript">
+function add_menu() {
+	var data = '<table width="100%" class="menu-sort ui-sortable"><tbody><tr><td width="140">{lang('html-026')}：<input class="input-text" type="text" name="data[usermenu][name][]" value="" style="width:90px" /></td><td align="left" style="width:320px">URL：<input class="input-text" type="text" name="data[usermenu][url][]" style="width:270px" /></td><td align="left"><a class="del" title="{lang('del')}" href="javascript:;" onClick="remove_menu(this)"></a></td></tr></tbody></table>';
+	$('#menu_body').append(data);
+}
+function remove_menu(_this) {
+	$(_this).parent().parent().parent().remove();
+}
+</script>
+{template footer.html}

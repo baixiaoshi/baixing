@@ -1,0 +1,32 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+		<font color="gray">{lang('html-389')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<form action="" method="post" name="myform" id="myform" target="result">
+		<div class="contentList pad-10">
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200">&nbsp;{lang('cat-19')}： </th>
+				<td>{$select}</td>
+			</tr>
+			<tr>
+				<th>&nbsp;</th>
+				<td><input class="button" type="submit" name="submit" value="{lang('submit')}" /></td>
+			</tr>
+			<tr height="80">
+				<th style="border-bottom:none">&nbsp;</th>
+				<td style="padding-left:2px;"><iframe name="result" frameborder="0" id="result" width="100%" height="80"></iframe></td>
+			</tr>
+			</table>
+		</div>
+		</form>
+	</div>
+</div>
+{template footer.html}

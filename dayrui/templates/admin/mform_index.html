@@ -1,0 +1,52 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}137.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <font color="gray">{lang('html-671')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="left">Id</th>
+			<th width="120" align="left">{lang('html-026')}</th>
+			<th width="40" align="center">{lang('html-626')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr>
+			<td align="left">{$t.id}</td>
+			<td align="left">
+            {if $this->ci->is_auth('admin/mform/edit')}
+            <a href="{dr_url('mform/edit', array('id' => $t.id, 'dir' => $dir))}">{$t.name}</a>
+            {else}
+            {$t.name}
+            {/if}
+            </td>
+			<td align="center">
+			{if $this->ci->is_auth('admin/mform/edit')}
+			<a href="javascript:;" onClick="return dr_dialog_set('{php echo $t['disabled'] ? lang('html-161') : lang('html-162');}','{dr_url('mform/disabled', array('dir' => $dir,'id' => $t.id))}');">
+			<img src="{SITE_URL}dayrui/statics/images/{php echo $t.disabled ? 0 : 1}.gif">
+			</a>
+			{else}
+			<img src="{SITE_URL}dayrui/statics/images/{php echo $t.disabled ? 0 : 1}.gif">
+			{/if}
+			</td>
+			<td align="left" class="dr_option">
+			{if $this->ci->is_auth('admin/field/index')}<a href="{dr_url('admin/field/index', array('rname' => 'mform-'.$dir, 'rid' => $t.id))}">{lang('html-169')}</a>{/if}
+			{if $this->ci->is_auth('admin/mform/edit')}<a href="{dr_url('mform/edit', array('id' => $t.id, 'dir' => $dir))}">{lang('edit')}</a>{/if}
+			{if $this->ci->is_auth('admin/mform/del')}<a href="javascript:;" onClick="return dr_confirm_url('{lang('015')}','{dr_url('mform/del', array('id' => $t.id, 'dir' => $dir))}');">{lang('del')}</a>{/if}
+            </td>
+		</tr>
+		{/loop}
+		</tbody>
+		</table>
+	</div>
+</div>
+{template footer.html}

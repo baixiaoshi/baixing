@@ -1,0 +1,28 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="photo">
+	<div class="photo_l">
+		{template "left.html"}	
+    </div>
+	<div class="photo_r">
+        <div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+        <div class="clear blank10"></div>
+        <!--循环输出当前栏目下面的子栏目及其内容，运用到了双list循环标签因此需要定义返回值return=c（都懂得）-->
+		{list action=category pid=$catid return=c}
+		<div class="r_lmlist" >
+			<div class="tit">
+            	<h4 class="l">{$c.name}</h4>
+                <div class="r"><a href="{$c.url}"><img src="{HOME_THEME_PATH}images/more.png" /></a></div>
+            </div>
+			<ul>
+                <!--循环输出当前栏目下面的数据，我们按时间排序-->
+                {list action=module catid=$c.id field=thumb,title,url,description order=updatetime num=4}
+                <li><img src="{dr_thumb($t.thumb, 165)}" width="100%" /><br /><span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 20)}</a></span><br /><div class="into">{dr_strcut($t.description, 40)}</div><a href="{$t.url}" class="cktj">查看图集</a></li>
+                {/list}{$error}
+				</ul>
+			</div>
+        {/list}
+    </div>	
+</div>
+<div class="clear"></div>
+{template "footer.html","/"}

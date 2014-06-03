@@ -1,0 +1,20 @@
+#myslide IMG {BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px}
+#myslide {
+	  MARGIN:0px; OVERFLOW: hidden;
+}
+#myslide #bimg { OVERFLOW: hidden; }
+#myslide #info {FONT-WEIGHT: bold; FONT-SIZE: 14px; LINE-HEIGHT: 34px; TEXT-ALIGN: center;}
+#myslide .title A {COLOR: #fff; TEXT-DECORATION: none;}
+#myslide .title A:hover {COLOR: #fff; TEXT-DECORATION: none}
+#myslide #simg {PADDING-LEFT: 9px;width:100px;}
+#myslide #simg DIV {FONT-SIZE: 14px; BACKGROUND:url(flsbtn.png) no-repeat; FLOAT: left; WIDTH: 12px; CURSOR: pointer;  HEIGHT: 12px; TEXT-ALIGN: center;font-family:"\5FAE\8F6F\96C5\9ED1"; font-weight:bold;margin-left:4px; text-indent: -9999px;}
+#myslide #simg .f1 {BACKGROUND:url(flsbtn.png) no-repeat -16px 0px;font-family:"\5FAE\8F6F\96C5\9ED1";margin-left:4px;}
+#myslide .dis {DISPLAY: block}
+#myslide .undis {DISPLAY: none}
+
+#myslide #font_hd {MARGIN-TOP:-35px; BACKGROUND:url(touming.png) ;width:100%; HEIGHT: 35px; position:relative}
+#myslide #font_hd TD {OVERFLOW: hidden; HEIGHT: 25px}
+#myslide .pic {OVERFLOW: hidden;}
+#myslide .pic .dis A {DISPLAY: block; VERTICAL-ALIGN: middle; OVERFLOW: hidden; FONT-FAMILY: Arial;  TEXT-ALIGN: center}
+#myslide .pic .dis A IMG {VERTICAL-ALIGN: middle}
+#myslide #font_hd TD A {FONT-SIZE: 14px; LINE-HEIGHT: 25px; HEIGHT: 25px;}

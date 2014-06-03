@@ -1,0 +1,39 @@
+<div class="bubble-wrap">
+{loop $list $t}
+<table style="table-layout:fixed;margin-bottom: 0;">
+<tr id="dr_row_{$t.id}">
+{if $t.authorid==$uid}
+    <td width="50" valign="top" style="padding-top:10px; border:none;">
+    <div class="avt">
+        <a href="{dr_space_url($t.authorid)}" target="_blank"><img src="{dr_avatar($t.authorid)}"></a>
+    </div>
+    </td>
+    <td valign="top" style="padding-top:5px; border:none">
+        <div class="bubble-main left ">
+            <div class="bubble-content" style="color:#444;font-weight:bold">
+            我： {dr_fdate($t.dateline)}
+            </div>
+            <div style="padding:0 10px;">{htmlspecialchars_decode($t.message)}</div>
+            <div class="arrow-left"></div>
+        </div>
+    </td>
+{else}
+    <td valign="top" style="padding-top:5px; border:none">
+        <div class="bubble-main right ">
+            <div class="bubble-content" style="color:#444;font-weight:bold">
+            {$t.author}： {dr_fdate($t.dateline)}
+            </div>
+            <div style="padding:0 10px;">{htmlspecialchars_decode($t.message)}</div>
+            <div class="arrow-right"></div>
+        </div>
+    </td>
+    <td width="50" valign="top" style="padding-top:10px; border:none">
+    <div class="avt">
+        <a href="{dr_space_url($t.authorid)}" target="_blank"><img src="{dr_avatar($t.authorid)}"></a>
+    </div>
+    </td>
+{/if}
+</tr>
+</table>
+{/loop}
+</div>

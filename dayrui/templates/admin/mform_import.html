@@ -1,0 +1,28 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<fieldset>
+        <legend>表单导入</legend>
+		<form action="" method="post">
+		<input name="todo" type="hidden" value="1" />
+        <table width="100%" class="table_form">
+            <tr>
+                <th width="200">文件位置：</th> 
+                <td>/{$get.dir}/config/form.php （{$size}）</td>
+            </tr>
+            <tr>
+                <th>注意事项：</th> 
+                <td>此操作会覆盖当前模块的现有表单信息</td>
+            </tr>
+            <tr class="dr_border_none">
+                <th></th> 
+                <td><input type="submit" class="button" value="导入" name="option" onClick="" /></td>
+            </tr>
+        </table>
+		</form>
+    </fieldset>
+</div>
+{template footer.html}

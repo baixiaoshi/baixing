@@ -1,0 +1,142 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab({$page});
+	{if $error}
+	art.dialog.tips('{$error}', 3);
+	{/if}
+});
+</script>
+<form action="" method="post" name="myform" id="myform">
+<input name="page" id="page" type="hidden" value="{$page}" />
+<input name="data[displayorder]" type="hidden" value="{intval($data.displayorder)}" />
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}19.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-083')}</li>
+			<li onclick="SwapTab(1)">{lang('html-272')}</li>
+		</ul>
+		<div class="contentList pad-10">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				<tr>
+					<th width="200"><font color="red">*</font>&nbsp;{lang('html-026')}： </th>
+					<td><input class="input-text" type="text" name="data[name]" value="{$data['name']}" id="dr_name" size="12" />
+					<div class="onShow">{lang('html-027')}</div>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang('html-268')}： </th>
+					<td>
+					<input class="input-text" type="text" name="data[price]" value="{intval($data['price'])}" size="12" />
+					<div class="onShow">{lang('html-273')}</div>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang('html-274')}： </th>
+					<td>
+					<input type="radio" name="data[unit]" value="1" {dr_set_radio('unit', $data['unit'], '1', TRUE)} />&nbsp;<label>{SITE_SCORE}</label>
+					&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[unit]" value="2" {dr_set_radio('unit', $data['unit'], '2')} />&nbsp;<label>{SITE_MONEY}</label>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang('html-275')}： </th>
+					<td>
+					<input type="radio" name="data[limit]" value="1" {dr_set_radio('limit', $data['limit'], '1', TRUE)} />&nbsp;<label>{lang('html-276')}</label>
+					&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[limit]" value="2" {dr_set_radio('limit', $data['limit'], '2')} />&nbsp;<label>{lang('html-277')}</label>
+					&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[limit]" value="3" {dr_set_radio('limit', $data['limit'], '3')} />&nbsp;<label>{lang('html-278')}</label>
+					&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[limit]" value="4" {dr_set_radio('limit', $data['limit'], '4')} />&nbsp;<label>{lang('html-486')}</label>
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>&nbsp;{lang('html-360')}： </th>
+					<td>
+					<select name="data[overdue]">
+                    {loop $overdue $t}
+                    <option{if $t['id']==$data['overdue']} selected=""{/if} value="{$t['id']}">{$t['name']}</option>
+                    {/loop}
+                    </select>
+					<div class="onShow">{lang('html-361')}</div>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang('html-269')}： </th>
+					<td>
+					<input type="radio" name="data[allowapply]" value="1" {dr_set_radio('allowapply', $data['allowapply'], '1', TRUE)} />&nbsp;<label>{lang('yes')}</label>
+					&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[allowapply]" value="0" {dr_set_radio('allowapply', $data['allowapply'], '0')} />&nbsp;<label>{lang('no')}</label>&nbsp;
+					<div class="onShow">{lang('html-279')}</div>
+					</td>
+				</tr>
+				{if MEMBER_OPEN_SPACE}
+                <tr>
+					<th>{lang('html-229')}： </th>
+					<td>
+					<input type="radio" name="data[allowspace]" value="1" {dr_set_radio('allowspace', $data['allowspace'], '1', TRUE)} />&nbsp;<label>{lang('yes')}</label>
+					&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[allowspace]" value="0" {dr_set_radio('allowspace', $data['allowspace'], '0')} />&nbsp;<label>{lang('no')}</label>&nbsp;
+					<div class="onShow">{lang('html-255')}</div>
+					</td>
+				</tr>
+				{/if}
+                <tr>
+					<th><font color="red">*</font>&nbsp;{lang('html-097')}： </th>
+					<td>
+					<select name="data[theme]">
+                    <option value="default"> -- </option>
+                    {loop $theme $t}
+                    <option{if $t==$data['theme']} selected=""{/if} value="{$t}">{$t}</option>
+                    {/loop}
+                    </select>
+					<div class="onShow">{lang('html-617')}</div>
+					</td>
+				</tr>
+               <tr>
+					<th><font color="red">*</font>&nbsp;{lang('html-099')}： </th>
+					<td>
+					<select name="data[template]">
+                    <option value="default"> -- </option>
+                    {loop $mtemplate $t}
+                    <option{if $t==$data['template']} selected=""{/if} value="{$t}">{$t}</option>
+                    {/loop}
+                    </select>
+					<div class="onShow">{lang('html-618')}</div>
+					</td>
+				</tr>
+				</table>
+			</div>
+			<div id="cnt_1" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				{list action=cache name=MEMBER.field}
+				<tr>
+					<th width="200">&nbsp;{$t['name']}： </th>
+					<td><input type="checkbox" {if @in_array($t['fieldname'], $data['allowfield'])}checked="checked"{/if} value="{$t['fieldname']}"  name="data[allowfield][]"></td>
+				</tr>
+				{/list}
+				<tr>
+					<th>&nbsp;</th>
+					<td><font color="gray">{lang('html-280')}</font></td>
+				</tr>
+				</table>
+			</div>
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200" style="border:none;">&nbsp;</th>
+				<td>
+				<input class="button" type="submit" name="submit" value="{lang('submit')}" />
+				</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</form>
+{template footer.html}

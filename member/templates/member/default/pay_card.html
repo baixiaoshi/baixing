@@ -1,0 +1,40 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	{if $error}
+	dr_tips("<font color=red>{$error}</font>", 3);
+	{/if}
+});
+function dr_show_result() {
+	
+}
+</script>
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+    	<div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main">
+                <ul class="form_ul">
+                <form method="post" action="">
+                <li>
+                <strong>卡号</strong>
+                <input type="text" value="{$card}" name="card" class="input_text" />
+                </li>
+                <li>
+                <strong>密码</strong>
+                <input type="text" value="" name="password" class="input_text" />
+                </li>
+                <li class="mbutton">
+                <button value="" type="submit" class="blue_button" onclick="dr_show_result()">充值</button>
+                </li>
+                </form>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{template footer.html}

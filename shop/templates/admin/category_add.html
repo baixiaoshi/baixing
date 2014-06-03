@@ -1,0 +1,347 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab({$page});
+	set_urlmode({$data['setting']['urlmode']});
+	{if $result}
+	art.dialog.tips('<font color=red>{$result}</font>', 3, 2);
+	{/if}
+	$("#dr_row_thumb").addClass("dr_one");
+	
+	// 会员组权限联动
+	$(".dr_select_all input").click(function(data){
+		var _class = $(this).attr("class");
+		if ($(this).attr('checked')) {
+			$("."+_class).attr("checked",true);
+		} else {
+			$("."+_class).attr("checked",false);
+		}
+	});
+	
+	// 管理组权限联动
+	$(".dr_admin .dr_show").click(function(data){
+		if (!$(this).attr('checked')) {
+			//设置增删改不可用
+			$(this).next(".dr_add").attr("disabled", true);
+			$(this).next(".dr_add").next(".dr_edit").attr("disabled", true);
+			$(this).next(".dr_add").next(".dr_edit").next(".dr_del").attr("disabled", true);
+		} else {
+			//设置增删改可用
+			$(this).next(".dr_add").attr("disabled", false);
+			$(this).next(".dr_add").next(".dr_edit").attr("disabled", false);
+			$(this).next(".dr_add").next(".dr_edit").next(".dr_del").attr("disabled", false);
+		}
+	});
+	$(".dr_admin .dr_show").each(function(data){
+		if (!$(this).attr('checked')) {
+			//设置增删改不可用
+			$(this).next(".dr_add").attr("disabled", true);
+			$(this).next(".dr_add").next(".dr_edit").attr("disabled", true);
+			$(this).next(".dr_add").next(".dr_edit").next(".dr_del").attr("disabled", true);
+		} else {
+			//设置增删改可用
+			$(this).next(".dr_add").attr("disabled", false);
+			$(this).next(".dr_add").next(".dr_edit").attr("disabled", false);
+			$(this).next(".dr_add").next(".dr_edit").next(".dr_del").attr("disabled", false);
+		}
+	});
+});
+function dr_form_check() {
+	var radio = $('input[name="_all"]').filter(':checked');
+	if (radio.length && radio.val() == 1) {
+		if (d_required('names')) return false;
+	} else {
+		if (d_required('name')) return false;
+		if (d_required('dirname')) return false;
+	}
+	return true;
+}
+function dr_load_url() {
+	var catid = $("#dr_load_catid").val();
+	if (catid==0) {
+		art.dialog.tips("<font color=red>{lang('html-604')}</font>", 3);
+		return;
+	}
+	$.post("{dr_url(APP_DIR.'/category/urlrule')}&catid="+catid, function(data) {
+		if (data) {
+			$("#url_show").val(data.show);
+			$("#url_show_page").val(data.show_page);
+			$("#url_list").val(data.list);
+			$("#url_list_page").val(data.list_page);
+			$("#url_catjoin").val(data.catjoin);
+			{if $extend}
+			$("#url_extend").val(data.extend);
+			{/if}
+			art.dialog.tips("{lang('000')}", 3, 1);
+		} else {
+			art.dialog.tips("<font color=red>{lang('html-605')}</font>", 3);
+		}
+	}, 'json');
+}
+</script>
+<form action="" method="post" name="myform" id="myform" onsubmit="return dr_form_check()">
+<input name="page" id="page" type="hidden" value="{$page}" />
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-083')}</li>
+			<li onclick="SwapTab(1)">{lang('html-084')}</li>
+			<li onclick="SwapTab(2)">{lang('html-215')}</li>
+			<li onclick="SwapTab(3)">{lang('html-216')}</li>
+			<li onclick="SwapTab(4)">{lang('html-217')}</li>
+			{if $data['id']}
+			<li onclick="SwapTab(5)">{lang('html-219')}</li>
+			{/if}
+		</ul>
+		<div class="contentList pad-10 dr_table">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				<tr>
+					<th width="200"><font color="red">*</font>&nbsp;{lang('cat-10')}： </th>
+					<td>{$select}</td>
+				</tr>
+				{if !$data['id']}
+				<tr>
+					<th>{lang('cat-11')}： </th>
+					<td>
+					<input type="radio" name="_all" value="0" onclick="$('.dr_more').hide();$('.dr_one').show();" checked />&nbsp;{lang('no')}
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="_all" value="1" onclick="$('.dr_more').show();$('.dr_one').hide();" />&nbsp;{lang('yes')}
+					</td>
+				</tr>
+				<tr class="dr_more" style="display:none">
+					<th><font color="red">*</font>&nbsp;{lang('cat-12')}： </th>
+					<td><textarea style="width:200px;height:150px" name="names" id="dr_names" /></textarea>
+					<div class="onShow" id="dr_names_tips">{lang('cat-13')}</div>
+					</td>
+				</tr>
+				{/if}
+				<tr class="dr_one">
+					<th><font color="red">*</font>&nbsp;{lang('cat-14')}： </th>
+					<td><input class="input-text" type="text" name="data[name]" value="{$data['name']}" id="dr_name" onblur="d_topinyin('dirname','name', 1);" size="20" />
+					<div class="onShow" id="dr_name_tips">{lang('cat-15')}</div>
+					</td>
+				</tr>
+				<tr class="dr_one">
+					<th><font color="red">*</font>&nbsp;{lang('cat-08')}： </th>
+					<td>
+					<input class="input-text" type="text" name="data[dirname]" id="dr_dirname" value="{$data['dirname']}" size="20" />
+					<div class="onShow" id="dr_dirname_tips">{lang('cat-16')}</div>
+					</td>
+				</tr>
+				<tr class="dr_one">
+					<th>{lang('cat-07')}： </th>
+					<td>
+					<input class="input-text" type="text" name="data[letter]" id="dr_letter" value="{$data['letter']}" size="20" />
+					<div class="onShow">{lang('cat-17')}</div>
+					</td>
+				</tr>
+				{$thumb}
+				<tr>
+					<th>{lang('html-357')}： </th>
+					<td>
+                    <input type="radio" name="data[show]" value="1" {dr_set_radio('show', $data['show'], '1', TRUE)} />&nbsp;{lang('yes')}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="data[show]" value="0" {dr_set_radio('show', $data['show'], '0')} />&nbsp;{lang('no')}
+					<div class="onShow">{lang('html-358')}</div>
+					</td>
+				</tr>
+				<tr>
+                    <th align="right">{lang('cat-24')}：</th>
+                    <td>
+                    <select name="data[setting][status]">
+                        <option value="0" {if !$data[setting]['status']}selected="selected"{/if}>{lang('cat-25')}</option>
+                        <option value="-1" {if $data[setting]['status']==-1}selected="selected"{/if}>{lang('cat-26')}</option>
+                        <option value="1" {if $data[setting]['status']==1}selected="selected"{/if}>{lang('cat-27')}</option>
+                    </select>
+                    </td>
+                </tr>
+                <tr class="dr_border_none">
+					<th>{lang('order')}： </th>
+					<td>
+					<input class="input-text" type="text" name="data[displayorder]"  value="{intval($data['displayorder'])}" size="10" />
+					<div class="onShow">{lang('html-230')}</div>
+					</td>
+				</tr>
+				</table>
+			</div>
+			<div id="cnt_1" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-171')}： </th>
+                    <td><input class="input-text" type="text" name="data[setting][seo][seojoin]" value="{$data['setting']['seo']['seojoin']}" size="5"/>
+                    <div class="onShow">{lang('html-172')}</div></td>
+                </tr>
+                <tr>
+					<th>{lang('html-231')}： </th>
+					<td><input class="input-text" type="text" name="data[setting][seo][show_title]" value="{$data['setting']['seo']['show_title']}" size="80" />
+					<div class="onShow">&nbsp;<a href="javascript:dr_seo_rule();">{lang('html-173')}</a></div>
+					</td>
+				</tr>
+                {if $extend}
+				<tr>
+					<th>{lang('html-596')}： </th>
+					<td><input class="input-text" type="text" name="data[setting][seo][extend_title]" value="{$data['setting']['seo']['extend_title']}" size="80" />
+					<div class="onShow">&nbsp;<a href="javascript:dr_seo_rule();">{lang('html-173')}</a></div>
+					</td>
+				</tr>
+                {/if}
+				<tr>
+					<th>{lang('html-232')}： </th>
+					<td><input class="input-text" type="text" name="data[setting][seo][list_title]" value="{$data['setting']['seo']['list_title']}" size="80" />
+					<div class="onShow">&nbsp;<a href="javascript:dr_seo_rule();">{lang('html-173')}</a></div>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang('html-233')}： </th>
+					<td><input class="input-text" type="text" name="data[setting][seo][list_keywords]" value="{$data['setting']['seo']['list_keywords']}" size="80" />
+					<div class="onShow">&nbsp;<a href="javascript:dr_seo_rule();">{lang('html-173')}</a></div>
+					</td>
+				</tr>
+				<tr class="dr_border_none">
+					<th>{lang('html-234')}： </th>
+					<td><input class="input-text" type="text" name="data[setting][seo][list_description]" value="{$data['setting']['seo']['list_description']}" size="80" />
+					<div class="onShow">&nbsp;<a href="javascript:dr_seo_rule();">{lang('html-173')}</a></div>
+					</td>
+				</tr>
+				</table>
+			</div>
+            <div id="cnt_2" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				<tr>
+                    <th width="200">{lang('html-235')}：</th>
+                    <td>
+                    <input type="text" class="input-text" size="10" value="{$data['setting']['template']['pagesize']}" name="data[setting][template][pagesize]" />
+                    <div class="onShow">{lang('html-242')}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-240')}：</th>
+                    <td>
+                    <input type="text" class="input-text" size="30" value="{$data['setting']['template']['show']}" name="data[setting][template][show]" />
+                    <div class="onShow">{lang('html-241')}</div>
+                    </td>
+                </tr>
+                {if $extend}
+                <tr>
+                    <th>{lang('html-593')}：</th>
+                    <td>
+                    <input type="text" class="input-text" size="30" value="{php echo $data['setting']['template']['extend'] ? $data['setting']['template']['extend'] : 'extend.html'}" name="data[setting][template][extend]" />
+                    <div class="onShow">{lang('html-594')}</div>
+                    </td>
+                </tr>
+                {/if}
+                <tr>
+                    <th>{lang('html-236')}：</th>
+                    <td>
+                    <input type="text" class="input-text" size="30" value="{$data['setting']['template']['category']}" name="data[setting][template][category]" />
+                    <div class="onShow">{lang('html-237')}</div>
+                    </td>
+                </tr>
+                <tr class="dr_border_none">
+                    <th>{lang('html-238')}：</th>
+                    <td>
+                    <input type="text" class="input-text" size="30" value="{$data['setting']['template']['list']}" name="data[setting][template][list]" />
+                    <div class="onShow">{lang('html-239')}</div>
+                    </td>
+                </tr>
+				</table>
+			</div>
+            <div id="cnt_3" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				<tr>
+					<th width="200">{lang('html-243')}： </th>
+					<td>
+					<input type="radio" name="data[setting][urlmode]" value="0" {if !$data['setting']['urlmode']}checked=""{/if} onclick="set_urlmode(0)" />&nbsp;{lang('html-244')}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="data[setting][urlmode]" value="1" {if $data['setting']['urlmode']}checked=""{/if} onclick="set_urlmode(1)" />&nbsp;{lang('html-245')}
+					<div class="onShow">{lang('html-246')}</div>
+					</td>
+				</tr>
+                <tbody id="urlmode" {if !$data['setting']['urlmode']}style="display:none"{/if}>
+                <tr>
+                    <th>{lang('html-247')}： </th>
+                    <td><input id="url_show" class="input-text" type="text" name="data[setting][url][show]" value="{$data['setting']['url']['show']}" size="40"/>
+                    <div class="onShow">&nbsp;<a href="javascript:dr_url_rule();">{lang('html-173')}</a></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-248')}： </th>
+                    <td><input id="url_show_page" class="input-text" type="text" name="data[setting][url][show_page]" value="{$data['setting']['url']['show_page']}" size="40"/>
+                    <div class="onShow">&nbsp;<a href="javascript:dr_url_rule();">{lang('html-173')}</a></div>
+                    </td>
+                </tr>
+                {if $extend}
+                <tr>
+                    <th>{lang('html-595')}： </th>
+                    <td><input id="url_extend" class="input-text" type="text" name="data[setting][url][extend]" value="{$data['setting']['url']['extend']}" size="40"/>
+                    <div class="onShow">&nbsp;<a href="javascript:dr_url_rule();">{lang('html-173')}</a></div>
+                    </td>
+                </tr>
+                {/if}
+                <tr>
+                    <th>{lang('html-249')}： </th>
+                    <td><input id="url_list" class="input-text" type="text" name="data[setting][url][list]" value="{$data['setting']['url']['list']}" size="40"/>
+                    <div class="onShow">&nbsp;<a href="javascript:dr_url_rule();">{lang('html-173')}</a></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-250')}： </th>
+                    <td><input id="url_list_page" class="input-text" type="text" name="data[setting][url][list_page]" value="{$data['setting']['url']['list_page']}" size="40"/>
+                    <div class="onShow">&nbsp;<a href="javascript:dr_url_rule();">{lang('html-173')}</a></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-251')}： </th>
+                    <td><input class="input-text" id="url_catjoin" type="text" name="data[setting][url][catjoin]" value="{$data['setting']['url']['catjoin']}" size="5"/>
+                    <div class="onShow">{lang('html-252')}</div></td>
+                </tr>
+                <tr class="dr_border_none">
+                    <th>{lang('cat-19')}： </th>
+                    <td>{str_replace("name='data[pid]'", 'id="dr_load_catid"', $select)}
+                    <input class="button" type="button" onclick="dr_load_url()" name="loadurl" value="{lang('html-603')}" /></td>
+                </tr>
+                </tbody>
+				</table>
+			</div>
+            <div id="cnt_4" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form dr_admin">
+				{if !$data['child']}
+                {dr_admin_rule($role, $data['setting']['admin'])}
+                <tr>
+                    <th width="200"> </th>
+                    <td><font color="red">{lang('html-253')}</font></td>
+                </tr>
+				{else}
+				<tr>
+                    <th width="200"> </th>
+                    <td><font color="red"><b>{lang('html-317')}</b></font></td>
+                </tr>
+				{/if}
+				</table>
+			</div>
+			{if $data['id']}
+			<div id="cnt_5" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200"> </th>
+                    <td>
+					{$select_syn}
+					<br>
+                    <font color="gray">{lang('cat-21')}</font></td>
+                </tr>
+				</table>
+			</div>
+			{/if}
+		</div>
+	</div>
+</div>
+<div class="fixed-bottom">
+    <div class="fixed-but text-c">
+        <div class="button"><input value="{lang('save')}" type="submit" name="submit" class="cu" style="width:100px;" /></div>
+    </div>
+</div>
+</form>
+{template footer.html}

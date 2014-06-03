@@ -1,0 +1,80 @@
+<script type="text/javascript">
+//防止回车提交表单
+$(function() {
+	document.onkeydown = function(e){ 
+		var ev = document.all ? window.event : e;
+		if (ev.keyCode==13) {
+			$("#mark").val("1"); // 标识不能提交表单
+		}
+	}
+});
+function dr_form_check() {
+	if ($("#dr_name").val() == '') {
+		dr_form_tips('name', false, '{dr_lang("020", lang("html-026"))}');
+		return false;
+	} else {
+		dr_form_tips('name', true, '&nbsp;');
+	}
+	if ($("#mark").val() == 0) { 
+		return true;
+	} else {
+		return false;
+	}
+}
+</script>
+<div class="table-list" style="width:530px;">
+<form action="" method="post" id="myform" name="myform" onsubmit="return dr_form_check()">
+<input name="mark" id="mark" type="hidden" value="0">
+<table width="100%" class="table_form">
+  <tr>
+    <th width="100"><font color="red">*</font>&nbsp;{lang('html-026')}： </th>
+    <td><input class="input-text" type="text" name="data[name]" id="dr_name" value="{$data['name']}" size="20" /><div class="onShow" id="dr_name_tips">{lang('html-027')}</div></td>
+</tr>
+<tr>
+    <th>&nbsp;{lang('030')}： </th>
+    <td><font color="gray" style="float: left">{lang('html-080')}</font><a class="add" title="{lang('add')}" href="javascript:;" onClick="add_verify()" style="background-repeat:no-repeat;padding-left:20px;width:auto"></a></td>
+</tr>
+<tr>
+    <th colspan="2" style="border-bottom:none">
+    <div id="verify_body" style="width:530px; overflow:hidden">
+    {if !empty($data['verify'])}
+    {loop $data['verify'] $k $t}
+    <table width="100%" class="menu-sort">
+    <tbody>
+    <tr>
+        <td width="140">{lang('html-081')}({$k})：</td>
+        <td width="133" align="left">
+        <select name="data[role][{$k}][]" style="width:150px;height:60px" multiple="multiple">
+        {loop $role $r}
+        {if $r['id']>1}
+        <option value="{$r['id']}" {if @in_array($r['id'], $t)} selected="selected"{/if}>{$r['name']}</option>
+        {/if}
+        {/loop}
+        </select></td>
+        <td align="left"><a class="del" title="{lang('del')}" href="javascript:;" onClick="remove_verify(this)"></a></td>
+    </tr>
+    </tbody>
+    </table>
+    {/loop}
+    {/if}
+    </div>
+  	</th>
+</tr>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+function add_verify() {
+	var c=$("#verify_body tr").size();
+	if (c > 8) {
+		art.dialog.tips('{lang('html-082')}', 3);
+		return;
+	}
+	c++;
+    var data = '<table width="100%" class="menu-sort ui-sortable"><tbody><tr><td width="140" align="right">{lang('html-081')}('+c+')：</td><td width="133" align="left"><select name="data[role]['+c+'][]" style="width:150px;height:60px" multiple="multiple">{$select}</select></td><td align="left"><a class="del" title="{lang('del')}" href="javascript:;" onClick="remove_verify(this)"></a></td></tr></tbody></table>';
+	$('#verify_body').append(data);
+}
+function remove_verify(_this) {
+	$(_this).parent().parent().parent().remove();
+}
+</script>

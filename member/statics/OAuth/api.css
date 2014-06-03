@@ -1,0 +1,14 @@
+body,html,div,ul,li,p,span,form{ margin:0; padding:0;}
+input,button,select,textarea{outline:none}
+body{ background: #FFF;}
+.ul,li{ list-style:none;}.l{ display:inline}
+.login_box{ width:300px; margin: auto; margin-top:-10px;}
+.login_box ul{ margin:30px 20px; float:left;}
+.login_box ul li{ height:35px; line-height:35px; margin-bottom:10px;}
+.login_box .tx{ border:1px #ddd solid; height:28px; line-height:28px; width:220px; padding-left:10px; color:#ccc; font-family:microsoft yahei;}
+.login_box .in{ border:1px #9C0 solid; height:28px; line-height:28px; width:220px; padding-left:10px; font-family:microsoft yahei;-webkit-transition:.3s; -moz-transition:.3s;-webkit-box-shadow:0 0 3px #999; -moz-box-shadow:0 0 3px #999;}
+.login_box .btn{ border:0; background:url(../../admin/images/bnt.png) no-repeat; height:33px; line-height:33px; color:#FFF; width:65px; font-family:microsoft yahei;}
+.login_box .ipt{ border:1px #ddd solid; height:28px; line-height:28px; padding-left:10px; color:#ccc; font-family:microsoft yahei; width:60px;}
+.login_box .int{ border:1px #9C0 solid; height:28px; line-height:28px; width:60px; padding-left:10px; font-family:microsoft yahei;-webkit-transition:.3s; -moz-transition:.3s;-webkit-box-shadow:0 0 3px #999; -moz-box-shadow:0 0 3px #999;}
+
+.ptop {padding-top:8px;}

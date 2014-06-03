@@ -1,0 +1,40 @@
+<div class="software_r soft_r">
+    <div class="r_fl">
+        <h4>软件分类</h4>
+        <ul>
+            <!--循环栏目作为导航栏目，pid=0表示顶级栏目-->
+            {list action=category pid=0}
+            <!--下面那句if表示当前栏目时就加粗高亮显示-->
+            <li {if in_array($catid, $t.catids)} class="curr"{/if}><a href="{$t.url}">{$t.name}</a></li>
+            {/list}{$error}
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="r_ph">
+        <h4>最新上传软件</h4>
+        <ul>
+            <!--循环输出当前栏目下面的数据，我们按点击排序-->
+            {list action=module catid=$catid field=thumb,title,url,version order=updatetime num=10}
+            <li><span {if $key<3} class="one"{/if}>{$key+1}</span><b><a href="{$t.url}">{$t.title}&nbsp;{$t.version}</a></b></li>
+            {/list}{$error}
+        </ul>
+    </div>
+    <div class="r_bb">
+        <h4>装机必备</h4>
+        <ul>
+            <!--查询推荐位3（装机必备）的内容，field需要用到的字段（不填表示全部），按displayorder（后台指定排序）排序-->
+            {list action=module flag=1 field=thumb,title,url,hits,description order=displayorder,updatetime num=4}	
+            <li>
+                <img src="{dr_thumb($t.thumb,70,70)}" align="left" />
+                <div class="r_ct">
+                    <a href="{$t.url}" title="{$t.title}">{$t.title}</a>
+                    <div class="into">
+                        {dr_strcut($t.description, 33)}<a href="{$t.url}" title="{$t.title}">[详细]</a>
+                    </div>
+                    <span>{$t.hits}次</span>
+                </div>
+            </li>
+            {/list}{$error}
+        </ul>
+    </div>
+</div>

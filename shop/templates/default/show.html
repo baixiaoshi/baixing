@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=7" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{$meta_title}</title>
+	<meta name="keywords" content="{$meta_keywords}" />
+	<meta name="description" content="{$meta_description}" />
+	<!--非授权用户请保留FineCMS的信息-->
+	<meta name="author" content="dayrui.com" />
+	<meta name="Copyright" content="FineCMS v{DR_VERSION}" />
+	<!--关键JS--> 
+	<script type="text/javascript">var memberpath = "{MEMBER_PATH}";</script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/{SITE_LANGUAGE}.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.min.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.artDialog.js?skin=default"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/dayrui.js"></script>
+	<!--[if IE 6]>
+	<script src="{MODULE_THEME_PATH}ie6png.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	   EvPNG.fix('div, ul, img, li, input'); 
+	</script>
+	<![endif]-->
+    <link href="{MODULE_THEME_PATH}css.css" rel="stylesheet" />
+</head>
+<body>
+{template "top.html"}
+<div class="idx">
+	<div class="fls" style="position:absolute">
+		<div class="fls_l" id="box1" style="display:none">
+			{template "cat.html"}
+		</div>	
+	</div>
+</div>
+<div class="idx"><img src="{MODULE_THEME_PATH}item/t1.jpg" width="100%" /></div>
+<div class="Dg">您当前位置：<a href="{MODULE_URL}">{MODULE_NAME}</a> &gt; {dr_catpos($catid, ' &gt; ')} &gt; 浏览商品</div>
+<div class="ctmain">
+	<div class="ctmain_l">
+		<div class="l_one">
+			<h4>{$parent.name}</h4>
+			<ul>
+			{loop $related $t}
+            <li><a href="{$t.url}">{$t.name}</a></li>
+            {/loop}
+			</ul>
+			<div class="clear"></div>
+		</div>
+        <div class="l_two">
+			<h4><span>人气</span>商品</h4>
+			<ul>
+            	{list action=module catid=$catid order=hits num=10}
+				<li>
+                	<img align="left" src="{dr_thumb($t.thumb, 50, 40)}">
+                	<div class="r_ct"><a title="{$t.title}" href="{$t.url}">{dr_strcut($t.title, 33)}</a><br><font>¥{$t.price}</font></div>
+                </li>
+                {/list}
+			</ul>
+		</div>
+		<div class="l_three">
+			<h4><span>热销</span>商品</h4>
+			<ul>
+				{list action=module catid=$catid order=volume num=10}
+				<li>
+                	<span class="one">{$key+1}</span>
+                    <a href="{$t.url}"><div class="libox"><img src="{dr_thumb($t.thumb, 95, 120)}" /><br /><font>¥{$t.price}</font></div>{dr_strcut($t.title, 25)}</a>
+                </li>
+                {/list}
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="ctmain_r">
+		<div class="r_one">
+		<table width="100%" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td colspan="2" class="cttitle">{$title}</td>
+          </tr>
+          <tr>
+            <td width="330" align="center" valign="top">
+			<script type="text/javascript" src="{MODULE_THEME_PATH}cloud-zoom.1.0.2.min.js"></script>
+			<script type="application/javascript">
+            function Album(id, s) {
+                for (var i=0; i<3; i++) {
+                    $('#t_'+i).attr("class", i==id ? 'ab_on' : 'ab_im');
+                }
+                $('#zoom1').attr("href", s);
+                $('#zoom1').attr("src", s);
+                $('#dr_pic').attr("src", s);
+            }
+            </script>
+            <div class="zoom-section">    	  
+                <div class="zoom-small-image">
+                	<a href="{dr_get_file($images[0]['file'])}" class="cloud-zoom" id="zoom1" rel="adjustX:10, adjustY:-4"><img id="dr_pic" src="{dr_thumb($images[0]['file'], 360, 360)}" width="300" height="300" /></a>
+                </div>
+                <div class="zoom-desc">
+                    {loop $images $i $t}
+                    <img width="50" height="50" id="t_{$i}" class="ab_im" onmouseover="Album({$i}, '{dr_get_file($t.file)}');" src="{dr_thumb($t.file, 50, 50)}">
+                    {/loop}
+                </div>
+            </div>
+            </td>
+            <td valign="top" style="padding-right:20px;">
+                <div class="tcarbox">
+                <table width="100%" class="item" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="50">单价：</td>
+                    <td><font class="fontcor" id="dr_price">￥{$price}</font></td>
+                  </tr>
+				  {if $discount && $discount.end >= SYS_TIME}
+				  <tr>
+                    <td>折扣：</td>
+                    <td>
+					{if $member}
+						{if $discount[$member['mark']]}
+							<font class="fontcor">{$discount[$member['mark']]}</font>折
+						{else}
+							您所在的会员组无折扣
+						{/if}
+					{else}
+						此商品需要登录之后才会显示折扣信息
+					{/if}
+					</td>
+                  </tr>
+				  {/if}
+                  <tr>
+                    <td>运费：</td>
+                    <td>
+                    {if $freight.type}
+                    {if $freight.1>0} 快递: <span class="f_price">{$freight.1}</span>&nbsp;&nbsp;{/if}
+                    {if $freight.2>0} 平邮: <span class="f_price">{$freight.2}</span>&nbsp;&nbsp;{/if}
+                    {if $freight.3>0} EMS: <span class="f_price">{$freight.3}</span>&nbsp;&nbsp;{/if}
+                    {else}
+                    卖家承担运费
+                    {/if}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>销量：</td>
+                    <td>累计出售<b style="padding:0px 3px;color:#086fbe">{$volume}</b>件</td>
+                  </tr>
+                  <tr>
+                    <td>人气：</td>
+                    <td>已有<b style="padding:0px 3px;color:#086fbe">{dr_show_hits($id)}</b>人关注</td>
+                  </tr>
+                  <tr>
+                    <td>更新：</td>
+                    <td>{$updatetime}</td>
+                  </tr>
+                </table>
+                </div>
+                <div class="carbox">
+                	{if $onsale}
+                    <table width="100%" class="item" border="0" cellspacing="0" cellpadding="0">
+                    {if $format}
+                    {php $FORMAT=$this->ci->get_cache('format-'.SITE_ID);}
+                    {loop $FORMAT[$catid]['list'] $fid $value}
+                        <tr>
+                        <td>{$FORMAT[$catid]['data'][$fid]['name']}：</td>
+                        <td>
+                        <input class="dr_format_value" id="dr_format_{$fid}" fid="{$fid}" type="hidden" value="" />
+                        <div class="dr_format_{$fid}">
+                            {loop $value $iid}
+                            {if in_array($iid, $format['id'])}
+                            <span id="dr_format_iid_{$iid}" iid="{$iid}" class="txt" onclick="dr_select_item(this, {$fid}, {$iid})">{$FORMAT[$catid]['data'][$iid]['name']}<i><img src="{MODULE_THEME_PATH}item_sel.gif"></i></span>
+                            {/if}
+                            {/loop}
+                        </div>
+                        </td>
+                        </tr>
+                    {/loop}
+                    {/if}
+                    <tr>
+                        <td width="50">数量：</td>
+                        <td>
+                        <div class="p_number" id="dr_quantity_show">
+                            <a href="javascript:void(0)" onclick="dr_set_item_num(0)" class="reduce"><img border="0" src="{MODULE_THEME_PATH}ico_close.gif"></a>
+                            <input size="4" type="text" class="text" id="dr_num" value="1" />
+                            <a href="javascript:void(0)" onclick="dr_set_item_num(1)" class="add"><img border="0" src="{MODULE_THEME_PATH}ico_open.gif"></a>
+                            <label style="color:#999">(<b id="dr_quantity">{$quantity}</b>)</label>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        <input type="button" id="buybtn" onclick="dr_buy()" />
+                        <input type="button" id="carbtn" onclick="dr_cart()" />
+                        </td>
+                    </tr>
+                	</table>
+                    {else}
+                    此商品已经下架
+                    {/if}
+				</div>
+            </td>
+          </tr>
+        </table>
+  		</div>
+		<div class="r_two">
+			<dl id="dr_mall_tab">
+				<dt class="sd01" iid="01">商品详情</dt>
+				<dt class="sd02" iid="02">累计评价</dt>
+				<dt class="sd02" iid="03">售后服务</dt>							
+			</dl>
+			<div class="display productline" id="c01">
+				<div class="c01box">
+					{$content}
+				</div>
+			</div>
+			<div class="display productline" id="c02" style="display:none">
+				<div class="c02box">
+                	<table width="98%" cellspacing="1" cellpadding="0" border="0" align="center">
+                    <tbody>
+                    {php $sql = 'select * from @#'.SITE_ID.'_'.APP_DIR.'_order_review where iid='.$id.' order by inputtime desc limit 10';}
+                    {list action=sql sql='$sql'}
+                    <tr>
+                        <td width="70" style="margin-top:3px;" rowspan="3"><img width="45" height="45" border="0" src="{dr_avatar($uid)}"></td>
+                        <td width="*" height="25">{$t.author} <font color="#999999">(点评时间：{$t.inputtime}，点评分数：{$t.avgsort})</font> </td>
+                    </tr>
+                    <tr>
+                   		<td height="25" style="word-break:break-all;" colspan="2">{nl2br($t.content)}</td>
+                    </tr>
+					{/list}{$error}
+                    </tbody>
+                    </table>
+				</div>	
+			</div>
+			<div class="display productline" id="c03" style="display:none">
+				<div class="c04box">
+					<h4>售后服务参考条文</h4>
+1、如果您购买的是数码类、手机及配件、笔记本、台式机、家电类商品，为了保证您能充分享有生产厂家提供的售后保修服务，不管您是否需要开具发票，我们都将随单为您开具，发票内容默认为您订购的商品全称，同时不支持修改发票内容。如果因为所开具的发票内容和所购商品名称不符，导致无法保修，本站概不负责。<br /> 
+2、退货时提供发票原件，超1000元现金支付的订单办理退货将不退现金。<br />  
+3、数码类、手机及配件、笔记本、台式机、家电、打印机、扫描仪、一体机、车载GPS类商品，如果商品出现质量问题，请您自行到生产厂家售后服务中心进行检测，并开据检测报告（对于有些生产厂家售后服务中心无法提供检测报告的，需提供维修检验单据），如果检测报告确认属于质量问题，然后将检测报告、问题商品及完整包装附件，一并返回我司办理退换货手续。如有破损或丢失，我们将无法为您办理。 <br /> 
+4、对于钻石、黄金、手表、珠宝首饰及个人配饰类产品，如果附带国家级宝玉石鉴定中心出具的鉴定证书的、非质量问题不予以退换货。客户在收到商品之日起（以发票日期为准）3个月内，如果出现质量问题，请自行到当地的质量监督部门-珠宝玉石质量检验中心进行检测，如果检测报告确认属于质量问题，请与本站售后服务部联系办理退换货事宜。退换货时，请您务必将检测报告、商品的外包装、内带附件、鉴定证书、说明书等随同商品一起退回。如有包装破损或缺失，扣除该商品5%的折价费；如有附件破损或缺失扣除该商品10-15%的折价费。<br />  
+5、对于高档首饰都附带国家级宝玉石鉴定中心出具的鉴定证书，如果您对此有任何质疑，请到出具该证书的鉴定机构进行复检。 <br /> 
+6、游戏、软件类商品含授权/激活信息（包括且不限于序列号SN、激活码、CDKEY等）为特殊商品，一旦售出，不予以退换货，在此条件下，商品出现质量问题，请直接按照说明书上的联系方式与生产厂家的售后服务中心联系解决。 <br /> 
+7、对于存储类商品，本站概不提供数据导出服务，请务必在返修前将里面的数据自行导出，否则若有数据遗失、损坏等本站概不承担相应的责任。<br />  
+8、对于外观有物理损伤（俗称有外伤）的商品，或者由于您技术水平、使用环境限制造成的误报以及实际情况与您描述不符，本站将不予受理，并直接按原地址返回，不承担由此产生运费。<br />  
+9、对于保健品类商品，请您服用前认真阅读使用说明书，禁忌人群切勿服用。如果您认为是食用保健品导致的身体不适，需要您提供医疗检测机构的检测证明、发票及商品外包装，到我司办理相关退换货业务。在使用过程中，如果有其它问题请直接联系生产厂家咨询。<br />  
+10、在保修时，需要您提供对应问题商品、保修卡及本站保修凭证（或复印件），若遗失其中一项，致使本站无法准确判断您的详细信息及问题商品的故障，本站将暂停处理，直至您与本站联系并重新填写返修申请单。由此带来的时间延迟及不便，本站不承担任何责任，并且本站将不承担客户缺失物品补寄所产生的运费。<br />  
+11、本站商品图片及信息仅供参考，因拍摄灯光及不同显示器色差等问题可能造成问题商品图片与实物有色差，一切以实物为准，因此所产生的问题，不在退换货服务范围内。 
+
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<div class="clear"></div>
+<script type="text/javascript">
+// 商品内容评论等切换
+$("#dr_mall_tab > dt").click(function(){
+	var iid = $(this).attr("iid");
+	$("#dr_mall_tab > dt").attr("class", "sd02");
+	$(this).attr("class", "sd01");
+	$(".productline").hide();
+	$("#c"+iid).show();
+});
+
+{if $format}
+var price = {json_encode($format['price'])};
+var quantity = {json_encode($format['quantity'])};
+{/if}
+
+// 商品数量加减选择
+function dr_set_item_num(op) {
+	var num = parseInt($("#dr_num").val());
+	var _quantity = parseInt($("#dr_quantity").html());
+	if (isNaN(num) || num <= 1) num = 1;
+	if (op) {
+		// 加操作
+		num++;
+		if (num >= _quantity) num = _quantity;
+	} else {
+		// 减操作
+		num--;
+		if (isNaN(num) || num <= 1) num = 1;
+	}
+	$("#dr_num").val(num);
+}
+// 购买商品
+function dr_buy() {
+	{if !$member}
+	dr_login();
+	return;
+	{/if}
+	var order = "{dr_url('order/buy', array('iid'=>$id))}";
+	{if $format}
+	var i = 0;
+	var format = new Array();
+	$(".dr_format_value").each(function(){
+		var id = $(this).val();
+		if (id == "") {
+			// 请勾选您要的商品信息
+			dr_tips("请勾选您要的商品信息", 3);
+			return;
+		}
+		format[i] = id;
+		i++;
+	});
+	order+= "&fid="+format.join("-");
+	{/if}
+	// 判断库存
+	var _quantity = parseInt($("#dr_quantity").html());
+	if (isNaN(_quantity) || _quantity <= 0) {
+		dr_tips("库存不足无法购买", 3);
+		return;
+	}
+	var num = parseInt($("#dr_num").val());
+	order+= "&num="+num;
+	location.href=order;
+}
+// 购物车
+var is_cart = true;
+function dr_cart() {
+	if (!is_cart) return;
+	var cart = "{dr_url('order/add', array('iid'=>$id))}";
+	{if $format}
+	var i = 0;
+	var format = new Array();
+	$(".dr_format_value").each(function(){
+		var id = $(this).val();
+		if (id == "") {
+			// 请勾选您要的商品信息
+			dr_tips("请勾选您要的商品信息", 3);
+			return;
+		}
+		format[i] = id;
+		i++;
+	});
+	cart+= "&fid="+format.join("-");
+	{/if}
+	// 判断库存
+	var _quantity = parseInt($("#dr_quantity").html());
+	if (isNaN(_quantity) || _quantity <= 0) {
+		dr_tips("库存不足无法购买", 3);
+		return;
+	}
+	var num = parseInt($("#dr_num").val());
+	cart+= "&num="+num;
+	is_cart = false;
+	$.get(cart, function(total){
+		var html = "<div style=\"font-size:14px\"><img src=\"{MEMBER_THEME_PATH}images/icon_1.png\" align=\"absmiddle\">&nbsp;已成功添加到购物车！购物车里已有 <font color=red>"+total+"</font> 种商品</div>";
+		art.dialog({
+			id: 'cart',
+			lock: true,
+			opacity: 0.1,
+			content: html,
+			ok: function () {
+				location.href="{dr_url('order/cart')}";
+				is_cart = true;
+				return false;
+			},
+			okVal: '去结算',
+			cancelVal: '继续购物',
+			cancel: function () {
+				is_cart = true;
+				return true;
+			} 
+		});
+	});
+}
+// 按规则更新商品价格
+function dr_update_item() {
+	var i = 0;
+	var format = new Array();
+	$(".dr_format_value").each(function(){
+		var id = $(this).val();
+		if (id == "") return;
+		format[i] = id;
+		i++;
+	});
+	var fid = format.join("-");
+	// 当全部勾选之后才更新商品价格与库存
+	var _price = price[fid];
+	var _quantity = quantity[fid];
+	$("#dr_price").html(price_float(_price));
+	if (_quantity) {
+		$("#dr_quantity").html(_quantity);
+	} else {
+		$("#dr_quantity").html("<font color=red><b>库存不足</b></font>");
+	}
+}
+// 按规则选择商品
+function dr_select_item(_this, fid, iid) {
+	$(".dr_format_"+fid+" > span").attr("class", "txt");
+	$(_this).attr("class", "curr");
+	$("#dr_format_"+fid).val(iid);
+	dr_update_item();
+}
+function price_float(value){  //保留两位小数点
+	if (!value) value = 0;
+    value = Math.round(parseFloat(value) * 100) / 100;
+    if (value.toString().indexOf(".") < 0) {
+    	value = value.toString() + ".00";
+    }
+    return value;
+}
+// 设置商品的默认规则
+$(".dr_format_value").each(function(){
+	var iid = $(this).val();
+	var fid = $(this).attr("fid");
+	$(".dr_format_"+fid+" > span").attr("class", "txt");
+	if (iid) {
+		$("#dr_format_iid_"+iid).attr("class", "curr");
+	} else {
+		var _first = $(".dr_format_"+fid+" span").first();
+		var _iid = _first.attr("iid");
+		_first.attr("class", "curr");
+		$("#dr_format_"+fid).val(_iid);
+	}
+	dr_update_item();
+});
+</script>
+{template "footer.html"}

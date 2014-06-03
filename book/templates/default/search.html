@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=7" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>搜索关键字 - "{$keyword}" - {$meta_title}</title>
+	<meta name="keywords" content="{$meta_keywords}" />
+	<meta name="description" content="{$meta_description}" />
+	<meta name="author" content="dayrui@gmail.com" />
+	<meta name="Copyright" content="FineCMS v{DR_VERSION}" />
+    <link href="{HOME_THEME_PATH}images/search.css" rel="stylesheet" />
+	<!--关键JS--> 
+	<script type="text/javascript">var memberpath = "{MEMBER_PATH}";</script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/{SITE_LANGUAGE}.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.min.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.artDialog.js?skin=default"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/dayrui.js"></script>
+	<!--[if IE 6]>
+	<script src="{HOME_THEME_PATH}js/ie6png.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	   EvPNG.fix('div, ul, img, li, input'); 
+	</script>
+	<![endif]-->
+    <script type="text/javascript">
+    $(function(){
+		// 回到顶部
+		$("#back-to-top").hide();
+		$(window).scroll(function(){
+		 if ($(window).scrollTop()>100){
+			$("#back-to-top").fadeIn(1500);
+			} else {
+			$("#back-to-top").fadeOut(1500);
+			}
+		});
+		$("#back-to-top").click(function(){
+			$('body,html').animate({scrollTop:0},1000);
+			return false;
+		});
+	});
+	function dr_top_search() {
+		var keyword = $('#keyword').val();
+		if (keyword == '请输入关键字') keyword = '';
+		if (!keyword) {
+			alert("请输入关键字");
+			return;
+		}
+		// 按模块组合搜索地址
+		window.location.href='{MODULE_URL}index.php?c=search&keyword='+keyword;
+	}
+	</script>
+</head>
+<body>
+<div id="back-to-top" style="display: block;"><a href="#top">TOP</a></div>
+<div class="head">
+	<div class="idx" style=" text-align:right">
+    	<!--下面4个链接我就写死了哦-->
+        <a href="{SITE_URL}" class="bgone"><b>首页</b></a>
+        <a href="javascript:void(0);" onclick="dr_set_homepage('{MODULE_URL}')">设为首页</a>
+        <a href="javascript:void(0);" onclick="dr_add_favorite('{MODULE_URL}','{MODULE_TITLE}')">加入收藏</a>
+        <a href="{MODULE_URL}sitemap.xml">网站地图</a>
+        <!--调用type=1的网站导航数据-->
+        {list action=navigator type=1 num=10}
+        <a href="{$t.url}" title="{$t.title}" {if $t.target}target="_blank"{/if}>{$t.name}</a>
+        {/list}
+        {$error}<!--如果查询为空，error变量会返回错误提示，正式上线建议删除-->
+    </div>
+</div>
+<div class="ilogo">
+    <div class="idx">
+    	<a href="{MODULE_URL}" title="{MODULE_TITLE}"><img src="{HOME_THEME_PATH}images/logo.png" /></a>
+        <!-----搜索条----->
+        <div class="sc">
+            <div class="scbox">
+                <input type="input" id="keyword" onfocus="this.value=(this.value=='请输入关键字')?'':this.value" onblur="this.value=(this.value=='')?'请输入关键字':this.value" class="SC_input" value="{$keyword}"><input name="" onclick="dr_top_search();" type="button" value="&nbsp;" class="scbtn" align="left" />
+            </div>
+            <div class="clear"></div>
+            <!--只有模块页面才有tag功能，首页不具备此功能所以不显示-->
+            <div class="sc_tags">
+            热搜TAGS：  
+            <!--此标签用于调用tag标签，非当前模块需要加上model=模块名称,num=显示条数-->
+            {list action=tag num=10}
+            <a href="{$t.url}" title="点击量：{$t.hits}">{$t.name}</a>
+            {/list}
+            </div>
+        </div>
+        <!-----搜索条结束----->
+	</div>
+</div>
+<div class="sc_list">
+	<div class="clear"></div>
+	<div class="scjg"><div class="idx">搜索 <font color=red>{$keyword}</font> 的结果：</div></div>
+	<div class="clear"></div>
+	<div class="idx">
+		<div class="sc_list_l">
+        {if $contentid}<!--当搜索到数据时就查询-->
+			<!--固定格式INin参数调用搜索数据，field同样可以设置显示字段，page=1表示分页显示开关，pagesize表示分页数量，ruleurl分页url规则-->
+			{list action=module field=title,url,updatetime,catid,description,keywords INid=$contentid page=1 pagesize=5 urlrule=$urlrule}
+            <li>
+                <a href="{$t.url}" target="_blank" class="title">{dr_keyword_highlight($t.title, $keyword)}<!--高亮显示描述关键字函数--></a><span class="date">{$t.updatetime}</span>
+                <div style=" clear:both;color:#999">
+                {dr_keyword_highlight($t.description, $keyword)}<!--高亮显示描述关键字函数--><br/>
+                栏目：{CATEGORY.$t[catid].name}&nbsp;
+                关键字：{$t.keywords}<br/>
+                </div>
+                <div style="color:#009933;">
+                链接:{str_replace('http://', '', $t.url)}
+                </div>
+            </li>
+			{/list}{$error}
+            <div class="clear"></div>
+			<li class="fyys">
+            	<div class="fenye" id="fenye">
+					<a href="javascript:;">共{$total}条</a>
+  					{$pages}
+				</div>
+			</li>
+		{else}
+        	<div class="norecord">对不起，您输入的关键字，没有找到任何记录！</div>
+        {/if}		
+		</div>
+		<div class="sc_list_r">
+			<h4>阅读排行榜</h4>
+			<ul>
+			 <!--我们按点击排序-->
+            {list action=module catid=$catid field=title,url order=hits num=10}
+            <li class="nopic"><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 27)}</a></li>
+            {/list} {$error}
+			</ul>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+
+{template "footer.html"}

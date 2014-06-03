@@ -1,0 +1,39 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > {dr_catpos($catid, ' > ')} > <a href="{$curl}">{$title}</a> > {$name}
+<!--面包屑导航--></div>
+<div class="exam_three">
+	<div class="exam_intro" style="width:980px;">
+		<div class="box01">
+			<div class="tit"><h4>正在播放</h4></div>
+				<div class="ksnr_box">
+                    {dr_player('video', $video, 970, 540, $next_page.url, $title.$name, $url, $body ? $body : $description, $preview ? $preview : $thumb)}
+				</div>
+			</div>
+            <div class="box02">
+				<div class="tit"><h4>剧集列表</h4></div>
+				<div class="ksnr_box">
+                     <div class="chapter_list">
+                         <ul class="movielist movielist_115x70">
+                         	{list action=extend field=name,url,preview,id cid=$cid order=id_asc}
+                            <li>
+                                <a class="pic" target="_blank" href="{$t.url}"><img src="{dr_thumb($t.preview)}" ></a>
+                                <h3><a target="_blank" href="{$t.url}" {if $id==$t.id} style="font-weight:bold; color:#F00"{/if}>{$t.name}</a></h3>
+                            </li>
+                            {/list}
+                        </ul>
+                        <div class="clear"></div>
+					</div>
+				</div>
+			</div>
+			<div class="box02">
+				<div class="tit"><h4>本集简介</h4></div>
+				<div class="ksnr_box">
+					 {$body}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+{template "footer.html","/"}

@@ -1,0 +1,21 @@
+{template header.html}
+<div class="wp" id="wp">
+    <div class="wp cl w" id="ct">
+        <div class="nfl">
+            <div class="f_c altw">
+                <div class="{if $mark==1}alert_right{else if $mark==2}alert_info{else}alert_error{/if}"" id="messagetext">
+                	<p>{$msg}</p>
+               		<p class="alert_btnleft">
+                    {if $url}
+                    <a href="{$url}">如果您的浏览器没有自动跳转，请点击此链接</a>
+                    <meta http-equiv="refresh" content="{$time}; url={$url}">
+                    {else}
+                    <a href="javascript:history.back();" >[返回上一页]</a>
+                    {/if}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

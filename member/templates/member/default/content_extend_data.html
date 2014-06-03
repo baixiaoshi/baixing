@@ -1,0 +1,15 @@
+{loop $list $t}
+<tr id="dr_row_{$t.id}">
+	<td class="algin_r"><input type="checkbox" value="{$t.id}" class="dr_select" name="ids[]"></td>
+	<td class="algin_c"><input class="input-text displayorder" type="text" name="data[{$t.id}][displayorder]" value="{$t.displayorder}" /></td>
+	<td class="algin_l"><div class="dr_title"><a href="{$t.url}" title="{$t.name}" target="_blank">{dr_keyword_highlight($t.name, $kw)}</a></div></td>
+    {if $content.type}
+	<td class="algin_c"><a href="{dr_url(APP_DIR.'/extend/index', array('cid'=>$cid,'type'=>$t.mytype))}">{$content['type'][$t['mytype']]['name']}</a></td>
+    {/if}
+	<td class="algin_l">{dr_date($t.inputtime, '', 'red')}</td>
+	<td class="algin_l">
+    <a {if $catrule.edit}href="{dr_member_url(APP_DIR.'/extend/edit', array('cid'=>$cid, 'id'=>$t.id))}""{else} style=" color:#999"{/if}>修改</a>
+    <a href="javascript:;" {if $catrule.del}onclick="dr_delete('{$t.id}')"{else} style=" color:#999"{/if}>删除</a>
+    </td>
+</tr>
+{/loop}

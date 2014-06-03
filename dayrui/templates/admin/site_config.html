@@ -1,0 +1,412 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab({$page});
+	{if $result}
+	art.dialog.tips('{$result}', 3, 1);
+	{/if}
+	dr_set_mw_type({intval($data['SITE_IMAGE_TYPE'])});
+});
+function dr_form_check() {
+	if (d_required('name')) return false;
+	if (d_isdomain('domain')) return false;
+	return true;
+}
+function dr_set_mw_type(id) {
+	$(".dr_mw_1").hide();
+	$(".dr_mw_0").hide();
+	$(".dr_mw_"+id).show();
+}
+</script>
+<form action="" method="post" name="myform" id="myform" onsubmit="return dr_form_check()">
+<input name="page" id="page" type="hidden" value="{$page}" />
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}11.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-083')}</li>
+			<li onclick="SwapTab(1)">{lang('html-084')}</li>
+			<li onclick="SwapTab(2)">{lang('html-085')}</li>
+			<li onclick="SwapTab(3)">{lang('html-086')}</li>
+			<li onclick="SwapTab(4)">{lang('html-542')}</li>
+		</ul>
+		<div class="contentList pad-10">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-089')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="domain" id="dr_domain" value="{$data['SITE_DOMAIN']}" size="25" />
+                    <div class="onShow" id="dr_domain_tips">{lang('html-090')}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-087')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SITE_NAME]" id="dr_name" value="{$data['SITE_NAME']}" size="40" />
+                    <div class="onShow" id="dr_name_tips">{lang('html-088')}</div>
+                    </td>
+                </tr>
+                <tr>
+					<th>{lang('html-093')}： </th>
+					<td>
+					<input class="input-text" type="text" name="data[SITE_TIME_FORMAT]" value="{$data['SITE_TIME_FORMAT']}" size="15" />
+					<div class="onShow">{lang('html-094')}</div>
+					</td>
+				</tr>
+                <tr>
+					<th>{lang('html-095')}： </th>
+					<td>
+					<select name="data[SITE_LANGUAGE]">
+                    <option value="zh-cn"> -- </option>
+                    {loop $lang $t}
+                    <option{if $t==$data['SITE_LANGUAGE']} selected=""{/if} value="{$t}">{$t}</option>
+                    {/loop}
+                    </select>
+                    <div class="onShow">{lang('html-096')}</div>
+					</td>
+				</tr>
+                <tr>
+					<th>{lang('html-097')}： </th>
+					<td>
+					<select name="data[SITE_THEME]">
+                    <option value="default"> -- </option>
+                    {loop $theme $t}
+                    <option{if $t==$data['SITE_THEME']} selected=""{/if} value="{$t}">{$t}</option>
+                    {/loop}
+                    </select>
+					<div class="onShow">{lang('html-098')}</div>
+					</td>
+				</tr>
+               <tr>
+					<th>{lang('html-099')}： </th>
+					<td>
+					<select name="data[SITE_TEMPLATE]">
+                    <option value="default"> -- </option>
+                    {loop $template_path $t}
+                    <option{if $t==$data['SITE_TEMPLATE']} selected=""{/if} value="{$t}">{$t}</option>
+                    {/loop}
+                    </select>
+					<div class="onShow">{lang('html-100')}</div>
+					</td>
+				</tr>
+				<tr>
+                    <th>{lang('html-075')}： </th>
+                    <td>
+                    <input type="radio" name="data[SITE_MOBILE]" value="1" {if $data['SITE_MOBILE']}checked{/if} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[SITE_MOBILE]" value="0" {if empty($data['SITE_MOBILE'])}checked{/if} />&nbsp;<label>{lang('close')}</label>
+					<div class="onShow">{lang('html-674')}</div>
+                    </td>
+                </tr>
+                <tr class="">
+					<th>{lang('html-101')}： </th>
+					<td>
+					<select name="data[SITE_TIMEZONE]">
+					<option value=""> -- </option>
+					<option value="-12" {if $data['SITE_TIMEZONE']=="-12"}selected{/if}>(GMT -12:00)</option>
+					<option value="-11" {if $data['SITE_TIMEZONE']=="-11"}selected{/if}>(GMT -11:00)</option>
+					<option value="-10" {if $data['SITE_TIMEZONE']=="-10"}selected{/if}>(GMT -10:00)</option>
+					<option value="-9" {if $data['SITE_TIMEZONE']=="-9"}selected{/if}>(GMT -09:00)</option>
+					<option value="-8" {if $data['SITE_TIMEZONE']=="-8"}selected{/if}>(GMT -08:00)</option>
+					<option value="-7" {if $data['SITE_TIMEZONE']=="-7"}selected{/if}>(GMT -07:00)</option>
+					<option value="-6" {if $data['SITE_TIMEZONE']=="-6"}selected{/if}>(GMT -06:00)</option>
+					<option value="-5" {if $data['SITE_TIMEZONE']=="-5"}selected{/if}>(GMT -05:00)</option>
+					<option value="-4" {if $data['SITE_TIMEZONE']=="-4"}selected{/if}>(GMT -04:00)</option>
+					<option value="-3.5" {if $data['SITE_TIMEZONE']=="-3.5"}selected{/if}>(GMT -03:30)</option>
+					<option value="-3" {if $data['SITE_TIMEZONE']=="-3"}selected{/if}>(GMT -03:00)</option>
+					<option value="-2" {if $data['SITE_TIMEZONE']=="-2"}selected{/if}>(GMT -02:00)</option>
+					<option value="-1" {if $data['SITE_TIMEZONE']=="-1"}selected{/if}>(GMT -01:00)</option>
+					<option value="0" {if $data['SITE_TIMEZONE']=="0"}selected{/if}>(GMT)</option>
+					<option value="1" {if $data['SITE_TIMEZONE']=="1"}selected{/if}>(GMT +01:00)</option>
+					<option value="2" {if $data['SITE_TIMEZONE']=="2"}selected{/if}>(GMT +02:00)</option>
+					<option value="3" {if $data['SITE_TIMEZONE']=="3"}selected{/if}>(GMT +03:00)</option>
+					<option value="3.5" {if $data['SITE_TIMEZONE']=="3.5"}selected{/if}>(GMT +03:30)</option>
+					<option value="4" {if $data['SITE_TIMEZONE']=="4"}selected{/if}>(GMT +04:00)</option>
+					<option value="4.5" {if $data['SITE_TIMEZONE']=="4.5"}selected{/if}>(GMT +04:30)</option>
+					<option value="5" {if $data['SITE_TIMEZONE']=="5"}selected{/if}>(GMT +05:00)</option>
+					<option value="5.5" {if $data['SITE_TIMEZONE']=="5.5"}selected{/if}>(GMT +05:30)</option>
+					<option value="5.75" {if $data['SITE_TIMEZONE']=="5.75"}selected{/if}>(GMT +05:45)</option>
+					<option value="6" {if $data['SITE_TIMEZONE']=="6"}selected{/if}>(GMT +06:00)</option>
+					<option value="6.5" {if $data['SITE_TIMEZONE']=="6.6"}selected{/if}>(GMT +06:30)</option>
+					<option value="7" {if $data['SITE_TIMEZONE']=="7"}selected{/if}>(GMT +07:00)</option>
+					<option value="8" {if $data['SITE_TIMEZONE']=="" || $data['SITE_TIMEZONE']=="8"}selected{/if}>(GMT +08:00)</option>
+					<option value="9" {if $data['SITE_TIMEZONE']=="9"}selected{/if}>(GMT +09:00)</option>
+					<option value="9.5" {if $data['SITE_TIMEZONE']=="9.5"}selected{/if}>(GMT +09:30)</option>
+					<option value="10" {if $data['SITE_TIMEZONE']=="10"}selected{/if}>(GMT +10:00)</option>
+					<option value="11" {if $data['SITE_TIMEZONE']=="11"}selected{/if}>(GMT +11:00)</option>
+					<option value="12" {if $data['SITE_TIMEZONE']=="12"}selected{/if}>(GMT +12:00)</option>
+					</select>
+					<div class="onShow">{lang('html-102')}</div>
+					</td>
+				</tr>
+				</table>
+			</div>
+			<div id="cnt_1" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-171')}： </th>
+                    <td><input class="input-text" type="text" name="data[SITE_SEOJOIN]" value="{php echo $data['SITE_SEOJOIN'] ? $data['SITE_SEOJOIN'] : '_';}" size="7" />
+                    <div class="onShow">{lang('html-172')}</div></td>
+                </tr>
+                <tr>
+                    <th>{lang('html-103')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SITE_TITLE]" value="{$data['SITE_TITLE']}" style="width:525px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-104')}： </th>
+                    <td>
+                    <textarea class="text" style="width:520px;height:50px;" name="data[SITE_KEYWORDS]">{$data['SITE_KEYWORDS']}</textarea>
+                    </td>
+                </tr>
+                <tr class="">
+                    <th>{lang('html-105')}： </th>
+                    <td>
+                    <textarea class="text" style="width:520px;height:80px;" name="data[SITE_DESCRIPTION]">{$data['SITE_DESCRIPTION']}</textarea>
+                    </td>
+                </tr>
+                </table>
+            </div>
+			<div id="cnt_2" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				<tr>
+                    <th width="200">{lang('html-085')}： </th>
+                    <td>
+                    <input type="radio" name="data[SITE_ATTACH_REMOTE]" value="1" {if $data['SITE_ATTACH_REMOTE']}checked{/if} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[SITE_ATTACH_REMOTE]" value="0" {if empty($data['SITE_ATTACH_REMOTE'])}checked{/if} />&nbsp;<label>{lang('close')}</label>
+					<div class="onShow">{lang('html-106')}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-107')}： </th>
+                    <td>
+                    <input id="host" class="input-text" type="text" name="data[SITE_ATTACH_HOST]" value="{$data['SITE_ATTACH_HOST']}" size="25" />
+					<div class="onShow">{lang('html-108')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-109')}： </th>
+                    <td>
+                    <input id="port" class="input-text" type="text" name="data[SITE_ATTACH_PORT]" value="{$data['SITE_ATTACH_PORT']}" size="10" />
+					<div class="onShow">{lang('html-110')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-111')}： </th>
+                    <td>
+                    <input id="username" class="input-text" type="text" name="data[SITE_ATTACH_USERNAME]" value="{$data['SITE_ATTACH_USERNAME']}" size="25" />
+					<div class="onShow">{lang('html-112')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-113')}： </th>
+                    <td>
+                    <input id="password" class="input-text" type="password" name="data[SITE_ATTACH_PASSWORD]" value="{$data['SITE_ATTACH_PASSWORD']}" size="25" />
+					<div class="onShow">{lang('html-114')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-115')}： </th>
+                    <td>
+                    <input id="path" class="input-text" type="text" name="data[SITE_ATTACH_PATH]" value="{$data['SITE_ATTACH_PATH']}" size="25" />
+					<div class="onShow">{lang('html-116')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-117')}： </th>
+                    <td>
+					<input class="pasv" type="radio" name="data[SITE_ATTACH_PASV]" value="1" {if $data['SITE_ATTACH_PASV']}checked{/if} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input class="pasv" type="radio" name="data[SITE_ATTACH_PASV]" value="0" {if empty($data['SITE_ATTACH_PASV'])}checked{/if} />&nbsp;<label>{lang('close')}</label>
+					<div class="onShow">{lang('html-118')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-119')}： </th>
+                    <td>
+					<input class="mode" type="radio" name="data[SITE_ATTACH_MODE]" value="auto" {if empty($data['SITE_ATTACH_MODE']) || $data['SITE_ATTACH_MODE'] == 'auto'}checked{/if} />&nbsp;<label>{lang('html-120')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input class="mode" type="radio" name="data[SITE_ATTACH_MODE]" value="ascii" {if $data['SITE_ATTACH_MODE']=='ascii'}checked{/if} />&nbsp;<label>{lang('html-121')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input class="mode" type="radio" name="data[SITE_ATTACH_MODE]" value="binary" {if $data['SITE_ATTACH_MODE']=='binary'}checked{/if} />&nbsp;<label>{lang('html-122')}</label>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-123')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SITE_ATTACH_EXTS]" value="{$data['SITE_ATTACH_EXTS']}" size="25" />
+					<div class="onShow">{lang('html-124')}</div>
+                    </td>
+                </tr>
+				<tr class="">
+                    <th>{lang('html-125')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SITE_ATTACH_URL]" value="{$data['SITE_ATTACH_URL']}" size="25" />
+					<input class="button" type="button" name="button" id="ftptest" onclick="ftp_test()" value="{lang('html-127')}" />
+					<div class="onShow">{lang('html-126')}</div>
+                    </td>
+                </tr>
+                </table>
+            </div>
+			<div id="cnt_3" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-570')}： </th>
+                    <td>
+                    <input type="radio" name="data[SITE_IMAGE_RATIO]" value="1" {if $data['SITE_IMAGE_RATIO']}checked{/if} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[SITE_IMAGE_RATIO]" value="0" {if empty($data['SITE_IMAGE_RATIO'])}checked{/if} />&nbsp;<label>{lang('close')}</label>
+					<div class="onShow">{lang('html-571')}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{lang('html-128')}： </th>
+                    <td>
+                    <input type="radio" name="data[SITE_IMAGE_WATERMARK]" value="1" {if $data['SITE_IMAGE_WATERMARK']}checked{/if} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[SITE_IMAGE_WATERMARK]" value="0" {if empty($data['SITE_IMAGE_WATERMARK'])}checked{/if} />&nbsp;<label>{lang('close')}</label>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-129')}： </th>
+                    <td>
+                    <input type="radio" name="data[SITE_IMAGE_REMOTE]" value="1" {if $data['SITE_IMAGE_REMOTE']}checked{/if} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[SITE_IMAGE_REMOTE]" value="0" {if empty($data['SITE_IMAGE_REMOTE'])}checked{/if} />&nbsp;<label>{lang('close')}</label>
+					<div class="onShow">{lang('html-130')}</div>
+                    </td>
+                </tr>
+				<tr>
+					<th>{lang('html-143')}： </th>
+					<td>
+					<select name="data[SITE_IMAGE_VRTALIGN]">
+                    {loop $wm_vrt_alignment $t}
+                    <option{if $t==$data['SITE_IMAGE_VRTALIGN']} selected=""{/if} value="{$t}">{$t}</option>
+                    {/loop}
+                    </select>
+					&nbsp;&nbsp;
+					<select name="data[SITE_IMAGE_HORALIGN]">
+                    {loop $wm_hor_alignment $t}
+                    <option{if $t==$data['SITE_IMAGE_HORALIGN']} selected=""{/if} value="{$t}">{$t}</option>
+                    {/loop}
+                    </select>
+					</td>
+				</tr>
+				<tr>
+                    <th>{lang('html-144')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SITE_IMAGE_VRTOFFSET]" value="{$data['SITE_IMAGE_VRTOFFSET']}" size="7" />
+					&nbsp;&nbsp;
+					<input class="input-text" type="text" name="data[SITE_IMAGE_HOROFFSET]" value="{$data['SITE_IMAGE_HOROFFSET']}" size="7" />
+					<div class="onShow">{lang('html-145')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-131')}： </th>
+                    <td>
+                    <input type="radio" name="data[SITE_IMAGE_TYPE]" value="1" onclick="dr_set_mw_type(1)" {if $data['SITE_IMAGE_TYPE']}checked{/if} />&nbsp;<label>{lang('html-132')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[SITE_IMAGE_TYPE]" value="0" onclick="dr_set_mw_type(0)" {if empty($data['SITE_IMAGE_TYPE'])}checked{/if} />&nbsp;<label>{lang('html-133')}</label>
+                    </td>
+                </tr>
+				<tr class="dr_mw_1" style="display:none">
+					<th>{lang('html-134')}： </th>
+					<td>
+					<select name="data[SITE_IMAGE_OVERLAY]">
+                    {loop $wm_opacity $t}
+                    <option{if $t==$data['SITE_IMAGE_OVERLAY']} selected=""{/if} value="{$t}">{$t}</option>
+                    {/loop}
+                    </select>
+                    <div class="onShow">{lang('html-135')}</div>
+					</td>
+				</tr>
+				<tr class="dr_mw_1" style="display:none">
+                    <th>{lang('html-136')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SITE_IMAGE_OPACITY]" value="{$data['SITE_IMAGE_OPACITY']}" size="7" />
+					<div class="onShow">{lang('html-137')}</div>
+                    </td>
+                </tr>
+				<tr class="dr_mw_0" style="display:none">
+					<th>{lang('html-138')}： </th>
+					<td>
+					{if $wm_font_path}
+					<select name="data[SITE_IMAGE_FONT]">
+                    {loop $wm_font_path $t}
+                    <option{if $t==$data['SITE_IMAGE_FONT']} selected=""{/if} value="{$t}">{$t}</option>
+                    {/loop}
+                    </select>
+					{/if}
+                    <div class="onShow">{lang('html-139')}</div>
+					</td>
+				</tr>
+				<tr class="dr_mw_0" style="display:none">
+                    <th>{lang('html-140')}： </th>
+                    <td>
+					{dr_field_input('SITE_IMAGE_COLOR', 'Color', array('option'=>array('value'=>$data['SITE_IMAGE_COLOR'])))}
+                    </td>
+                </tr>
+				<tr class="dr_mw_0" style="display:none">
+                    <th>{lang('html-141')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SITE_IMAGE_SIZE]" value="{$data['SITE_IMAGE_SIZE']}" size="5" />
+                    </td>
+                </tr>
+				<tr class="dr_mw_0" style="display:none">
+                    <th>{lang('html-142')}： </th>
+                    <td>
+                    <input class="input-text" type="text" name="data[SITE_IMAGE_TEXT]" value="{$data['SITE_IMAGE_TEXT']}" size="33" />
+                    </td>
+                </tr>
+                </table>
+			</div>
+			<div id="cnt_4" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                {php for ($i = 0; $i <= 9; $i ++) {}
+                <tr>
+                    <th width="200"></th>
+                    <td align="left">
+                    <input class="input-text" name="navigator[{$i}]" type="text" value="{$navigator[$i]}" />
+					&nbsp;type={$i}
+                    </td>
+                </tr>
+                {php }}
+				</table>
+			</div>
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200" style="border:none;">&nbsp;</th>
+				<td>
+				<input class="button" type="submit" name="submit" value="{lang('submit')}" />
+				</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</form>
+<script type="text/javascript">
+<!--
+function ftp_test() {
+	var host = $('#host').val();
+	var port = $('#port').val();
+	var username = $('#username').val();
+	var password = $('#password').val();
+	var path = $("#path").val();
+	var pasv = $(".pasv:checked").val();
+	var mode = $(".mode:checked").val();
+	$("#ftptest").val('Loading');
+	$.get("{dr_url('api/testftp')}",{host:host,port:port,username:username,password:password,pasv:pasv,path:path,mode:mode}, function(data){
+		alert(data);
+		$("#ftptest").val('{lang('html-127')}');
+	})
+}
+//-->
+</script>
+{template footer.html}

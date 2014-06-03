@@ -1,0 +1,44 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	{if $error}
+	dr_tips("<font color=red>{$error}</font>", 3);
+	{/if}
+});
+</script>
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+    	<div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main">
+                <ul class="form_ul">
+                <form method="post" action="" target="_blank">
+                <li>
+                <strong>充值金额：</strong>
+                <input type="text" value="{$money}" name="money" style="width:93px;" class="input_text" />
+                </li>
+                <li>
+                <strong>支付方式：</strong>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                {loop $list $name $t}
+                  <tr>
+                    <td width="110" style="padding:5px 0"><img src="{MEMBER_URL}pay/{$name}/logo.png" width="100" height="35" /></td>
+                    <td align="left" style="padding:5px 0">&nbsp;&nbsp;<input name="pay" type="radio" {if $name==$pay} checked="checked"{/if} value="{$name}" /></td>
+                  </tr>
+                 {/loop}
+                </table>
+                </li>
+                <li class="mbutton">
+                <button value="" type="submit" class="blue_button">确认支付</button>
+                </li>
+                </form>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{template footer.html}

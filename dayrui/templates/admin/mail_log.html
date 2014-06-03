@@ -1,0 +1,37 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+         <font color="gray">{lang('html-433')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<input name="ids[]" type="hidden" value="log" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th align="left" class="dr_option">{lang('html-431')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr>
+			<td align="left" class="dr_option">{$t}</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th align="left" style="padding-top:5px;">
+			<input type="button" class="button" value="{lang('html-432')}" name="option" onClick="dr_confirm_set_all('{lang('015')}')" />
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+        <div id="pages"><a>{dr_lang('html-346', $total)}</a>{$pages}</div>
+	</div>
+</div>
+{template footer.html}

@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>{$meta_title}</title>
+<meta name="keywords" content="{$meta_keywords}" />
+<meta name="description" content="{$meta_description}" />
+<link rel="stylesheet" type="text/css" href="{$theme}css/metinfo_ui.css" />
+<link rel="stylesheet" type="text/css" href="{$theme}images/css/metinfo.css" id="metuimodule" data-module="10001"/>
+<script src="{$theme}js/jQuery1.7.2.js" type="text/javascript"></script>
+<script src="{$theme}js/m_ui.js" type="text/javascript"></script>
+<script src="{$theme}js/ch.js" type="text/javascript"></script>
+<!--[if IE]>
+<script src="{$theme}js/html5.js" type="text/javascript"></script>
+<![endif]-->
+</head>
+<body>
+<header>
+	<div class="inner">
+		<div class="top-logo">
+			<a href="{dr_space_url($space.uid)}" title="{$space.name}" id="web_logo">
+				<img src="{dr_thumb($space.logo, 180, 60)}" width="180" height="60" title="{$space.name}" style="margin:20px 0px 0px 0px;" />
+			</a>
+			<ul class="top-nav list-none">
+				<li class="t">
+					<a href='#' onclick='SetHome(this,window.location,"非IE浏览器不支持此功能，请手动设置！");' style='cursor:pointer;'>设为首页</a>
+					<span>|</span>
+					<a href='#' onclick='addFavorite("非IE浏览器不支持此功能，请手动设置！");' style='cursor:pointer;'>收藏本站</a>
+					<span>|</span>
+					<a class="fontswitch" id="StranLink" href="javascript:StranBody()">繁体中文</a>
+				<li class="b"><p>FineCMS for 海豚！这是一套神奇的系统</p></li>
+			</ul>
+		</div>
+		<nav>
+			<ul class="list-none">
+				<li select="0" style='width:121px;' class='dr_category'><a href='{dr_space_url($space.uid)}' class='nav'><span>空间首页</span></a></li>
+				<li class="line"></li>
+				<!--循环栏目开始-->
+				{loop $category $c}
+				{if !$c.pid && ($c.showid == 1 || $c.showid == 3)}<!--这里表示循环显示顶部栏目，你就这样写就行了-->
+				<li select="{$c.id}" class='dr_category' style='width:120px;'><a href='{dr_space_list_url($spaceid, $c.id)}' class='hover-none nav'><span>{$c.name}</span></a></li>
+				<li class="line"></li>
+				{/if}
+				{/loop}
+				<!--循环栏目结束-->
+				<li style='width:123px;'><a href='http://www.dayrui.com/' class='hover-none nav'><span>FineCMS</span></a></li><!--不知道怎么判断结尾所以在这里随便加了一个广告-->
+			</ul>
+		</nav>
+	</div>
+</header>

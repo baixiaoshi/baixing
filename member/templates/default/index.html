@@ -1,0 +1,139 @@
+{template "header.html"}
+<div class="inner met_flash">
+	<link href='{$theme}flash/css.css' rel='stylesheet' type='text/css' />
+	<script src='{$theme}flash/jquery.bxSlider.min.js'></script>
+	<div class='flash flash6' style='width:980px; height:245px;'>
+		<ul id='slider' class='list-none'>
+        	<!--action=model表示模型查询，modelid=5表示模型的id，space=空间人的id，field表示用的字段，order表示排序-->
+			{list action=model modelid=5 space=$spaceid field=title,link,image order=updatetime}
+			<li><a href='{$t.link}'><img src='{dr_thumb($t.image)}' width='980' height='245'></a></li>
+			{/list}{$error}<!--error变量返回错误信息，上线时可以去掉它-->
+		</ul>
+	</div>
+	<script type='text/javascript'>
+	$(document).ready(function(){ 
+		$('#slider').bxSlider({ mode:'vertical',autoHover:true,auto:true,pager: true,pause: 5000,controls:false});
+	});
+    </script>
+</div>
+
+<div class="index inner">
+	<div class="aboutus style-1">
+		<h3 class="title">
+			<span class='myCorner' data-corner='top 5px'>空间简介</span>
+		</h3>
+		<div class="active editor clear contour-1"><div>
+	</div>
+	<div style="padding-top:10px;">
+		{$space.introduction}
+    </div>
+
+	<div class="clear"></div>
+	</div>
+	</div>
+	<div class="case style-2">
+		<h3 class='title myCorner' data-corner='top 5px'>会员信息</h3>
+		<div class="active dl-jqrun contour-1">
+        <table width="270" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="50"><div class="memberinfo_avatar"><img src="{dr_avatar($space.uid)}"></a></div></td>
+            <td style="padding-bottom:10px;"><b>{$space.username}</b><br><div class="dr_stars">{dr_show_stars($space.level.stars)}</div></td> 
+          </tr>
+          <tr height="20">
+            <td colspan="2">
+            会员组：{$space.group.name}
+            </td>
+          </tr>
+          {if $space.levelid}
+          <tr height="20">
+            <td colspan="2">
+            会员等级：{$space.level.name}
+            </td>
+          </tr>
+          {/if}
+          <tr height="20">
+            <td colspan="2">
+            空间人气：{$space.hits}
+            </td>
+          </tr>
+          <tr height="20">
+            <td colspan="2">
+            创建时间：{dr_date($space.regtime, 'Y年m月d日')}
+            </td>
+          </tr>
+        </table>   
+		<div class="clear"></div>
+		</div>
+	</div>
+	<div class="clear"></div>
+    
+    <!--循环栏目开始，由于模板界面的关系，我们只显示3个栏目在中间吧-->
+    {php $i=0;}
+	{loop $category $c}
+	{if $c.modelid && !$c.pid && $c.showid == 3 && $i<3}<!--只循环模型栏目，只有类型为“都显示”的栏目才显示在首页的中间部分-->
+	<div class="{if $i==2}index-conts style-2{else}index-news style-1{/if}">
+		<h3 class="title">
+			<span class='myCorner' data-corner='top 5px'>{$c.name}</span>
+			<a href="{dr_space_list_url($spaceid, $c.id)}" class="more">更多>></a>
+		</h3>
+		<div class="active clear listel contour-2">
+        <ol class='list-none metlist'>
+        	<!--查询当前栏目下的数据，智商太低的就不必掌握它了，复制就行-->
+        	{list action=model modelid=$c.modelid space=$spaceid field=id,title,updatetime IN_catid=$c.childids order=updatetime num=5}
+        	<li class='list'>
+            	<span class='time'>{$t.updatetime}</span><a href='{dr_space_show_url($spaceid, $c.modelid, $t.id)}' title='{$t.title}'>{dr_strcut($t.title,30)}</a>
+            </li>
+            {/list}{$error}<!--错误信息显示变量-->
+        </ol>
+        </div>
+	</div>
+    {php $i++;}
+    {/if}
+    {/loop}
+	
+	<div class="clear p-line"></div>
+	<div class="index-product style-2">
+		<h3 class='title myCorner' data-corner='top 5px'>
+			<span>相册展示</span>
+		    <div class="flip">
+				<p id="trigger"></p>
+		        <a class="prev" id="car_prev" href="javascript:void(0);"></a>
+			    <a class="next" id="car_next" href="javascript:void(0);"></a>
+			</div>
+		</h3>
+		<div class="active clear">
+			<div class="profld" id="indexcar" data-listnum="5">
+			<ol class='list-none metlist'>
+            	<!--action=model表示模型查询，modelid=4表示模型的id，space=空间人的id，field表示用的字段，order表示排序-->
+				{list action=model modelid=4 space=$spaceid field=id,title,image order=updatetime num=10}
+                {loop $t.image $i $img}
+                {php if ($i>5) break;}<!--每个相册只显示5张图片吧-->
+				<li class='list'>
+                	<a href='{dr_space_show_url($spaceid, 4, $t.id)}' class='img'><img src='{dr_thumb($img.file, 160, 130)}' width='160' height='130' /></a>
+                    <h3 style='width:160px;'><a href='{dr_space_show_url($spaceid, 4, $t.id)}'>{$img.title}</a></h3></li>
+                {/loop}
+				{/list}{$error}<!--error变量返回错误信息，上线时可以去掉它-->
+            	</ol>
+			</div>
+		</div>
+	</div>
+	<script src="{$theme}images/js/fun.inc.js" type="text/javascript"></script>
+
+	<div class="clear"></div>
+	<div class="index-links">
+		<h3 class="title">外部链接</h3>
+		<div class="active clear">
+            <div class="txt">
+            <ul class='list-none'>
+            	{list action=model modelid=2 space=$spaceid field=id,title,link order=updatetime num=10}
+                <li><a href='{$t.link}' target='_blank' title='{$t.title}'>{$t.title}</a></li>
+                {/list}{$error}{$error}<!--error变量返回错误信息，上线时可以去掉它-->
+            </ul>
+            </div>
+		</div>
+		<div class="clear"></div>
+	</div>
+
+</div>
+
+{template "footer.html"}

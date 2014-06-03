@@ -1,0 +1,25 @@
+{loop $list $t}
+<tr id="dr_row_{$t.plid}">
+	<td width="20" class="algin_r" style="padding-top:10px;border:none"><input type="checkbox" value="{$t.plid}" class="dr_select" name="ids[]"></td>
+    <td valign="top" style="padding-top:10px;border:none">
+		<div class="bubble-main left" style="padding:10px 10px 0 10px;line-height:20px;">
+			<table>
+			<tr>
+				<td width="50" style="padding-top:10px;border:none">
+				<div class="avt" style="border:none">
+					{if $t.new}<div title="有未读消息" class="newpm_avt"></div>{/if}
+					<a href="{dr_member_url('pm/read', array('uid' => $t.msgtoid ))}"><img src="{dr_avatar($t.msgtoid)}"></a>
+				</div>
+				</td>
+				<td valign="top" style="padding-top:5px;border:none">
+				   <div style="line-height:25px;"><a href="{dr_space_url($t.authorid)}" target="_blank">{$t.tousername}</a> 对 <b>我</b> 说 :</div>
+				   <div style="line-height:20px;"><a href="{dr_member_url('pm/read', array('uid' => $t.msgtoid))}">{$t.lastsummary}</a></div>
+				   <div style="line-height:20px; color:#999">共用{$t.pmnum}条&nbsp;&nbsp;&nbsp;{dr_fdate($t.lastdateline)}</div>
+				</td>
+			</tr>
+			</table>
+		</div>
+    </td>
+</tr>
+
+{/loop}

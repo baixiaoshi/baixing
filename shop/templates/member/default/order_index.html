@@ -1,0 +1,89 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	$(".msearch a").click(function(){
+		var name = $(this).attr("name");
+		$(".msearch a").removeClass("cur");
+		$(this).addClass("cur");
+		$("#dr_where").val(name);
+	});
+	$("#dr_loadmore a").click(function(){
+		var page = $("#dr_page").val();
+		$("#dr_loading").html("<div style='padding:30px;text-align:center;width:678px;'><img src='{MEMBER_THEME_PATH}images/loading.gif' /></div>");
+		$.get("{$moreurl}", {page:page, where:{intval($get.where)}, kw:{intval($get.kw)}, status:{intval($get.status)} }, function(data){
+			if (data != "null") {
+				$("#dr_body").append(data);
+				$("#dr_page").val(Number(page) + 1);
+			}
+			$("#dr_loading").html("&nbsp;");
+		});
+	});
+});
+</script>
+<input name="page" id="dr_page" type="hidden" value="2" />
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+        <div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main dr_table">
+				<div class="msearch mbutton">
+                	<form method="get" action="">
+                    <input name="s" type="hidden" value="{APP_DIR}" />
+                    <input name="c" type="hidden" value="{$get.c}" />
+                    <input name="m" type="hidden" value="{$get.m}" />
+                    <input id="dr_where" name="where" type="hidden" value="{intval($get.where)}" />
+                    <div style="">
+                        <span style="color:#333; padding-right:8px;">时间筛选：</span>
+                        <a href="javascript:;" {if $get.where==0}class="cur"{/if} name="0">一周内</a>
+                        <a href="javascript:;" {if $get.where==1}class="cur"{/if} name="1">一月内</a>
+                        <a href="javascript:;" {if $get.where==2}class="cur"{/if} name="2">半年内</a>
+                        <a href="javascript:;" {if $get.where==3}class="cur"{/if} name="3">一年内</a>
+                        <a href="javascript:;" {if $get.where==4}class="cur"{/if} name="4">三年内</a>
+                    </div>
+                    <div style="clear:both;padding-top:15px;">
+                    	<span style="color:#333; padding-right:8px;">订单编号：
+                        <input type="text" id="dr_id" name="id" value="{$get.id}" class="input_text" style="color:#999;width:80px;" />
+                        </span>
+                        <span style="color:#333; padding-right:8px;">订单状态：
+                        <select name="status">
+                            <option value="0"> --- </option>
+                            <option value="1" {if $get.status==1}selected{/if}> 待付款 </option>
+                            <option value="2" {if $get.status==2}selected{/if}> 待发货 </option>
+                            <option value="3" {if $get.status==3}selected{/if}> 待收货 </option>
+                            <option value="4" {if $get.status==4}selected{/if}> 交易完成 </option>
+                        </select>
+                        </span>
+                        <button type="submit" class="red_button" style="margin-left:20px">查询</button>
+                    </div>
+               		</form>
+				</div>
+                <div class="bk10"></div>
+                <form action="" method="post" name="myform" id="myform">
+                <input name="action" id="action" type="hidden" value="" />
+				<table style="table-layout:fixed;margin-bottom:0;">
+				<thead>
+					<tr>
+						<th style="width:340px;" class="algin_l">商品</th>
+						<th style="width:50px;padding:0;" class="algin_c">单价</th>
+						<th style="width:46px;padding:0;" class="algin_c">数量</th>
+						<th style="width:50px;padding:0;" class="algin_c">共计</th>
+						<th style="width:120px;padding:0;" class="algin_c">付款</th>
+						<th class="algin_c">操作</th>
+					</tr>
+				</thead>
+                <tr>
+                <td colspan="6" id="dr_body" style="padding:0;">
+				{template order_data.html}
+                </td>
+                </tr>
+				</table>
+                </form>
+				<div id="dr_loading" style="marign-top:10px;">&nbsp;</div>
+                <div id="dr_loadmore" class="load-more"><a href="javascript:;">查 看 更 多</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{template footer.html}

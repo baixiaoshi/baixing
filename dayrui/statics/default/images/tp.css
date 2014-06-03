@@ -1,0 +1,149 @@
+/* CSS Document */
+
+.run {
+	POSITION: relative; HEIGHT: 165px;
+}
+.runlf {
+	Z-INDEX: 100; RIGHT: 0px; WIDTH: 52px; POSITION: absolute; TOP: -25px; HEIGHT: 52px
+}
+.runrg {
+	Z-INDEX: 100; RIGHT: -20px; WIDTH: 52px; POSITION: absolute; TOP: -25px; HEIGHT: 52px
+}
+.runlf IMG {
+	CURSOR: pointer
+}
+.runrg IMG {
+	CURSOR: pointer
+}
+#gdq {
+	 OVERFLOW: hidden; WIDTH:100%;  POSITION: absolute
+}
+#gdq DIV {
+	WIDTH: 50000px
+}
+#gdq DL {
+	FLOAT: left; WIDTH: 155px;height:168px; POSITION: relative; padding:3px 2px 2px 2px;margin:15px 0px 15px 12px;border:1px solid #e5e5e5;border-bottom:1px solid #ccc; line-height:30px; display:inline; background:#fff
+}
+#gdq SPAN {
+	DISPLAY: block; LEFT: 2px; WIDTH: 152px; BOTTOM: 0px; POSITION: absolute; HEIGHT: 35px; opacity: 0.80;
+}
+#gdq DT {
+	MARGIN: 0px auto; OVERFLOW: hidden; WIDTH: 150px; 
+}
+#gdq IMG {
+	VERTICAL-ALIGN: bottom; WIDTH: 151px; HEIGHT: 136px; overflow:hidden
+}
+#gdq DD { text-align:center
+}
+#gdq DD A:link {
+	COLOR: #fff; TEXT-DECORATION: none
+}
+#gdq DD A:visited {
+	COLOR: #fff; TEXT-DECORATION: none
+}
+#gdq DD A:hover {
+	COLOR: #fff; TEXT-DECORATION: none
+}
+#gdq DD A:active {
+	COLOR: #fff; TEXT-DECORATION: none
+}
+.hy_p1_dl1 {
+	WIDTH: 234px
+}
+.hy_p1_dl1 DT {
+	FONT-WEIGHT: bold; PADDING-BOTTOM: 12px; OVERFLOW: hidden; WIDTH: 150px; WHITE-SPACE: nowrap; TEXT-OVERFLOW: ellipsis
+}
+.hy_p1_dl1 DD UL LI {
+	OVERFLOW: hidden; WIDTH: 150px; WHITE-SPACE: nowrap; HEIGHT: 24px; TEXT-OVERFLOW: ellipsis
+}
+.hy_p1_dl1 DD UL LI SPAN {
+	COLOR: #5d93b6
+}
+.hy_p1_dl1 DT A:link {
+	COLOR: #5d93b6; TEXT-DECORATION: none
+}
+.hy_p1_dl1 DT A:visited {
+	COLOR: #5d93b6; TEXT-DECORATION: none
+}
+.hy_p1_dl1 DD UL LI SPAN A:link {
+	COLOR: #5d93b6; TEXT-DECORATION: none
+}
+.hy_p1_dl1 DD UL LI SPAN A:visited {
+	COLOR: #5d93b6; TEXT-DECORATION: none
+}
+.hy_p1_dl1 DT A:hover {
+	COLOR: #f60; TEXT-DECORATION: underline
+}
+.hy_p1_dl1 DT A:active {
+	COLOR: #f60; TEXT-DECORATION: underline
+}
+.hy_p1_dl1 DD UL LI SPAN A:hover {
+	COLOR: #f60; TEXT-DECORATION: underline
+}
+.hy_p1_dl1 DD UL LI SPAN A:active {
+	COLOR: #f60; TEXT-DECORATION: underline
+}
+.hy_p1_dl1 DD UL LI A:link {
+	COLOR: #8f8e8e; TEXT-DECORATION: none
+}
+.hy_p1_dl1 DD UL LI A:visited {
+	COLOR: #8f8e8e; TEXT-DECORATION: none
+}
+.hy_p1_dl1 DD UL LI A:hover {
+	COLOR: #f60; TEXT-DECORATION: underline
+}
+.hy_p1_dl1 DD UL LI A:active {
+	COLOR: #f60; TEXT-DECORATION: underline
+}
+.hy_p122 {
+	BORDER-RIGHT: #c3e8ef 1px solid; BORDER-TOP: #c3e8ef 1px solid; BACKGROUND: #f9fdfe; BORDER-LEFT: #c3e8ef 1px solid; WIDTH: 210px; BORDER-BOTTOM: #c3e8ef 1px solid; HEIGHT: 150px
+}
+.hy_p1_dl2 {
+	WIDTH: 266px
+}
+.hy_p1_dl2 DT {
+	PADDING-RIGHT: 8px; PADDING-LEFT: 8px; PADDING-BOTTOM: 8px; OVERFLOW: hidden; WIDTH: 150px; PADDING-TOP: 8px; HEIGHT: 208px
+}
+.hy_p1_dl2 DD {
+	WIDTH: 226px; PADDING-TOP: 5px
+}
+.hy_p1_dl2 DD LI {
+	PADDING-LEFT: 20px; BACKGROUND: url(mx2.gif) no-repeat 12px 6px; FLOAT: left; OVERFLOW: hidden; WIDTH: 113px; WHITE-SPACE: nowrap; HEIGHT: 24px; TEXT-OVERFLOW: ellipsis
+}
+.hy_p2 {
+	MARGIN-TOP: 10px; OVERFLOW: hidden; HEIGHT: 380px
+}
+.hy_p2_t {
+	HEIGHT: 58px
+}
+.hy_p2_t1 {
+	BACKGROUND: url(../i/hy_bg4.gif) no-repeat; HEIGHT: 58px
+}
+.hy_p2_t1 DT {
+	FLOAT: left
+}
+.hy_p2_t1 DD {
+	PADDING-RIGHT: 16px; FLOAT: right
+}
+.hy_p2_t1 DD SPAN {
+	DISPLAY: inline; BACKGROUND: url(../i/more.gif) no-repeat 0px 18px; FLOAT: right; OVERFLOW: hidden; WIDTH: 46px; PADDING-TOP: 21px; HEIGHT: 23px; TEXT-ALIGN: center
+}
+.hy_p2_t1 DD SPAN A:link {
+	COLOR: #fff; TEXT-DECORATION: none
+}
+.hy_p2_t1 DD SPAN A:visited {
+	COLOR: #fff; TEXT-DECORATION: none
+}
+
+.slink11_1 LI.i4 A:hover {
+	BACKGROUND: url(../i/kti1.gif) no-repeat -186px -1037px
+}
+#gdq UL LI {
+	FLOAT: left; WIDTH: 700px
+}
+#open {
+	BACKGROUND: #b1cfe5
+}
+.xlcd_new {
+	BORDER-RIGHT: #91b8d5 1px solid; BORDER-TOP: #91b8d5 1px solid; Z-INDEX: 50; BACKGROUND: url(a8.gif) no-repeat right 8px; BORDER-LEFT: #91b8d5 1px solid; WIDTH: 70px; CURSOR: pointer; BORDER-BOTTOM: #91b8d5 1px solid; POSITION: relative; HEIGHT: 21px
+}

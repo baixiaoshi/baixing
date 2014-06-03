@@ -1,0 +1,178 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab(0);
+});
+</script>
+<form action="" method="post" name="myform" id="myform">
+<input name="page" id="page" type="hidden" value="{$page}" />
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-083')}</li>
+			<li onclick="SwapTab(1)">{lang('html-218')}</li>
+		</ul>
+		<div class="contentList pad-10">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				<tr>
+					<th>{lang('html-566')}：</th>
+					<td>
+						<input name="data[setting][code]" type="radio" value="1" {if $data['setting']['code']}checked{/if} />&nbsp;{lang('open')}&nbsp;&nbsp;&nbsp;&nbsp;
+						<input name="data[setting][code]" type="radio" value="0" {if !$data['setting']['code']}checked{/if} />&nbsp;{lang('close')}
+					</td>
+				</tr>
+				<tr>
+					<th>{lang('html-664')}：</th>
+					<td>
+						<input name="data[setting][email]" type="radio" value="1" {if $data['setting']['email']}checked{/if} />&nbsp;{lang('open')}&nbsp;&nbsp;&nbsp;&nbsp;
+						<input name="data[setting][email]" type="radio" value="0" {if !$data['setting']['email']}checked{/if} />&nbsp;{lang('close')}&nbsp;
+						<div class="onShow">{lang('html-666')}</div>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang('html-665')}：</th>
+					<td>
+						<input {if !is_file(FCPATH.'config/sms.php')}disabled="disabled"{/if} name="data[setting][sms]" type="radio" value="1" {if $data['setting']['sms']}checked{/if} />&nbsp;{lang('open')}&nbsp;&nbsp;&nbsp;&nbsp;
+						<input {if !is_file(FCPATH.'config/sms.php')}disabled="disabled"{/if} name="data[setting][sms]" type="radio" value="0" {if !$data['setting']['sms']}checked{/if} />&nbsp;{lang('close')}&nbsp;
+						<div class="onShow">{lang('html-657')}</div>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang('html-669')}：</th>
+					<td>
+						<input name="data[setting][c1]" type="radio" value="1" {if $data['setting']['c1']}checked{/if} />&nbsp;{lang('open')}&nbsp;&nbsp;&nbsp;&nbsp;
+						<input name="data[setting][c1]" type="radio" value="0" {if !$data['setting']['c1']}checked{/if} />&nbsp;{lang('html-244')}
+					</td>
+				</tr>
+				<tr>
+					<th>{lang('html-670')}：</th>
+					<td>
+						<input name="data[setting][c2]" type="radio" value="1" {if $data['setting']['c2']}checked{/if} />&nbsp;{lang('open')}&nbsp;&nbsp;&nbsp;&nbsp;
+						<input name="data[setting][c2]" type="radio" value="0" {if !$data['setting']['c2']}checked{/if} />&nbsp;{lang('html-244')}
+					</td>
+				</tr>
+                <tr>
+					<th width="200" style="border:none;"><font color="red">*</font>&nbsp;{lang('html-026')}：</th>
+					<td style="border:none;">
+						<input class="input-text" type="text" name="data[name]" required="required" value="{$data.name}" size="11" />
+						<div class="onShow">{lang('html-027')}</div>
+					</td>
+				</tr>
+				</table>
+			</div>
+			<div id="cnt_1" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				<tr>
+					<th width="200">&nbsp;</th>
+					<td align="center" width="60" style="color:#777777">{lang('html-672')}</td>
+					<td align="center" width="60" style="color:#777777">{lang('html-220')}</td>
+					<td align="center" width="60" style="color:#777777">{dr_lang('html-256', SITE_EXPERIENCE)}</td>
+					<td align="center" width="60" style="color:#777777">{dr_lang('html-256', SITE_SCORE)}</td>
+					<td align="center" width="30" style="color:#777777">{lang('html-667')}</td>
+					<td align="center" width="30" style="color:#777777">{lang('html-668')}</td>
+					<td align="center"></td>
+				</tr>
+				<tr>
+					<th>{lang('guest')}：</th>
+					<td align="center">
+						<input type="checkbox" name="data[permission][0][disabled]" {if $data['permission'][0]['disabled']}checked="checked"{/if} value="1" />
+					</td>
+					<td align="center">
+						<input type="checkbox" name="data[permission][0][notedit]" {if $data['permission'][0]['notedit']}checked="checked"{/if} value="1" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][0][experience]" value="{$data['permission'][0]['experience']}" size="10" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][0][score]" value="{$data['permission'][0]['score']}" size="10" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][0][postnum]" value="{$data['permission'][0]['postnum']}" size="5" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][0][postcount]" value="{$data['permission'][0]['postcount']}" size="5" />
+					</td>
+					<td align="center"></td>
+				</tr>
+                {list action=cache name=MEMBER.group return=group}
+				{if $group['id'] > 2}
+				<tr>
+					<th>{$group.name}&nbsp;&nbsp;&nbsp;</th>
+					<td align="center"></td>
+					<td align="center"></td>
+					<td align="center"></td>
+					<td align="center"></td>
+					<td align="center"></td>
+				</tr>
+				{loop $group['level'] $level}
+				<tr>
+					{php $id=$group['id'].'_'.$level['id'];}
+					<th>{$level.name}&nbsp;&nbsp;{dr_show_stars($level.stars)}&nbsp;：</th>
+					<td align="center">
+						<input type="checkbox" name="data[permission][{$id}][disabled]" {if $data['permission'][$id]['disabled']}checked="checked"{/if} value="1" />
+					</td>
+					<td align="center">
+						<input type="checkbox" name="data[permission][{$id}][notedit]" {if $data['permission'][$id]['notedit']}checked="checked"{/if} value="1" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][{$id}][experience]" value="{$data['permission'][$id]['experience']}" size="10" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][{$id}][score]" value="{$data['permission'][$id]['score']}" size="10" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][{$id}][postnum]" value="{$data['permission'][$id]['postnum']}" size="5" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][{$id}][postcount]" value="{$data['permission'][$id]['postcount']}" size="5" />
+					</td>
+					<td align="center"></td>
+				</tr>
+				{/loop}
+				{else}
+				{php $id=$group.id;}
+				<tr>
+					<th>{$group.name}：</th>
+					<td align="center">
+						<input type="checkbox" name="data[permission][{$id}][disabled]" {if $data['permission'][$id]['disabled']}checked="checked"{/if} value="1" />
+					</td>
+					<td align="center">
+						<input type="checkbox" name="data[permission][{$id}][notedit]" {if $data['permission'][$id]['notedit']}checked="checked"{/if} value="1" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][{$id}][experience]" value="{$data['permission'][$id]['experience']}" size="10" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][{$id}][score]" value="{$data['permission'][$id]['score']}" size="10" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][{$id}][postnum]" value="{$data['permission'][$id]['postnum']}" size="5" />
+					</td>
+					<td align="center">
+						<input class="input-text" type="text" name="data[permission][{$id}][postcount]" value="{$data['permission'][$id]['postcount']}" size="5" />
+					</td>
+					<td align="center"></td>
+				</tr>
+				{/if}
+				{/list}
+				<tr>
+				<th style="border:none;"></th>
+				<td style="border:none;text-align:left;padding-left:20px;color:#F00" colspan="6"><b>{lang('html-592')}</b></td>
+				</tr>
+                </table>
+            </div>
+		</div>
+	</div>
+</div>
+<div class="fixed-bottom">
+    <div class="fixed-but text-c">
+        <div class="button"><input value="{lang('submit')}" type="submit" name="submit" class="cu" style="width:100px;" /></div>
+    </div>
+</div>
+</form>
+{template footer.html}

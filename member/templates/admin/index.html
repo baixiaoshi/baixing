@@ -1,0 +1,95 @@
+{template header.html}
+{php $_pages=$pages;}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}92.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <form method="post" action="" name="searchform" id="searchform">
+        {lang('html-347')}：
+        <input type="text" class="input-text" value="" name="data[keyword]" />&nbsp;
+        {lang('html-348')}：
+        <select name="data[groupid]">
+            <option value=""> -- </option>
+            {list action=cache name=MEMBER.group}
+            <option value="{$t.id}"> {$t.name} </option>
+            {/list}
+			{php $gcache=$return;}
+        </select>
+        &nbsp;&nbsp;
+        <input type="submit" value="{lang('search')}" class="button" name="search">
+        </form>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+        <input name="action" id="action" type="hidden" value="del" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="10" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="30" align="center">Uid</th>
+			<th width="150" align="left">{lang('html-347')}</th>
+			<th width="70" align="center">{lang('html-348')}</th>
+			<th width="50" align="center">{lang('html-350')}</th>
+			<th width="50" align="center">{SITE_EXPERIENCE}</th>
+			<th width="50" align="center">{SITE_SCORE}</th>
+			<th width="50" align="center">{SITE_MONEY}</th>
+			<th width="50" align="center">{lang('m-163')}</th>
+			<th width="120" align="left">{lang('html-351')}</th>
+			<th width="120" align="left">{lang('html-487')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr id="dr_row_{$t.uid}">
+			<td align="right"><input name="ids[]" type="checkbox" class="dr_select" value="{$t.uid}" />&nbsp;</td>
+			<td align="center">{$t.uid}</td>
+			<td align="left">
+			{if $t.groupid==2 && !$t.username}
+			{get_member_nickname($t.uid)}&nbsp;{lang('html-586')}
+			{else}
+			<input type="hidden" value="{$t.username}" id="dr_author_{$t.uid}" name="dr_author_{$t.uid}">
+            <a onclick="dr_dialog_member('author_{$t.uid}')" href="javascript:;">{dr_keyword_highlight($t.username, $param.keyword)}</a>
+			{/if}
+			</td>
+			<td align="center"><font {if $t.groupid==1}color="#FF0000"{/if}>{MEMBER.group.$t[groupid].name}</font></td>
+			<td align="center">{MEMBER.group.$t[groupid].level.$t[levelid].name}</td>
+			<td align="center"><a {if $this->ci->is_auth('member/admin/experience/index')}href="{dr_url('member/experience/index',array('uid'=>$t.uid))}"{/if}>{$t.experience}</a></td>
+			<td align="center"><a {if $this->ci->is_auth('member/admin/score/index')}href="{dr_url('member/score/index',array('uid'=>$t.uid))}"{/if}>{$t.score}</a></td>
+			<td align="center"><a {if $this->ci->is_auth('member/admin/pay/index')}href="{dr_url('member/pay/index',array('uid'=>$t.uid))}"{/if}>{$t.money}</a></td>
+			<td align="center">{$t.freeze}</td>
+			<td align="left">{dr_date($t.regtime, NULL, 'red')}</td>
+			<td align="left">{php $login=dr_string2array($t.loginlog);$login=end($login);echo dr_date($login.login_time, NULL, 'red');}</td>
+			<td align="left" class="dr_option">
+			{if $this->ci->is_auth('member/admin/home/edit')}<a {if $t.id==1}href="javascript:;" style="color:#999"{else}href="{dr_url('member/home/edit',array('uid'=>$t.uid))}"{/if}>{lang('edit')}</a>{/if}
+			{if MEMBER_OPEN_SPACE && $this->ci->is_auth('member/admin/space/edit')}<a href="{dr_url('member/space/edit',array('uid'=>$t.uid))}">{lang('html-334')}</a>{/if}
+			</td>
+		</tr> 
+		{/loop}
+		<tr>
+        	<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="11" align="left" style="border:none"> 
+            {if $this->ci->is_auth('member/admin/home/del')}
+			<input type="button" class="button" value="{lang('del')}" name="option" onClick="$('#action').val('del');dr_confirm_set_all('{lang('015')}', 1)" />
+            {/if}
+            {if $this->ci->is_auth('member/admin/home/edit')}
+			<input type="button" class="button" value="{lang('html-394')}" name="option" onClick="$('#action').val('update');dr_confirm_set_all('{lang('015')}')" />
+            <select name="groupid">
+            {loop $gcache $t}
+            <option value="{$t.id}"> {$t.name} </option>
+            {/loop}
+        	</select>
+            {/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+        <div id="pages"><a>{dr_lang('html-346', $param['total'])}</a>{$_pages}</div>
+	</div>
+</div>
+{template footer.html}
+{php exit;}oter.html}

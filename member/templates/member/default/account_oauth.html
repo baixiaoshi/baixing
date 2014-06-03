@@ -1,0 +1,53 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	$(".main table tr:last td").css('border-bottom','none');
+});
+</script>
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+        <div class="message message_info">OAuth2快捷登录绑定</div>
+        <div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main dr_table">
+                <table style="table-layout:fixed;">
+                    <thead>
+                        <tr>
+                            <th style="width:40px;" class="algin_c">服务商</th>
+                            <th style="width:50px;" class="algin_l">头像</th>
+                            <th style="width:120px;" class="algin_l">昵称</th>
+                            <th style="width:120px;" class="algin_l">到期时间</th>
+                            <th class="algin_r"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {list action=cache name=OAUTH}
+					{php $id=$t['id'];}
+                    <tr>
+                        <td class="algin_c"><img align="absmiddle" src="{MEMBER_PATH}statics/OAuth/{$t.icon}.png"></td>
+                        <td class="algin_c memberinfo_avatar" style="padding:10px 0;">
+                        {if isset($list[$id])}
+                        <img align="absmiddle" src="{$list[$id]['avatar']}">
+                        {/if}
+                        </td>
+                        <td class="algin_l">{if isset($list[$id])}{$list[$id]['nickname']}{/if}</td>
+                        <td class="algin_l">{if isset($list[$id])}{dr_date($list[$id]['expire_at'])}{/if}</td>
+                        <td>
+                        {if isset($list[$id])}
+						{if !$regoauth}
+                        <a href="javascript:;" style="color:red;" onclick="dr_confirm_url('您确认要解除绑定吗？', '{dr_member_url('account/jie', array('id' => $id))}')">解除绑定</a>
+						{/if}
+                        {else}
+                        <a href="javascript:;" style="color:blue;" onclick="window.location.href='{SITE_URL}member/index.php?c=account&m=bang&id={$id}'">立即绑定</a>
+                        {/if}
+                        </td>
+                    </tr>
+                    {/list}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

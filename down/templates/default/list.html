@@ -1,0 +1,37 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+<div class="clear"></div>
+<div class="soft software">
+	<div class="soft_l">
+		<div class="daohang">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > {dr_catpos($catid, ' > ')}<!--面包屑导航--></div>
+		<div class="xz_lm">
+			<h4>{$cat.name}</h4>
+			<ul>
+                <!--分页显示列表数据-->
+                {list action=module catid=$catid field=catid,title,version,url,updatetime,thumb,description,hits order=updatetime page=1}
+                <li>
+                    <img src="{dr_thumb($t.thumb,78,75)}" align="left" />
+                    <div class="r_ct">
+                        <a href="{$t.url}">{$t.title}&nbsp;{$t.version}</a>
+                        <div class="tt">
+                            <em style="padding:0px">分类：</em>{CATEGORY.$t[catid].name}
+                            <em>日期：</em>{$t.updatetime}
+                            <em>人气：</em>{$t.hits}
+                        </div>
+                        <div class="into">{$t.description}</div>
+                        <b><a href="{$t.url}" class="down"></a></b>
+                    </div>
+                </li>
+                {/list}{$error}
+            </ul>
+            <div class="clear"></div>
+            <div class="fenye" id="fenye">
+              {$pages}
+            </div>
+        </div>
+    </div>
+	{template "right.html"}
+</div>
+<div class="clear"></div>
+{template "footer.html","/"}

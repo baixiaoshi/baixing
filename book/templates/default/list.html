@@ -1,0 +1,37 @@
+{template "header.html"}
+<div class="clear"></div>
+<div class="photo">
+	<div class="photo_l">
+		{template "left.html"}	
+    </div>
+	<div class="photo_r">
+    	<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+    	<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > {dr_catpos($catid, ' > ')}<!--面包屑--></div>
+        <div class="tp_lm">
+			<h3>{$cat.name}</h3>
+			<ul>
+                <!--分页显示列表数据-->
+                {list action=module catid=$catid field=title,url,updatetime,thumb,author,description,hits,schedule order=updatetime page=1}
+                <li style="height:143px;">
+                    <a href="{$t.url}"><img src="{dr_thumb($t.thumb,100,140)}" style="width:100px; height:140px;" align="left" /></a>
+                    <div class="r_ct" style="width:600px">
+                        <h4><a href="{$t.url}">{$t.title}</a></h4>
+                        <div class="tt">
+                            <span style="padding:0px">更新时间：</span>{$t.updatetime}
+                            <span>状态：</span>{$t.schedule}
+                            <span>作者：</span>{$t.author}
+                            <span>点击数：</span>{$t.hits}
+                        </div>
+                        <div class="into">{$t.description}</div>
+                    </div>
+                </li>
+                {/list}
+			</ul>
+            <div class="fenye" id="fenye">
+                {$pages}
+            </div>
+		</div>
+    </div>	
+</div>
+<div class="clear"></div>
+{template "footer.html","/"}

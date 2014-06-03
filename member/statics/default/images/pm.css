@@ -1,0 +1,119 @@
+.pm {
+    overflow: hidden;
+    width: 420px;
+}
+
+.cl:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.pm_tac {
+    background: none repeat scroll 0 0 #F2F2F2;
+    padding: 5px 10px;
+}
+.bbda {
+    border-bottom: 1px dashed #CDCDCD;
+}
+.pm .c {
+    background: none repeat scroll 0 0 #F2F2F2;
+    padding: 0;
+}
+.y {
+    float: right;
+}
+.pmb h4 {
+    text-align: center;
+}
+.xg1, .xg1 a {
+    color: #999999 !important;
+}
+.pmb {
+    height: 280px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 20px 20px 0;
+    position: relative;
+}
+.pmb li {
+    margin-bottom: 10px;
+    position: relative;
+}
+.pmm .pmt {
+    background-position: 0 -47px;
+    left: auto;
+    right: -6px;
+}
+.pmt {
+    background: url("pm.png") no-repeat scroll -13px -40px rgba(0, 0, 0, 0);
+    bottom: 0;
+    height: 7px;
+    left: -6px;
+    overflow: hidden;
+    position: absolute;
+    text-indent: -999px;
+    width: 7px;
+}
+.pmm .pmd {
+    background: url("pm-bg2.png") repeat-x scroll 0 0 #FEF5E7;
+    border-color: #FFC68C #F9D4A7 #F3BB65 #DDC4A9;
+    border-radius: 10px 10px 0 10px;
+    box-shadow: -2px 2px 4px #DDDDDD;
+    float: right;
+}
+.pmd, .pmd img {
+    max-width: 292px;
+}
+.pmd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: url("pm-bg1.png") repeat-x scroll 0 0 #F0F0F0;
+    border-color: #E7E7E7 #BBBBBB #999999 #E7E7E7;
+    border-image: none;
+    border-radius: 10px 10px 10px 0;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 2px 2px 4px #DDDDDD;
+    float: left;
+    padding: 5px 8px;
+    word-wrap: break-word;
+}
+.pmfm {
+    padding: 0 15px 15px;
+}
+.aui_titleBar {
+	background: none repeat scroll 0 0 #F2F2F2 !important;
+}
+.mbutton .blue_button {
+    background: url("blue_button_bg.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    width: 75px;
+}
+.mbutton button {
+    border: medium none;
+    color: #FFFFFF;
+    display: block;
+    float: right;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    text-shadow: 0 1px 0 #555555;
+	cursor:pointer;
+}
+.mbutton {
+	margin: 10px 0 40px;
+	clear:both;
+}
+.pm textarea {
+    background: url("input_text_bg.png") repeat-x scroll 0 0 #FFFFFF;
+    border: 1px solid #D5D5D5;
+    font: 12px/25px verdana,tahoma,arial,sans-serif;
+    outline: medium none;
+    padding: 2px;
+    display: block;
+    overflow-y: auto;
+    resize: none;
+}

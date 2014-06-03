@@ -1,0 +1,39 @@
+<script type="text/javascript">
+$(function() { //防止回车提交表单
+	document.onkeydown = function(e){ 
+		var ev = document.all ? window.event : e;
+		if (ev.keyCode==13) {
+			$("#mark").val("1"); // 标识不能提交表单
+		}
+	}
+	$(".table_form th").last().css('border','none');
+	$(".table_form td").last().css('border','none');
+});
+function dr_form_check() {
+	if ($("#mark").val() == 0) { 
+		return true;
+	} else {
+		return false;
+	}
+}
+</script>
+<div class="table-list" style="width:470px;">
+<form action="" method="post" id="myform" name="myform" onsubmit="return dr_form_check()">
+<input name="mark" id="mark" type="hidden" value="0" />
+<table width="100%" class="table_form">
+<tr>
+    <th width="100"><font color="red">*</font>&nbsp;{lang('cat-00')}： </th>
+    <td>
+    {$select}<br>
+    <font id="dr_catid_tips" style="color:#999">{lang('mod-46')}</font>
+    </td>
+</tr>
+<tr>
+    <th><font color="red">*</font>&nbsp;{lang('mod-45')}： </th>
+    <td>
+    {dr_field_input('name', 'Text', $field['name']['setting'], $data['name'])}
+    </td>
+</tr>
+</table>
+</form>
+</div>

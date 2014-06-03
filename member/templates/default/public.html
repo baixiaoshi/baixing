@@ -1,0 +1,43 @@
+<h3 class='title myCorner' data-corner='top 5px'>空间信息</h3>
+<div class="active editor">
+    <table width="180" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="50"><div class="memberinfo_avatar"><img src="{dr_avatar($space.uid)}"></a></div></td>
+        <td style="padding-bottom:10px;"><b>{$space.username}</b><br><div class="dr_stars">{dr_show_stars($space.level.stars)}</div></td> 
+      </tr>
+      <tr height="20">
+        <td colspan="2">
+        会员组：{$space.group.name}
+        </td>
+      </tr>
+      {if $space.levelid}
+      <tr height="20">
+        <td colspan="2">
+        会员等级：{$space.level.name}
+        </td>
+      </tr>
+      {/if}
+      <tr height="20">
+        <td colspan="2">
+        空间人气：{$space.hits}
+        </td>
+      </tr>
+      <tr height="20">
+        <td colspan="2">
+        创建时间：{dr_date($space.regtime, 'Y年m月d日')}
+        </td>
+      </tr>
+    </table> 
+    <div class="clear"></div>
+</div>
+{if $related}
+<h3 class='title line myCorner' data-corner='top 5px'><a href="{dr_space_list_url($spaceid, $parent.id)}" style="color:#FFF">{$parent.name}</a></h3>
+<div class="active" id="sidebar" data-csnow="19" data-class3="0" data-jsok="2">
+    {loop $related $c}
+    <dl class="list-none navnow">
+        <dt {if $c.id==$catid}class="on"{/if}><a href='{dr_space_list_url($spaceid, $c.id)}' class="zm"><span>{$c.name}</span></a></dt>
+    </dl>
+    {/loop}
+    <div class="clear"></div>
+</div>
+{/if}

@@ -1,0 +1,150 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	$(".msearch a").click(function(){
+		var name = $(this).attr("name");
+		$(".msearch a").removeClass("cur");
+		$(this).addClass("cur");
+		$("#dr_order").val(name);
+	});
+	$("#dr_loadmore a").click(function(){
+		var page = $("#dr_page").val();
+		$("#dr_loading").html("<div style='padding:30px;text-align:center;width:678px;'><img src='{MEMBER_THEME_PATH}images/loading.gif' /></div>");
+		$.get("{$searchurl}", {page:page}, function(data){
+			if (data != "null") {
+				$("#dr_body").append(data);
+				$("#dr_page").val(Number(page) + 1);
+			}
+			$("#dr_loading").html("");
+		});
+	});
+	// 排序操作
+	$('.dr_table th').click(function(e) {
+		var _class = $(this).attr("class");
+		if (_class == undefined) return;
+		var _name = $(this).attr("name");
+		var _order = '';
+		if (_class == "sorting") {
+			_order = 'desc';
+		} else if (_class == "sorting_desc") {
+			_order = 'asc';
+		} else {
+			_order = 'desc';
+		}
+		var url = "{dr_member_order($searchurl)}&order="+_name+" "+_order;
+		location.href=url;
+	});
+});
+function dr_update() {
+    $("#action").val('update');
+	var _data = $("#myform").serialize();
+	var _url = window.location.href;
+	if ((_data.split('ids')).length-1 <= 0) {
+		$.dialog.tips("到底排序谁？您还没有选择呢", 2);
+		return true;
+	}
+	$.ajax({type: "POST",dataType:"json", url: _url, data: _data,
+		success: function(data) {
+			if (data.status == 1) {
+				$.dialog.tips(data.code, 3, 1);
+				$.post("{SITE_URL}{APP_DIR}/index.php?c=show&m=create_html&id={$cid}", {}, function(){});
+				setTimeout('window.location.reload(true)', 3000);
+			} else {
+				$.dialog.tips(data.code, 3, 2);
+				return true;
+			}
+
+		},
+		error: function(HttpRequest, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+		}
+	});
+	return false;
+}
+function dr_delete(id) {
+    art.dialog.confirm("你确认要删除吗？", function(){
+		$.ajax({type: "POST",dataType:"json", url: "{dr_member_url(APP_DIR.'/extend/del', array('cid'=>$cid))}",data: {id:id}, success: function(data) {
+				if (data.status == 1) {
+					$.dialog.tips(data.code, 3, 1);
+					$("#dr_row_"+id).hide();
+				} else {
+					$.dialog.tips(data.code, 3, 0);
+				}
+                art.dialog.close();
+                return false;
+			},
+			error: function(HttpRequest, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+			}
+		});
+		return true;
+	});
+	return false;
+}
+</script>
+<input name="page" id="dr_page" type="hidden" value="2" />
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+        <div class="section">
+            <div class="title"><strong>{$content.title}</strong></div>
+            <div class="main dr_table">
+				<div class="msearch mbutton">
+                	<form method="get" action="">
+						<input name="s" type="hidden" value="{APP_DIR}" />
+						<input name="c" type="hidden" value="extend" />
+						<input name="m" type="hidden" value="index" />
+						<input name="cid" type="hidden" value="{$cid}" />
+						<input id="dr_order" name="order" type="hidden" value="{$get.order}" />
+						<a href="{dr_member_url(APP_DIR.'/extend/add', array('cid'=>$cid))}" class="cur">{lang('mod-37')}</a>
+						<button type="submit" class="red_button" style="float:right;margin-left:20px">查询</button>
+						<input type="text" id="dr_keywords" name="kw" value="{$kw}" class="input_text" style="color:#999;width:220px;float:right">
+                        {if $content.type}
+						<span style="color:#333;padding-right:8px;float:right;">
+                        <select name="type">
+                        <option value="">--</option>
+                        {loop $content.type $i $n}
+                        <option value="{$i}" {if $get.type==$i}selected{/if}>{$n.name}</option>
+                        {/loop}
+                        </select>
+                        </span>
+                        {/if}
+               		</form>
+				</div>
+                <div class="bk10"></div>
+                <form action="" method="post" name="myform" id="myform">
+                <input name="action" id="action" type="hidden" value="" />
+				<table style="table-layout:fixed;margin-bottom: 0;">
+				<thead>
+					<tr>
+						<th style="width:20px;" class="algin_r">&nbsp;</th>
+						<th style="width:50px; text-align:center" class="{ns_sorting('displayorder')}" name="displayorder">排序</th>
+						<th class="{ns_sorting('name')}" name="name">{lang('mod-38')}</th>
+                        {if $content.type}
+						<th style="width:90px; text-align:center" class="{ns_sorting('mytype')}" name="mytype">{lang('mod-39')}</th>
+                        {/if}
+						<th style="width:120px;" class="{ns_sorting('inputtime')}" name="inputtime">录入时间</th>
+						<th style="width:60px;" class="algin_l">操作</th>
+					</tr>
+				</thead>
+				<tbody id="dr_body">
+				{template content_extend_data.html}
+				</tbody>
+				</table>
+                <table style="table-layout:fixed;" class="mbutton">
+                <tr>
+                    <td style="width:20px;border:none" class="algin_r"><input type="checkbox" onclick="dr_selected()" id="dr_select" name="dr_select"></td>
+					<td class="algin_l" style="padding-top:8px;border:none">
+                    <button type="button" class="blue_button" onClick="dr_update()">排序</button>
+                    <div class="onShow">排序值越大越靠前</div>
+                    </td>
+                </tr>
+				</table>
+                </form>
+				<div id="dr_loading"></div>
+                <div id="dr_loadmore" class="load-more"><a href="javascript:;">查 看 更 多</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

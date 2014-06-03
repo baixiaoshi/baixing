@@ -1,0 +1,52 @@
+{template header.html}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+        <input name="action" id="action" type="hidden" value="" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="400" align="left">{lang('html-491')}</th>
+			<th width="80" align="center">{lang('html-492')}</th>
+			<th width="80" align="center">{lang('html-493')}</th>
+			<th width="50" align="center">{lang('html-494')}</th>
+			<th width="100" align="left">{lang('101')}</th>
+			<th width="120" align="left">{lang('html-495')}</th>
+			<th align="left" class="dr_option"></th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr id="dr_row_{$t['id']}">
+			<td align="right"><input name="ids[]" type="checkbox" class="dr_select" value="{$t['id']}" />&nbsp;</td>
+			<td align="left"><a onclick="dr_show_file_info('{$t['id']}')" href="javascript:;">{dr_strcut($t['filename'], 60)}</a></td>
+			<td align="center">{$t['fileext']}</td>
+			<td align="center">{dr_format_file_size($t['filesize'])}</td>
+			<td align="center">{if $t['remote']}<font color="red">{lang('yes')}</font>{else}{lang('no')}{/if}</td>
+			<td align="left"><input name="dr_author_{$t['id']}" id="dr_author_{$t['id']}" type="hidden" value="{$t['author']}" /><a href="javascript:;" onclick="dr_dialog_member('author_{$t['id']}')">{$t['author']}</td>
+			<td align="left">{dr_date($t['inputtime'], NULL, 'red')}</td>
+			<td align="left" class="dr_option">
+			
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="7" align="left" style="border:none">
+			{if $this->ci->is_auth('admin/attachment/del')}
+			<input type="button" class="button" value="{lang('del')}" name="option" onClick="$('#action').val('del');dr_confirm_set_all('{lang('015')}', 1)" />
+			{/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+        <div id="pages"><a>{dr_lang('html-346', $param['total'])}</a>{$pages}</div>
+	</div>
+</div>
+{template footer.html}

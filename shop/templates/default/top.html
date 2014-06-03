@@ -1,0 +1,58 @@
+<script>
+//=点击展开关闭效果=
+function openShutManager(oSourceObj,oTargetObj,shutAble,oOpenTip,oShutTip){
+	var sourceObj = typeof oSourceObj == "string" ? document.getElementById(oSourceObj) : oSourceObj;
+	var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
+	var openTip = oOpenTip || "";
+	var shutTip = oShutTip || "";
+	if(targetObj.style.display!="none"){
+	   if(shutAble) return;
+	   targetObj.style.display="none";
+	   if(openTip  &&  shutTip){
+		sourceObj.innerHTML = shutTip;
+	   }
+	} else {
+	   targetObj.style.display="block";
+	   if(openTip  &&  shutTip){
+		sourceObj.innerHTML = openTip;
+	   }
+	}
+}
+</script>
+<div style="background:#fff">
+    <div class="head">
+        <div class="idx">
+            <div class="l"><script type="text/javascript" src="{SITE_URL}member/index.php?c=api&m=userinfo"></script></div>
+            <div class="r">
+                <a href="{SITE_URL}" class="bgone">首页</a>
+                <a href="javascript:void(0);" onclick="dr_set_homepage('{MODULE_URL}')">设为首页</a>
+                <a href="javascript:void(0);" onclick="dr_add_favorite('{MODULE_URL}','{MODULE_TITLE}')">加入收藏</a>
+                <a href="{SITE_URL}index.php?c=api&m=desktop&site={SITE_ID}&module={APP_DIR}">放在桌面</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="ilogo">
+        <div class="logo"></div>
+        <div class="sc">
+            <form name="searchform" method="get" action="{MODULE_URL}index.php">
+            <input type="hidden" name="c" value="search"/>
+            <input type="hidden" name="catid" value="{$catid}"/>
+            <input type="input" name="keyword" onfocus="this.value=(this.value=='请输入搜索关键字...')?'':this.value" onblur="this.value=(this.value=='')?'请输入搜索关键字...':this.value" value="请输入搜索关键字..." class="sctext" /><input name="" type="submit" class="scbtn" value="">						
+            </form>
+        </div>
+    </div>
+    
+    <div class="nav">
+        <ul>
+            <div class="l">
+                <li class="flbg"><a href="javascript:;" onclick="openShutManager(this,'box1')">全部商品分类</a></li>
+                <li {if !$catid}class="curr"{/if}><a href="{MODULE_URL}">首页</a></li>
+                {list action=category pid=0 num=5}
+                <li {if in_array($catid, $t.catids)}class="curr"{/if}><a href="{$t.url}">{$t.name}</a></li>
+                {/list}
+            </div>
+            <div class="rgwc"><a href="{dr_url('order/cart')}">购物车</a></div>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	{if $result}
+	dr_tips('{$result}', 3);
+	{/if}
+	dr_category_select($("#dr_modelid").val());
+	dr_set_type({intval($data['type'])});
+});
+function dr_category_select(mid) {
+	var type = $("#dr_type_id").val();
+	$.post("{dr_member_url('category/select')}&mid="+mid+"&type="+type+"&pid={$data.pid}", function(data){
+		$("#dr_category").html(data);
+	});
+}
+function dr_set_type(id) {
+	$(".dr_cat_hide").hide();
+	$(".dr_type_"+id).show();
+	$("#dr_type_id").val(id);
+	dr_category_select($("#dr_modelid").val(), id);
+
+}
+</script>
+<input type="hidden" id="dr_type_id" value="{intval($data['type'])}">
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+    	<div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main">
+        	<ul class="form_ul">
+            <form action="" method="post">
+				<li>
+					<strong>栏目类型：</strong>
+					<span>
+					<input type="radio" value="0" {if $data.id}disabled{/if} onclick="dr_set_type(0)" name="data[type]" {if !$data['type']}checked{/if} /> 外链&nbsp;&nbsp;
+					<input type="radio" value="1" {if $data.id}disabled{/if} onclick="dr_set_type(1)" name="data[type]" {if $data['type']==1}checked{/if} /> 模型&nbsp;&nbsp;
+					<input type="radio" value="2" {if $data.id}disabled{/if} onclick="dr_set_type(2)" name="data[type]" {if $data['type']==2}checked{/if} /> 单页
+					</span>
+				</li>
+				<li class="dr_cat_hide dr_type_1">
+					<strong>模型选择：</strong>
+					<select name="data[modelid]" {if $data.id}disabled{/if} id="dr_modelid" onchange="dr_category_select(this.value)">
+					<option value="0"> -- </option>
+                    {list action=cache name=SPACE-MODEL}
+                    {if $t['setting'][$markrule]['use']}<option value="{$t.id}" {if $t.id==$data.modelid}selected{/if}> {$t.name} </option>{/if}
+                    {/list}
+                    </select>
+				</li>
+				<li>
+					<strong>上级栏目：</strong>
+					<span id="dr_category">
+                    </span>
+				</li>
+				<li>
+					<strong>显示方式：</strong>
+					<span>
+					<input type="radio" value="0" name="data[showid]" {if !$data['showid']}checked{/if} /> 不显示&nbsp;&nbsp;
+					<input type="radio" value="1" name="data[showid]" {if $data['showid']==1}checked{/if} /> 顶部&nbsp;&nbsp;
+					<input type="radio" value="2" name="data[showid]" {if $data['showid']==2}checked{/if} /> 底部&nbsp;&nbsp;
+					<input type="radio" value="3" name="data[showid]" {if $data['showid']==3}checked{/if} /> 都显示
+					</span>
+				</li>
+				<li>
+					<strong>栏目名称：</strong>
+					<input type="text" value="{$data['name']}" style="width:200px;" name="data[name]" class="input_text" />
+				</li>
+				<li class="dr_cat_hide dr_type_0">
+					<strong>外链地址：</strong>
+					<input type="text" value="{$data['link']}" style="width:400px;" name="data[link]" class="input_text" />
+					<span class="attention">填写此项时将会跳转到这个地址，该栏目不支持发布</span>
+				</li>
+				{if !$data.child}
+				<li class="dr_cat_hide dr_type_1 dr_type_2">
+					<strong>SEO标题：</strong>
+					<input type="text" value="{$data['title']}" maxlength="30" name="data[title]" style="width:400px;" class="input_text" />
+					<span class="attention">用于页面的SEO</span>
+				</li>
+				<li class="dr_cat_hide dr_type_1 dr_type_2">
+					<strong>SEO关键字：</strong>
+					<input type="text" value="{$data['keywords']}" maxlength="30" name="data[keywords]" style="width:400px;" class="input_text" />
+					<span class="attention">多个关键词请用","隔开</span>
+				</li>
+				<li class="dr_cat_hide dr_type_1 dr_type_2">
+					<strong>SEO描述：</strong>
+					<textarea name="data[description]" style="width:520px; height:60px;">{$data['description']}</textarea>
+				</li>
+				<li class="dr_cat_hide dr_type_2">
+					<strong>单页内容：</strong>
+					{dr_field_input('body', 'Ueditor', array('option' => array( 'mode' => 2, 'height' => 200, 'width' => '100%')), $data['body'])}
+					<span class="attention">如果当前栏目包含子栏目时，内容无效</span>
+				</li>
+				{/if}
+                <li class="mbutton">
+					<button value="" type="submit" class="blue_button">提交</button>
+                </li>
+            </form>
+            </ul>
+        </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

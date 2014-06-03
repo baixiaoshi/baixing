@@ -1,0 +1,11 @@
+{loop $list $t}
+<tr>
+	<td class="algin_c">{$t.id}</td>
+	<td class="algin_l"><div class="dr_title">{dr_keyword_highlight($t.subject, $get.kw)}</div></td>
+	<td class="algin_l">{$t.author}</td>
+	<td class="algin_l">{dr_date($t.inputtime, '', 'red')}</td>
+	<td class="algin_l">
+	<a href="javascript:;" onclick="dr_dialog_show('查看', '{dr_member_url(APP_DIR.'/'.$this->ci->router->class.'/show', array('id' => $t.id))}')">查看</a>
+    </td>
+</tr>
+{/loop}

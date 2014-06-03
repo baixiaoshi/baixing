@@ -1,0 +1,47 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	
+}); 
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <form method="post" action="" name="searchform" id="searchform">
+        {lang('html-347')}：<b>{$userinfo['username']}</b>&nbsp;&nbsp;&nbsp;&nbsp;
+        {lang('html-349')} ：	{dr_field_input('start', 'Date', array('option'=>array('format'=>'Y-m-d','width'=>80)), $param['start'])}
+		-&nbsp;
+		{dr_field_input('end', 'Date', array('option'=>array('format'=>'Y-m-d','width'=>80)), $param['end'])}
+		&nbsp;
+        <input type="submit" value="{lang('search')}" class="button" name="search" />
+        </form>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="130" align="left">&nbsp;&nbsp;{lang('html-349')}</th>
+			<th width="150" align="center">{$name}</th>
+			<th align="left" class="dr_option">{lang('html-352')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr>
+			<td align="left">&nbsp;&nbsp;{dr_date($t['inputtime'])}</td>
+			<td align="center"><b>{if $t['value'] > 0}<font color="#009933">+{$t['value']}</font>{else}<font color="#FF0000">{$t['value']}</font>{/if}</b></td>
+			<td align="left" class="dr_option">{dr_lang_note($t['note'])}</td>
+		</tr>
+		{/loop}
+		</tbody>
+		</table>
+		</form>
+        <div id="pages"><a>{dr_lang('html-346', $param['total'])}</a>{$pages}</div>
+	</div>
+</div>
+{template footer.html}

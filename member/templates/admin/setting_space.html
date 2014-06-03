@@ -1,0 +1,128 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab({$page});
+	{if IS_POST}
+	art.dialog.tips('{lang('014')}', 3, 1);
+	{/if}
+});
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<form action="" method="post" name="myform" id="myform">
+        <input name="page" id="page" type="hidden" value="{$page}" />
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-083')}</li>
+			<li onclick="SwapTab(1)">{lang('html-084')}</li>
+			<li onclick="SwapTab(2)">{lang('html-174')}</li>
+		</ul>
+		<div class="contentList pad-10">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				<tr>
+					<th width="200">{lang('html-623')}： </th>
+					<td>
+					<font color="gray">{FCPATH}space/</font>
+					</td>
+				</tr>
+                <tr>
+					<th>{lang('html-675')}： </th>
+					<td>
+					<input class="input-text" type="text" name="data[domain]" value="{$data['domain']}" size="30" />
+					<div class="onShow">{lang('html-291')}</div>
+					</td>
+				</tr>
+				<tr>
+					<th>&nbsp;{lang('html-677')}： </th>
+					<td>
+					<input type="radio" name="data[open]" value="1" {dr_set_radio('open', $data['open'], '1')} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[open]" value="0" {dr_set_radio('open', $data['open'], '0', TRUE)} />&nbsp;<label>{lang('close')}</label>
+                    &nbsp;&nbsp;
+                    <div class="onShow">{lang('html-678')}</div>
+					</td>
+				</tr>
+				<tr>
+					<th>&nbsp;{lang('m-330')}： </th>
+					<td>
+					<input type="radio" name="data[edit]" value="1" {dr_set_radio('edit', $data['edit'], '1')} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[edit]" value="0" {dr_set_radio('edit', $data['edit'], '0', TRUE)} />&nbsp;<label>{lang('close')}</label>
+                    &nbsp;&nbsp;
+                    <div class="onShow">{lang('html-583')}</div>
+					</td>
+				</tr>
+                <tr>
+					<th>&nbsp;{lang('html-582')}： </th>
+					<td>
+					<input type="radio" name="data[rewrite]" value="1" {dr_set_radio('rewrite', $data['rewrite'], '1')} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[rewrite]" value="0" {dr_set_radio('rewrite', $data['rewrite'], '0', TRUE)} />&nbsp;<label>{lang('close')}</label>
+                    &nbsp;&nbsp;
+                    <div class="onShow">{lang('html-585')}</div>
+					</td>
+				</tr>
+                <tr>
+					<th>&nbsp;{lang('m-331')}： </th>
+					<td>
+					<input type="radio" name="data[verify]" value="1" {dr_set_radio('verify', $data['verify'], '1')} />&nbsp;<label>{lang('open')}</label>
+                    &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="data[verify]" value="0" {dr_set_radio('verify', $data['verify'], '0', TRUE)} />&nbsp;<label>{lang('close')}</label>
+                    &nbsp;&nbsp;
+                    <div class="onShow">{lang('html-584')}</div>
+					</td>
+				</tr>
+				</table>
+			</div>
+			<div id="cnt_1" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+					<th>&nbsp;</th>
+					<td>{lang('html-676')}</td>
+				</tr>
+                <tr>
+					<th width="200">Title： </th>
+					<td><input class="input-text" type="text" name="data[title]" value="{$data['title']}" size="80" />
+					</td>
+				</tr>
+				<tr>
+					<th>Keywords： </th>
+					<td><input class="input-text" type="text" name="data[keywords]" value="{$data['keywords']}" size="80" />
+					</td>
+				</tr>
+				<tr>
+					<th>Description： </th>
+					<td><input class="input-text" type="text" name="data[description]" value="{$data['description']}" size="80" />
+					</td>
+				</tr>
+				</table>
+			</div>
+            <div id="cnt_2" style="display:none" class="dr_hide">
+                <table width="100%" class="table_form">
+                {php for ($i = 1; $i <= 9; $i ++) {}
+                <tr>
+                    <th width="200">&nbsp;({$i})</th>
+                    <td align="left">
+                    <input class="input-text" name="data[flag][{$i}][name]" type="text" value="{$data['flag'][$i]['name']}" style="width:200px;"/>
+                    </td>
+                </tr>
+                {php }}
+                </table>
+            </div>
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200" style="border:none;">&nbsp;</th>
+				<td>
+				<input class="button" type="submit" name="submit" value="{lang('submit')}" />
+				</td>
+			</tr>
+			</table>
+		</div>
+		</form>
+	</div>
+</div>
+{template footer.html}

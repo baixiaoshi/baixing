@@ -1,0 +1,57 @@
+{template "header.html"}
+<div class="software">
+	<div class="software_l">
+		<div class="l_new">
+			<h4>精品软件</h4>
+			<ul>
+			<!--查询推荐位1（精品软件）的内容，field需要用到的字段（不填表示全部），按displayorder（后台指定排序）排序-->
+            {list action=module flag=1 field=thumb,title,url,hits order=displayorder,updatetime num=7}
+            <li><a href="{$t.url}" title="{$t.title}"><img src="{dr_thumb($t.thumb,68,65)}" /><br />{dr_strcut($t.title,10,'')}</a><br /><span>{$t.hits}次</span></li>
+            {/list}{$error}
+            </ul>
+        </div>
+		<div><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+		<div class="l_jp">
+			<h4>推荐软件</h4>
+			<ul>
+			<!--查询推荐位2（推荐软件）的内容，field需要用到的字段（不填表示全部），按displayorder（后台指定排序）排序-->
+            {list action=module flag=1 field=thumb,title,url,hits,description order=displayorder,updatetime num=4}	
+			<li>
+            	<img src="{dr_thumb($t.thumb,75,78)}" align="left" />
+                <div class="r_ct">
+                	<a href="{$t.url}" title="{$t.title}">{$t.title}</a>
+                    <div class="into">
+                    	{dr_strcut($t.description, 130)}<a href="{$t.url}" title="{$t.title}">[详细]</a><br />
+                        <span>{$t.hits}次</span>
+                    </div>
+                    <b><a href="{$t.url}" class="down"></a></b>
+                </div>
+            </li>
+			{/list}{$error}
+            </ul>
+        </div>
+		<div class="l_jp">
+			<h4>热门下载</h4>
+			<ul>
+			<!--热门下载我们按点击量排序吧-->
+            {list action=module field=thumb,title,url,hits,description order=hits,updatetime num=4}	
+			<li>
+            	<img src="{dr_thumb($t.thumb,75,78)}" align="left" />
+                <div class="r_ct">
+                	<a href="{$t.url}" title="{$t.title}">{$t.title}</a>
+                    <div class="into">
+                    	{dr_strcut($t.description, 130)}<a href="{$t.url}" title="{$t.title}">[详细]</a><br />
+                        <span>{$t.hits}次</span>
+                    </div>
+                    <b><a href="{$t.url}" class="down"></a></b>
+                </div>
+            </li>
+			{/list}{$error}
+            </ul>
+        </div>
+	</div>
+    {template "right.html"}
+</div>
+<div class="clear"></div>
+
+{template "footer.html","/"}

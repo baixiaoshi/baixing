@@ -1,0 +1,52 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	$("#dr_remove").sortable();
+	{if $result}
+	art.dialog.tips('<font color=red>{$result}</font>', 3, 1);
+	{/if}
+});
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <font color="gray">{lang('html-313')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="10" align="right">&nbsp;</th>
+			<th width="120" align="left">OAuth</th>
+			<th width="200" align="left">App Id</th>
+			<th width="300" align="left">App Key</th>
+			<th align="left" class="dr_option">{lang('html-314')}</th>
+		</tr>
+		</thead>
+		<tbody id="dr_remove">
+		{loop $data $id $t}
+		<tr>
+			<td align="right">&nbsp;<input name="data[id][]" type="hidden" value="{$id}" /></td>
+			<td align="left"><img src="{SITE_URL}member/statics/OAuth/{$t.icon}.png" style="cursor:move">&nbsp;&nbsp;{$t.name}</td>
+			<td align="left"><input class="input-text" type="text" style="width:200px" name="data[key][]" value="{$t['key']}" /></td>
+			<td align="left"><input class="input-text" type="text" style="width:300px" name="data[secret][]" value="{$t['secret']}" /></td>
+			<td align="left" class="dr_option">&nbsp;<input name="data[use][{$id}][]" type="checkbox" value="1" {if $t['use']}checked{/if} /></td>
+		</tr>
+		{/loop}
+		<tr>
+			<th width="10" align="right">&nbsp;</th>
+			<td colspan="4" align="left" style="border:none"> 
+			<input type="submit" class="button" value="{lang('save')}" name="option" />
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{template footer.html}

@@ -1,0 +1,48 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	{if $error}
+	art.dialog.tips('<font color=red>{$error['msg']}</font>', 3);
+	d_tips('{$error['error']}', 0);
+	{/if}
+	var catid = $("#dr_catid").val();
+	if (catid) {
+		show_category_field(catid);
+	}
+});
+function show_category_field(catid) {
+	$.post('index.php?s={APP_DIR}&c=category&m=field&rand='+Math.random(),{ catid:catid, data:{json_encode(dr_array2string($data))} }, function(data){
+		$('#dr_category_field').html(data);
+	});
+}
+</script>
+<div class="content clearfix">
+	<div class="page_url">
+    	<a href="{SITE_URL}">首页</a> <span>&gt;</span> <a href="{dr_member_url('home/index')}">会员中心</a> <span>&gt;</span> {$meta_name}
+    </div>
+    <div class="section_wp drbox" style="width:auto;float:none">
+        <div class="section_title">
+        	<a href="javascript:;" class="cur">{$meta_name}</a>
+        </div>
+        <div class="section_main">
+            <form action="" method="post">
+            <input name="dr_id" id="dr_id" type="hidden" value="{$data.id}" />
+            <input name="dr_module" id="dr_module" type="hidden" value="{APP_DIR}" />
+                <table width="100%" class="table_form">
+				{if !$isedit}
+				<tr>
+					<th><font color="red">*</font>&nbsp;{lang('cat-00')}： </th>
+					<td>{$select}</td>
+				</tr>
+				{/if}
+				{$myfield}
+				<tr>
+					<th width="160" style="border-bottom:none">&nbsp;</th>
+					<td style="border-bottom:none;padding-top: 20px;"><div class="mbutton"><button value="" type="submit" class="{if $verify}next_bt{else}submit_bt{/if}">提交</button></div></td>
+				</tr>
+				</table>
+            </form>
+        </div>
+    </div>
+</div>
+{template footer.html}

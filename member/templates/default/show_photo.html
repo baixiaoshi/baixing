@@ -1,0 +1,77 @@
+{template "header.html"}
+<div class="inner met_flash">
+	<div class="flash">
+    <a href='http://www.dayrui.com/' target='_blank'><img src='http://www.dayrui.com/dayrui/statics/dayrui/images/index_banner2.jpg' width='980' height='90'></a>
+    </div>
+</div>
+
+<div class="sidebar inner">
+    <div class="sb_nav">
+		{template "public.html"}
+    </div>
+    
+    <div class="sb_box">
+	    <h3 class="title">
+			<div class="position">
+            	当前位置：<a href="{dr_space_url($uid)}">网站首页</a> &gt; {dr_space_catpos($spaceid, $catid, ' > ')}
+            </div>
+			<span>{$cat.name}</span>
+		</h3>
+		<div class="clear"></div>
+        <div class="active" id="shownews">
+            <h1 class="title">{$title}{if $content_title}（{$content_title}）{/if}</h1>
+            <div class="editor">
+				<!--下面是调用图片幻灯，为了方便我就用首页幻灯特效了，你可以随便找一个js控件就ok-->
+				<div class="inner met_flash">
+					<link href='{$theme}flash/css.css' rel='stylesheet' type='text/css' />
+					<script src='{$theme}flash/jquery.bxSlider.min.js'></script>
+					<div class='flash flash6' style='width:720px; height:350px;'>
+						<ul id='slider' class='list-none'>
+							{loop $image $i $t}<!--循环多图字段，$i表示次数-->
+							<li><img src='{dr_thumb($t.file)}' title='{$t.title}' width='720' height='350'></li>
+							{/loop}
+						</ul>
+					</div>
+					<script type='text/javascript'>
+					$(document).ready(function(){ 
+						$('#slider').bxSlider({ mode:'vertical',autoHover:true,auto:true,pager: true,pause: 5000,controls:false});
+					});
+					</script>
+				</div>	
+				<br>
+            	{$content}
+                <div class="metpager_8">
+                <!--如果存在分页时循环输出分页数与标题-->
+                {loop $content_page $i $t}
+                {if $page==$i}
+                <span>{$i}</span>
+                {else}
+                <a href="{dr_space_show_url($spaceid, $modelid, $id, $i)}" title="{$t.title}">{$i}</a>
+                {/if}
+                {/loop}
+                </div>
+            	<div class="clear"></div>
+            </div>
+			<div class="met_hits">
+            	<div class='metjiathis'>
+                	<div class="jiathis_style">
+                    	<span class="jiathis_txt">分享到：</span>
+                        <a class="jiathis_button_icons_1"></a><a class="jiathis_button_icons_2"></a><a class="jiathis_button_icons_3"></a><a class="jiathis_button_icons_4"></a><a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                    </div>
+					<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1346378669840136" charset="utf-8"></script>
+                </div>
+                点击次数：<span>{dr_space_show_hits($modelid, $id)}</span>
+                &nbsp;&nbsp;更新时间：{$updatetime}
+                &nbsp;&nbsp;【<a href="javascript:window.print()">打印此页</a>】
+            </div>
+            <div class="met_page">
+            	上一条：{if $prev_page}<a href="{dr_space_show_url($spaceid, $modelid, $prev_page.id)}">{$prev_page.title}</a>{else}没有了{/if}
+                &nbsp;&nbsp;
+                下一条：{if $next_page}<a href="{dr_space_show_url($spaceid, $modelid, $prev_page.id)}">{$next_page.title}</a>{else}没有了{/if}
+            </div>
+        </div>
+
+    </div>
+    <div class="clear"></div>
+</div>
+{template "footer.html"}

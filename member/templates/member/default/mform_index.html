@@ -1,0 +1,105 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	$(".msearch a").click(function(){
+		var name = $(this).attr("name");
+		$(".msearch a").removeClass("cur");
+		$(this).addClass("cur");
+		$("#dr_order").val(name);
+	});
+	$("#dr_loadmore a").click(function(){
+		var page = $("#dr_page").val();
+		$("#dr_loading").html("<div style='padding:30px;text-align:center;width:678px;'><img src='{MEMBER_THEME_PATH}images/loading.gif' /></div>");
+		$.get("{$searchurl}", {page:page}, function(data){
+			if (data != "null") {
+				$("#dr_body").append(data);
+				$("#dr_page").val(Number(page) + 1);
+			}
+			$("#dr_loading").html("");
+		});
+	});
+	// 排序操作
+	$('.dr_table th').click(function(e) {
+		var _class = $(this).attr("class");
+		if (_class == undefined) return;
+		var _name = $(this).attr("name");
+		var _order = '';
+		if (_class == "sorting") {
+			_order = 'desc';
+		} else if (_class == "sorting_desc") {
+			_order = 'asc';
+		} else {
+			_order = 'desc';
+		}
+		var url = "{dr_member_order($searchurl)}&order="+_name+" "+_order;
+		location.href=url;
+	});
+});
+function dr_delete(id) {
+    art.dialog.confirm("你确认要删除吗？", function(){
+		$.ajax({type: "POST",dataType:"json", url: "{dr_member_url(APP_DIR.'/'.$this->ci->router->class.'/del')}",data: {id:id}, success: function(data) {
+				if (data.status == 1) {
+					$.dialog.tips(data.code, 3, 1);
+					$("#dr_row_"+id).hide();
+				} else {
+					$.dialog.tips(data.code, 3, 0);
+				}
+                art.dialog.close();
+                return false;
+			},
+			error: function(HttpRequest, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+			}
+		});
+		return true;
+	});
+	return false;
+}
+</script>
+<input name="page" id="dr_page" type="hidden" value="2" />
+<input name="order" id="dr_order" type="hidden" value="{$get.order}" />
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+        <div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main dr_table">
+				<div class="msearch mbutton">
+                	<form method="get" action="">
+						<input name="s" type="hidden" value="{APP_DIR}" />
+						<input name="c" type="hidden" value="{$this->ci->router->class}" />
+						<input name="m" type="hidden" value="index" />
+						<input id="dr_order" name="order" type="hidden" value="{$get.order}" />
+						<div style="clear:both;padding-top:15px;">
+							<span style="color:#333; padding-right:8px;">文档id：
+								<input type="text" name="cid" value="{if $get.cid}{$get.cid}{/if}" class="input_text" style="width:50px;" />
+							</span>
+							<span style="color:#333; padding-right:8px;">关键字：
+								<input type="text" name="kw" value="{$get.kw}" class="input_text" />
+							</span>
+							<button type="submit" class="red_button" style="margin-left:20px">查询</button>
+						</div>
+               		</form>
+				</div>
+                <div class="bk10"></div>
+				<table style="table-layout:fixed;margin-bottom: 0;">
+				<thead>
+					<tr>
+						<th style="width:60px;text-align:center" class="{ns_sorting('cid')}" name="cid">{lang('mod-00')}Id</th>
+						<th class="{ns_sorting('subject')}" name="subject">主题</th>
+						<th style="width:120px;" class="{ns_sorting('inputtime')}" name="inputtime">发布时间</th>
+						<th style="width:120px;">操作</th>
+					</tr>
+				</thead>
+				<tbody id="dr_body">
+				{template "$datatpl"}
+				</tbody>
+				</table>
+				<div class="bk10"></div>
+				<div id="dr_loading"></div>
+                <div id="dr_loadmore" class="load-more"><a href="javascript:;">查 看 更 多</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

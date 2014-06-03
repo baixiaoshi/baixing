@@ -1,0 +1,67 @@
+{template "header.html"}
+<div class="clear"></div>
+<!---->
+
+
+<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+<!-- <div class="news">
+  <link href="{HOME_THEME_PATH}images/slide.css" type="text/css" rel="stylesheet">
+        <div id="myslide" style="width:305px;height:325px">
+            <table width="100%" cellSpacing="0" cellPadding="0">
+            <tr>
+            <td class="pic" id="bimg" style="height:281px">
+          
+                {list action=module flag=2 field=thumb,title,url order=displayorder,updatetime num=5}
+                <div class="{if $key==0}dis{else}undis{/if}" name="f">
+                <a href="{$t.url}" title="{$t.title}" {if $t.target}target="_blank"{/if}><img alt="{$t.title}" style="width:305px;height:281px;" src="{dr_thumb($t.thumb, 300, 280)}" border="0"></a>
+                </div>
+                {/list}
+                <table id="font_hd" width="100%" cellSpacing="0" cellPadding="0">
+                <tr>
+                <td class="title" id="info">
+                {list action=module flag=2 field=thumb,title,url order=displayorder,updatetime num=5}
+                <div class="{if $key==0}dis{else}undis{/if}" name="f">
+                <a href="{$t.url}" title="{$t.title}" {if $t.target}target="_blank"{/if}>{$t.title}</a>
+                </div>
+                {/list}
+                </td>
+                <td id="simg" nowrap="nowrap" style="text-align:right">
+               {list action=module flag=2 field=thumb,title,url order=displayorder,updatetime num=5}
+                <div class="{if $key==0}{else}f1{/if}" onclick=play(x[{$key}],{$key}) name="f">{$key+1}</div>
+                {/list}
+                </td>
+                </tr>
+                </table>
+                <script src="{HOME_THEME_PATH}js/slide.js"></script>
+            </td>
+            </tr>
+            </table>
+        </div>
+  </div> -->
+<div class="clear"></div>	
+
+<div class="clear"></div>
+<!--循环输出顶级栏目下面的子栏目及其内容，运用到了双list循环标签因此需要定义返回值return=c（都懂得）-->
+<!--引入图标库-->
+<div class="box">
+{list action=category pid=0 return=c}
+    <div class="tree">
+        <div class="tree_title">
+
+            <span class="tree_ico_{$key_c}"></span>
+            <span>{$c.name}</span>
+        </div>
+    	<div class="tree_name">
+                <!--循环输出当前栏目下面的子栏目，运用到了双list循环标签因此需要定义返回值return=c（都懂得）-->
+                {list action=category pid=$c.id return=c2}
+                <div class="tree_box">
+                <a href="{$c2.url}" title="{$c2.name}"><span class="tree_word">&nbsp;&nbsp;{$c2.name}&nbsp;&nbsp;</span></a>
+                </div>
+                {/list}
+    	</div>
+    </div>
+{/list}
+</div>
+<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+
+{template "footer.html","/"}

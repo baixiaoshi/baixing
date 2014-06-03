@@ -1,0 +1,15 @@
+<li>
+    <div class="l img">
+        <a href="{$t.url}"><img src="{dr_thumb($t.thumb, 80, 60)}" width="80" height="60" /></a>
+    </div>
+    <div class="l">
+        <a href="{$t.url}">{dr_keyword_highlight($t.title, $keyword)}</a><br />
+        {$t.xiaoqumingcheng}，共{$t.zongceng}层，第{$t.suozaiceng}层，{$t.zhuangxiu}，{$t.chaoxiang}<br />
+        {$t.updatetime}&nbsp;&nbsp;{dr_linkagepos('address', $t.area, '')} {$t.dizhi}
+    </div>
+    <div class="r right" style="padding-top:0">
+        <span>￥{$t.zujin}/月</span>
+        <br />{$t.zujinleixing}
+        <br />{dr_member_online($t.uid, 1)}
+    </div>
+</li>

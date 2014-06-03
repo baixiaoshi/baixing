@@ -1,0 +1,112 @@
+{template header.html}
+<script>
+function dr_confirm_update() {
+	art.dialog.confirm("{lang('015')}", function(){
+		var _data = $("#myform").serialize();
+		var _url = window.location.href;
+		if ((_data.split('ids')).length-1 <= 0) {
+			$.dialog.tips(lang['select_null'], 2);
+			return true;
+		}
+		// 将表单数据ajax提交验证
+		$.ajax({type: "POST",dataType:"json", url: _url, data: _data,
+			success: function(data) {
+				//验证成功
+				if (data.status == 1) {
+					$.dialog.tips(data.code, 3, 1);
+					$.post("{SITE_URL}{APP_DIR}/index.php?c=show&m=create_html&id={$cid}", {}, function(){});
+					setTimeout('window.location.reload(true)', 3000); // 刷新页
+				} else {
+					$.dialog.tips(data.code, 3, 2);
+					return true;
+				}
+			},
+			error: function(HttpRequest, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+			}
+		});
+		return true;
+	});
+	return false;
+}
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+        <form method="post" action="" name="searchform" id="searchform">
+		<input name="search" id="search" type="hidden" value="1" />
+		{lang('mod-34')} ：
+		<input type="text" class="input-text" value="{$param['keyword']}" name="data[keyword]" />&nbsp;
+		{lang('104')} ：
+		{dr_field_input('start', 'Date', array('option'=>array('format'=>'Y-m-d','width'=>80)), $param.start)}
+		-&nbsp;
+		{dr_field_input('end', 'Date', array('option'=>array('format'=>'Y-m-d','width'=>80)), $param.end)}
+		&nbsp;
+		<input type="submit" value="{lang('search')}" class="button" name="search" />
+		</form>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform" id="myform">
+        <input name="action" id="action" type="hidden" value="" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="30" align="center">{lang('order')}</th>
+			<th width="50" align="center">Id</th>
+			<th align="left">{lang('mod-38')}</th>
+            {if $content.type}
+			<th width="100" align="center">{lang('mod-39')}</th>
+            {/if}
+			<th width="120" align="left">{lang('104')}</th>
+			<th align="left" class="dr_option">{lang('option')}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr id="dr_row_{$t.id}">
+			<td align="right"><input name="ids[]" type="checkbox" class="dr_select" value="{$t.id}" />&nbsp;</td>
+			<td align="center"><input class="input-text displayorder" type="text" name="data[{$t.id}][displayorder]" value="{$t.displayorder}" /></td>
+			<td align="center">{$t.id}</td>
+			<td align="left"><a href="{dr_url(APP_DIR.'/extend/edit',array('id'=>$t.id,'cid'=>$cid,'catid'=>$catid))}">{dr_keyword_highlight($t.name, $param.keyword)}</a></td>
+			{if $content.type}
+            <td align="center"><a href="{dr_url(APP_DIR.'/extend/index', array('cid'=>$cid,'catid'=>$catid,'type'=>$t.mytype))}">{$content['type'][$t['mytype']]['name']}</a></td>
+            {/if}
+			<td align="left">{dr_date($t.inputtime, NULL, 'red')}</td>
+			<td align="left" class="dr_option">
+			<a href="{$t.url}" target="_blank">{lang('go')}</a>
+			{if $catrule.edit}<a href="{dr_url(APP_DIR.'/extend/edit',array('cid'=>$cid,'catid'=>$catid,'id'=>$t.id))}">{lang('edit')}</a>{/if}
+			</td>
+		</tr>
+		{/loop}
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<td colspan="8" align="left" style="border:none">
+            {if $catrule.del}
+			<input type="button" class="button" value="{lang('del')}" name="option" onClick="$('#action').val('del');dr_confirm_set_all('{lang('015')}', 1)" />
+            {/if}
+            {if $catrule.edit}
+			<input type="button" class="button" value="{lang('order')}" name="option" onClick="$('#action').val('order');dr_confirm_update()" />
+            <div class="onShow">{lang('html-565')}</div>
+            {if $content.type}
+			<input type="button" class="button" value="{lang('html-265')}" name="option" onClick="$('#action').val('move');dr_confirm_update()" />
+			<select name="type">
+            {loop $content.type $id $t}
+            <option value="{$id}">{$t.name}</option>
+            {/loop}
+            </select>
+            {/if}
+            {/if}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		</form>
+        <div id="pages"><a>{dr_lang('html-346', $param.total)}</a>{$pages}</div>
+	</div>
+</div>
+{template footer.html}

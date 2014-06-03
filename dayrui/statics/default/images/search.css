@@ -1,0 +1,100 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,p,blockquote,th,td,figure{margin:0;padding:0;}
+ li{list-style-type:none}
+  ul{margin:0px;padding:0px}
+ img{border:0px;}
+ a{text-decoration:none;color:#333}
+ a:hover{text-decoration:underline}
+body{font:12px/1.75 "宋体", arial, sans-serif,'DejaVu Sans','Lucida Grande',Tahoma,'Hiragino Sans GB',STHeiti,SimSun,sans-serif;}
+h4{font-size:15px;color:#333;}
+.l{ float:left}
+.r{ float:right}
+.clear{ clear:both;}
+.blank10{height:10px; overflow:hidden}
+.idx{width:980px;margin:0 auto;}
+.Dg{width:980px;margin:0 auto; line-height:35px;height:35px; font-size:12px;color:#666;padding-left:8px; font-family:Arial, Helvetica, sans-serif}
+.Dg a{padding:0px 1px;color:#0270ce;}
+.norecord{width:260px;margin:0 auto;margin-top:20px; height:35px; line-height:35px;padding-left:27px; border:1px solid #f9b49c;color:#e00; background:#fff6e6 url(no.gif) no-repeat 10px 50%;font-size:12px}
+/*搜索页开始*/
+.head{height:30px; line-height:30px;background:#000;color:#999}
+.head .ix{padding-left:20px;}
+.head a{color:#fff;padding:0px 5px;}
+.ilogo{height:70px;padding-top:10px; }
+.ilogo .alist{ position:absolute;margin-top:-25px}
+.ilogo .alist a{height:30px; line-height:18px;padding:0px 10px;font-size:15px; float:left;margin-right:5px;font-family:"\5FAE\8F6F\96C5\9ED1";}
+.ilogo .alist .curr{color:#e00;font-weight:bold;background:url(currbg.gif) no-repeat 50% 100%}
+.sc_list .scjg{width:980px;margin:0 auto; clear:both;height:40px; line-height:40px;font-size:12px;border-bottom:1px solid #ddd}
+.sc_list .sc_list_l{width:715px; float:left;margin:15px 0px 0px 0px;}
+.sc_list .sc_list_l h4{height:35px; line-height:35px;padding-left:10px;font-family:"\5FAE\8F6F\96C5\9ED1";}
+.sc_list .sc_list_l li:hover{background:#f5f5f5}
+.sc_list .sc_list_l li{border-bottom:1px dashed #ddd;padding:10px}
+.sc_list .sc_list_l li a.title{font-size:14px;color:#0F5BB1; float:left;font-weight:bold; text-decoration:underline}
+.sc_list .sc_list_l li span.date{padding-left:20px;color:#666; float:left}
+.sc_list .sc_list_l li.fyys{border:0px; text-align:right;margin-top:10px}
+.sc_list .sc_list_l li.fyys:hover{background:none}
+.sc_list .sc_list_r{width:230px; float:right;margin-top:15px;padding:10px; background:#f5f5f5}
+.sc_list .sc_list_r h4{font-size:16px;border-bottom:1px solid #ddd; height:28px;font-family:"\5FAE\8F6F\96C5\9ED1";}
+.sc_list .sc_list_r ul{padding:15px 15px 15px 2px}
+.sc_list .sc_list_r ul li{ line-height:24px;height:24px;background:url(bg-01.gif) no-repeat 4px 50%;padding-left:12px}
+.sc_list .sc_list_r ul li a{color:#0F5BB1}
+.sc_list .sc_list_r ul .pic{ line-height:19px;color:#666;height:70px;border-bottom:1px dotted #ccc;margin-bottom:8px;padding-left:0px}
+.sc_list .sc_list_r ul .pic img{width:70px;height:60px;margin-right:10px;}
+.sc_list .sc_list_r ul .pic span a{padding-left:0px;}
+.sc_list .sc_list_r ul .pic a{padding-left:5px; line-height:20px}
+.sc_list .sc_list_r ul .pic .into{ padding-top:3px}
+/*搜索页结束*/
+.tags_one{width:980px;margin:0 auto;margin-top:10px; height:26px; line-height:26px;font-size:15px;font-family:"\5FAE\8F6F\96C5\9ED1";}
+.tags_one b{ float:left;font-size:12px;}
+.tags_one a{padding:0px 7px; float:left;margin-left:5px;border:1px solid #e5e5e5;}
+.tags_one a:hover{ background:#2795c9;color:#fff; text-decoration:none} 
+.tagslist{width:980px;margin:0 auto;}
+.tagslist h3{font-family:"\5FAE\8F6F\96C5\9ED1";margin-top:10px;border-top:1px dashed #ddd;color:#555; height:58px; line-height:45px;font-weight:normal;font-size:31px;}
+.tagslist h3 a{ line-height:40px;}
+.tagslist h2{font-size:12px;font-weight:normal;border-bottom:1px solid #ddd; height:35px; line-height:35px;padding-left:10px}
+.tagslist a{ line-height:24px;color:#1472b4; font-family:Arial, Helvetica, sans-serif}
+.tagslist li:hover{background:#fafafa}
+.tagslist li{border-bottom:1px dotted #d5d5d5;padding:10px; line-height:22px}
+.tagslist li a.title{font-size:14px;color:#0F5BB1; float:left;font-weight:bold; text-decoration:underline; line-height:24px; height:30px}
+.tagslist li span.date{padding-left:20px;color:#666; float:right; line-height:24px}
+/*尾部通用*/
+.end{width:980px;margin:0 auto;padding-top:5px; text-align:center; margin-top:10px;height:20px;color:#999;border-top:1px solid #ddd}
+.end a{ line-height:20px;padding:0px 4px 0px 4px;color:#666}
+.copyright{ text-align:center; line-height:22px;color:#888;height:70px; font-family:Arial, Helvetica, sans-serif}
+/*尾部通用over*/
+/*分页样式*/
+#fenye{clear:both;margin:15px 10px 15px 10px;height:35px;color:#999; text-align: center;}
+#fenye a,#fenye span{padding:5px;text-decoration:none; font-size:14px;margin-left:5px;height:26px; text-align:center; line-height:26px; color:#666; background:#eee}
+#fenye .prev,#fenye .next{width:55px; text-align:center;}
+#fenye span{ background:#fff; text-decoration:underline;color:#00659c; font-family:"Microsoft YaHei", Arial, Helvetica, sans-serif; text-align:center;font-weight:bold; }
+#fenye a:hover{color:#00659c; text-decoration:none;}
+#back-to-top {
+    bottom: 100px;
+    position: fixed;
+    right: 80px;
+}
+#back-to-top a {
+    background: url("go_to_top.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 54px;
+    text-indent: -999em;
+    transition: color 1s ease 0s;
+    width: 54px;
+}
+#back-to-top a:hover {
+    opacity: 0.8;
+}
+/* 搜索条*/
+.ilogo .idx a {float:left;}
+.sc{float:right; width:390px;}
+.sc .scbox{ margin-top:15px; float:right;font-size:13px;background:url(dbbot02.png) no-repeat 0 50%; }
+.sc .scbox .SC_input{width:300px; float:left;height:28px; line-height:28px;background:#fff;color:#999;padding-left:10px;border-right:0px;font-size:14px;border:1px solid #e8e8e8;border-top:1px solid #d5d5d5;border-right:0px;_margin-right:-3px;}
+.sc .scbox .scbtn{ height:32px; line-height:30px;font-size:14px;width:70px; background:#fafafa url(scbtn.png) no-repeat 10px 3px;border:1px solid #ddd; letter-spacing:3px;color:#777;font-weight:bold;cursor: pointer;}
+.sc_tags a {float:none!important;}
+button,.btnNormal{height:22px;line-height:18px;padding:0 9px!important;padding:0 5px;}
+.sc .scbox .selSearch{ float:left;width:1px;height:28px; line-height:25px;font-size:14px;padding-top:2px;padding-left:10px;color:#333;cursor:hand;border-right:0px; _overflow:hidden;}
+.sc .scbox .btnSel{float:right;width:14px;height:19px;}
+.sc .scbox .selOption{z-index:9999;position:absolute;width:58px; margin-left:-11px;background:#fff;margin-top:-16px;border:1px solid #e8e8e8;border-top:0px; line-height:22px;font-weight:100;}
+.sc .scbox .selOption a{display:block;height:21px;line-height:21px;color:#000;text-decoration:none;COLOR:#666666;font-weight:100;font-size:12px;padding-left:10px}
+.sc .scbox .selOption a:hover{color:#333;background:#eee;}
+.sc .sc_tags{ float:right;margin-top:4px;color:#666; width:380px;height:25px;line-height:25px;overflow:hidden;font-family:Arial, Helvetica, sans-serif}
+.sc .sc_tags a{color:#666;}
+.nowSearch { cursor:pointer;}

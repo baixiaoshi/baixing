@@ -1,0 +1,53 @@
+{template header.html}
+<link href="{MEMBER_THEME}images/reg.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+$(function(){
+	{if $error}
+	dr_tips("<font color=red>{$error}</font>", 3);
+	{/if}
+});
+</script>
+<div class="content">
+    <div class="login_wp clearfix">
+        <div class="login_mod">
+            <h3>会员登录<span>Login</span></h3>
+            <form method="post" action="">
+            <ul>
+                <li>
+                	<strong>会员：</strong>
+                    <input class="input_text" type="text" maxlength="64" autofocus="autofocus"  id="dr_username" name="data[username]" />
+                </li>
+                <li>
+                	<strong>密码：</strong>
+                    <input class="input_text" type="password" id="dr_password" name="data[password]" />
+                </li>
+                {if $code}
+                <li class="check_code" id="dr_code">
+                	<strong>验证：</strong>
+                    <input class="input_text" type="text" maxlength="30" id="code"  name="code"  value="" />
+                    <span style="float:left"><img align="absmiddle" style="cursor:pointer;" onclick="this.src='{dr_member_url('api/captcha', array('width' => 90, 'height' => 32))}&'+Math.random();" src="{dr_member_url('api/captcha', array('width' => 90, 'height' => 32))}" /></span>
+                </li>
+                {/if}
+                <li class="auto_login">
+                    <input type="checkbox" name="data[auto]" value="1" checked="checked" />
+                    <span>下次自动登录</span>
+                </li>
+                <li class="mbutton">
+                    <button type="submit" value="">
+                         登录
+                    </button>
+                    <a href="{dr_member_url('login/find')}">忘记密码？</a>
+                </li>
+            </ul>
+            </form>
+            <div class="login_other"> 
+                <strong>使用合作网站帐号登录：</strong> 
+                {list action=cache name=OAUTH} 
+                <span class="dr_oauth_style dr_oauth_{$t.icon}" title="{$t.name}" onclick="window.location.href='{SITE_URL}member/index.php?c=api&m=oauth&id={$t.id}'"></span>
+                {/list}
+            </div>
+        </div>
+        <div class="login_banner"></div>
+    </div>
+</div>
+{template footer.html}

@@ -1,0 +1,66 @@
+<script type="text/javascript">
+//防止回车提交表单
+$(function() {
+	document.onkeydown = function(e){ 
+		var ev = document.all ? window.event : e;
+		if (ev.keyCode==13) {
+			$("#mark").val("1"); // 标识不能提交表单
+		}
+	}
+});
+function dr_form_check() {
+	if ($("#mark").val() == 0) { 
+		return true;
+	} else {
+		return false;
+	}
+}
+{if $all}
+$('.dr_all').show();$('.dr_one').hide();
+{else}
+$('.dr_all').hide();$('.dr_one').show();
+{/if}
+</script>
+<div class="table-list" style="width:450px;">
+<form action="" method="post" id="myform" name="myform" onsubmit="return dr_form_check()">
+<input name="mark" id="mark" type="hidden" value="0">
+<table width="100%" class="table_form">
+<tr>
+    <th width="100">&nbsp;{lang('html-397')}： </th>
+    <td>
+    <input name="all" type="radio" value="0" onClick="$('.dr_all').hide();$('.dr_one').show();" {if !$all}checked{/if}>&nbsp;{lang('html-396')}&nbsp;&nbsp;
+    <input name="all" type="radio" value="1" onClick="$('.dr_all').show();$('.dr_one').hide();" {if $all}checked{/if}>&nbsp;{lang('html-395')}
+    </td>
+</tr>
+<tr class="dr_one">
+    <th><font color="red">*</font>&nbsp;{lang('html-055')}： </th>
+    <td><input class="input-text" type="text" name="data[username]" id="dr_username" value="{$data.username}" size="25" /><div class="onShow" id="dr_username_tips"></div></td>
+</tr>
+<tr class="dr_one">
+    <th><font color="red">*</font>&nbsp;{lang('html-061')}： </th>
+    <td><input class="input-text" type="text" name="data[password]" id="dr_password" value="{$data.password}" size="25" /><div class="onShow" id="dr_password_tips"></div></td>
+</tr>
+<tr class="dr_one">
+    <th><font color="red">*</font>&nbsp;{lang('html-062')}： </th>
+    <td><input class="input-text" type="text" name="data[email]" id="dr_email" value="{$data.email}" size="25" /><div class="onShow" id="dr_email_tips"></div></td>
+</tr>
+<tr class="dr_all" style="display:none">
+    <th><font color="red">*</font>&nbsp;{lang('html-395')}： </th>
+    <td><textarea style="width:260px;height:150px" name="info" />{$info}</textarea><br>
+    <font color="#999999" id="dr_info_tips">{lang('html-398')}</font>
+    </td>
+</tr>
+<tr>
+    <th><font color="red">*</font>&nbsp;{lang('html-348')}： </th>
+    <td>
+    <select name="data[groupid]">
+    <option value=""> -- </option>
+    {list action=cache name=MEMBER.group}
+    <option value="{$t.id}" {if $t.id==$data.groupid}selected{/if}> {$t.name} </option>
+    {/list}
+    </select>
+    <div class="onShow" id="dr_groupid_tips"></div></td>
+</tr>
+</table>
+</form>
+</div>

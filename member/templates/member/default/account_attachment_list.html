@@ -1,0 +1,84 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	$("#dr_loadmore a").click(function(){
+		var page = $("#dr_page").val();
+		$("#dr_loading").html("<div style='padding:30px;text-align:center;width:678px;'><img src='{MEMBER_THEME_PATH}images/loading.gif' /></div>");
+		$.get("{$moreurl}", {page:page, module:{intval($get.module)}, ext:{intval($get.ext)} }, function(data){
+			if (data != "null") {
+				$("#dr_body").append(data);
+				$("#dr_page").val(Number(page) + 1);
+			}
+			$("#dr_loading").html("&nbsp;");
+		});
+	});
+});
+function dr_delete(id) {
+    art.dialog.confirm("你确认要删除吗？", function(){
+		// 将表单数据ajax提交验证
+		$.ajax({type: "POST",dataType:"json", url: "{dr_member_url(APP_DIR.'/account/del_attach')}",data: {id:id}, success: function(data) {
+				//验证成功
+				if (data.status == 1) {
+					$.dialog.tips(data.code, 3, 1);
+					$("#dr_row_"+id).hide();
+				} else {
+					$.dialog.tips(data.code, 3, 0);
+				}
+                art.dialog.close();
+                return false;
+			},
+			error: function(HttpRequest, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+			}
+		});
+		return true;
+	});
+	return false;
+}
+</script>
+<input name="page" id="dr_page" type="hidden" value="2" />
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+		<div class="message message_info">附件总空间：{if $acount}{dr_format_file_size($acount)}{else}不限制{/if}，已使用：{dr_format_file_size($ucount)}{if $acount}，剩余：{dr_format_file_size($scount)}{/if}。</div>
+        <div class="section">
+            <div class="title"><strong>{$meta_name}（已使用的附件）</strong></div>
+            <div class="main dr_table">
+				<div class="msearch mbutton">
+                	<form method="get" action="">
+						<input name="c" type="hidden" value="{$get.c}" />
+						<input name="m" type="hidden" value="{$get.m}" />
+						<button type="submit" class="red_button" style="float:right;margin-left:20px">查询</button>
+						<input type="text" name="ext" placeholder="输入扩展名" value="{$get.ext}" class="input_text" style="color:#999;width:150px;float:right" />
+						<span style="color:#333;float:right;padding-right:15px;">模块：
+						<select name="module">
+							<option value=""> -- </option>
+							{loop $module $dir $name}
+							<option value="{$dir}" {if $get.module==$dir}selected{/if}>{$name}</option>
+							{/loop}
+						</select>
+						</span>
+               		</form>
+				</div>
+                <div class="bk10"></div>
+				<table style="table-layout:fixed;margin-bottom: 0;">
+				<thead>
+					<tr>
+						<th class="algin_l">文件名</th>
+						<th style="width:100px;" class="algin_c">大小</th>
+						<th style="width:50px;" class="algin_c">扩展名</th>
+						<th style="width:120px;" class="algin_c">上传时间</th>
+						<th style="width:50px;" class="algin_c">操作</th>
+					</tr>
+				</thead>
+				<tbody id="dr_body">
+				{template account_attachment_data.html}
+				</tbody>
+				</table>
+				<div id="dr_loading" style="marign-top:10px;">&nbsp;</div>
+                <div id="dr_loadmore" class="load-more"><a href="javascript:;">查 看 更 多</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

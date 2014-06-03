@@ -1,0 +1,86 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	{if $error}
+	art.dialog.tips('<font color=red>{$error.msg}</font>', 3);
+	d_tips('{$error['error']}', 0);
+	{/if}
+	var catid = $("#dr_catid").val();
+	if (catid) {
+		show_category_field(catid);
+	}
+});
+function show_category_field(catid) {
+	$.post('index.php?s={APP_DIR}&c=home&m=field&rand='+Math.random(),{ catid:catid, data:{json_encode(dr_array2string($data))} }, function(data){
+		$('#dr_category_field').html(data);
+	});
+}
+function dr_sync(id, _this) {
+	var tid = $("#dr_"+id).val();
+	if (tid == 1) {
+		$("#dr_"+id).val("0");
+		$(_this).attr("src", "{MEMBER_URL}statics/OAuth/"+id+".gif");
+	} else {
+		$("#dr_"+id).val("1");
+		$(_this).attr("src", "{MEMBER_URL}statics/OAuth/"+id+"_on.gif");
+	}
+}
+function dr_select_category() {
+	$("#dr_select_category_html > span").hide();
+	$("#dr_select_category").show();
+}
+</script>
+<div class="content clearfix">
+	<div class="page_url">
+    	<a href="{SITE_URL}">首页</a> <span>&gt;</span> <a href="{dr_member_url('home/index')}">会员中心</a> <span>&gt;</span> {$meta_name}
+    </div>
+    <div class="section_wp drbox" style="width:auto;float:none">
+        <div class="section_title">
+        	<a href="javascript:;" class="cur">{$meta_name}</a>
+        </div>
+        <div class="section_main">
+            <form action="" method="post">
+            <input name="dr_id" id="dr_id" type="hidden" value="{$data.id}" />
+            <input name="dr_module" id="dr_module" type="hidden" value="{APP_DIR}" />
+                <table width="100%" class="table_form">
+				{if !$isedit}
+				<tr>
+					<th><font color="red">*</font>&nbsp;{lang('cat-00')}： </th>
+					<td id="dr_select_category_html">
+                    <span>{dr_catpos($catid, '&nbsp;&nbsp;>&nbsp;&nbsp;', FALSE)}&nbsp;&nbsp;</span>
+                    {if !$data.id}<a href="index.php?s={APP_DIR}&c=home&m=add">[重新选择]</a>{/if}
+                    {if $data.id}
+                    <span><a href="javascript:dr_select_category();">[重新选择]</a></span>
+                    <span id="dr_select_category" style="display:none">{$select}</span>
+                    {/if}
+                    </td>
+				</tr>
+                {else}
+                <tr>
+					<th><font color="red">*</font>&nbsp;{lang('cat-00')}： </th>
+					<td>{dr_catpos($catid, '&nbsp;&nbsp;>&nbsp;&nbsp;', FALSE)}</td>
+				</tr>
+				{/if}
+				{$myfield}
+				<tr>
+					<th style="border-bottom:none" width="160">&nbsp;</th>
+					<td style="border-bottom:none;padding-top: 20px;">
+                    	<div class="mbutton">
+                        	<button value="" type="submit" class="{if $verify}next_bt{else}submit_bt{/if}">提交</button>
+                            {if !$data.id}
+                            <label>将它同步至微博：</label>
+							<img src="{MEMBER_URL}statics/OAuth/qq_share.gif" onclick="{if $member.oauth.qq}dr_sync('qq_share',this){else}dr_confirm_url('您还没有绑定QQ账号呢，现在就去绑定吗？离开页面内容会消失', '{dr_member_url('account/oauth')}'){/if}" align="absmiddle" style="cursor:pointer" />
+                            <input name="qq_share" id="dr_qq_share" type="hidden" value="0" />
+							&nbsp;
+							<img src="{MEMBER_URL}statics/OAuth/sina_share.gif" onclick="{if $member.oauth.sina}dr_sync('sina_share',this){else}dr_confirm_url('您还没有绑定新浪账号呢，现在就去绑定吗？离开页面内容会消失', '{dr_member_url('account/oauth')}'){/if}" align="absmiddle" style="cursor:pointer" />
+                            <input name="sina_share" id="dr_sina_share" type="hidden" value="0" />
+                            {/if}
+                        </div>
+                    </td>
+				</tr>
+				</table>
+            </form>
+        </div>
+    </div>
+</div>
+{template footer.html}

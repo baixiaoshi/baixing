@@ -1,0 +1,13 @@
+<li>
+    <div class="l img">
+        <a href="{$t.url}"><img src="{dr_thumb($t.thumb, 80, 60)}" width="80" height="60" /></a>
+    </div>
+    <div class="l">
+        <a href="{$t.url}">{dr_keyword_highlight($t.title, $keyword)}</a><br />
+        {$t.actor}<br />
+        {$t.updatetime}&nbsp;&nbsp;{dr_linkagepos('address', $t.area, '')} {$t.dizhi}
+    </div>
+    <div class="r right">
+        <span>{$t.schedule}</span>
+    </div>
+</li>

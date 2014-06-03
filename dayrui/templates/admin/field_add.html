@@ -1,0 +1,208 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab({$page});
+	set_required({intval($data['setting']['validate']['required'])});
+	show_field_option("{$data['fieldtype']}");
+	{if $result}
+	art.dialog.tips('<font color=red>{$result}</font>', 3);
+	{/if}
+	{if $code}
+	d_tips('{$code}', 0);
+	{/if}
+});
+function dr_form_check() {
+	if (d_required('name')) return false;
+	if (d_required('fieldname')) return false;
+	return true;
+}
+function show_field_option(type) {
+	$("#dr_loading").show();
+	$.post('{MEMBER_PATH}index.php?c=api&m=field&rand='+Math.random(),{ type:type, module:'{$module}', relatedid:'{$relatedid}', relatedname:'{$relatedname}', id:{intval($data.id)}}, function(data){
+		$('#dr_option').html(data);
+		$("#dr_loading").hide();
+	});
+}
+function set_required(id) {
+	if (id == 0) {
+		$('#required').hide();
+	} else {
+		$('#required').show();
+	}
+}
+</script>
+<form action="" method="post" name="myform" id="myform" onsubmit="return dr_form_check()">
+<input name="page" id="page" type="hidden" value="{$page}" />
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}15.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-083')}</li>
+			<li onclick="SwapTab(1)">{lang('html-184')}</li>
+			<li onclick="SwapTab(2)">{lang('html-185')}</li>
+		</ul>
+		<div class="contentList pad-10">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				<tr>
+					<th width="200"><font color="red">*</font>&nbsp;{lang('html-176')}： </th>
+					<td><input class="input-text" type="text" name="data[name]" value="{$data.name}" id="dr_name" onblur="d_topinyin('fieldname','name');" size="20" />
+					<div class="onShow" id="dr_name_tips">{lang('html-186')}</div>
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>&nbsp;{lang('html-177')}： </th>
+					<td><input class="input-text" type="text" name="data[fieldname]" value="{$data.fieldname}" {if $data.id}disabled{/if} id="dr_fieldname" size="30" />
+					<div class="onShow" id="dr_fieldname_tips">{lang('html-187')}</div>
+					</td>
+				</tr>
+				{if $ismain}
+				<input name="data[ismain]" type="hidden" value="1" />
+				{else}
+				<tr>
+                    <th><font color="red">*</font>&nbsp;{lang('html-180')}：</th>
+                    <td>
+                    <input type="radio" name="data[ismain]" value="0" {if $id}disabled{/if} {dr_set_radio('ismain', $data.ismain, '0', TRUE)} />&nbsp;{lang('no')}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="data[ismain]" value="1" {if $id}disabled{/if} {dr_set_radio('ismain', $data.ismain, '1')} />&nbsp;{lang('yes')}
+					<div class="onShow">{lang('html-188')}</div>
+                    </td>
+                </tr>
+				{/if}
+				{if $issearch}
+				<tr>
+                    <th><font color="red">*</font>&nbsp;{lang('html-415')}：</th>
+                    <td>
+                    <input type="radio" name="data[issearch]" value="0" {dr_set_radio('issearch', $data.issearch, '0')} />&nbsp;{lang('no')}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="data[issearch]" value="1" {dr_set_radio('issearch', $data.issearch, '1', TRUE)} />&nbsp;{lang('yes')}
+					<div class="onShow">{lang('html-416')}</div>
+                    </td>
+                </tr>
+				{/if}
+				<tr>
+					<th><font color="red">*</font>&nbsp;{lang('html-178')}： </th>
+					<td>
+					<select id="dr_fieldtype" name="data[fieldtype]" onChange="show_field_option(this.value)" {if $id}disabled{/if}>
+					<option value=""> -- </option>
+					{loop $ftype $t}
+					<option value="{$t.id}" {if $t.id==$data.fieldtype} selected="selected"{/if}> {$t.name} </option>
+					{/loop}
+					</select>
+                    <span id="dr_loading" style="display:none"><img src="{SITE_URL}dayrui/statics/images/onLoad.gif" height="10" /></span>
+					</td>
+				</tr>
+				<tbody id="dr_option">
+				</tbody>
+				</table>
+			</div>
+			<div id="cnt_1" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+                <tr>
+                    <th width="200">{lang('html-552')}：</th>
+                    <td>
+                    <input type="radio" name="data[setting][validate][xss]" value="0" {if $data['setting']['validate']['xss']==0}checked{/if}  />&nbsp;{lang('close')}&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="data[setting][validate][xss]" value="1" {if $data['setting']['validate']['xss']==1}checked{/if}  />&nbsp;{lang('open')}<div class="onShow">{lang('html-553')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th width="200">{lang('html-189')}：</th>
+                    <td>
+                    <input type="radio" name="data[setting][validate][required]" value="0" {if $data['setting']['validate']['required']==0}checked{/if} onclick="set_required(0)" />&nbsp;{lang('no')}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="data[setting][validate][required]" value="1" {if $data['setting']['validate']['required']==1}checked{/if} onclick="set_required(1)" />&nbsp;{lang('yes')}
+                    </td>
+                </tr>
+				<tbody id="required" style="display:none">
+				<tr>
+                    <th>{lang('html-190')}：</th>
+                    <td><input class="input-text" type="text" name="data[setting][validate][pattern]" value="{$data['setting']['validate']['pattern']}" id="dr_pattern" size="30" />
+					<select onchange="javascript:$('#dr_pattern').val(this.value)" name="pattern_select">
+					<option value="">{lang('html-190')}</option>
+					<option value="/^[0-9.-]+$/">{lang('html-191')}</option>
+					<option value="/^[0-9-]+$/">{lang('html-192')}</option>
+					<option value="/^[a-z]+$/i">{lang('html-193')}</option>
+					<option value="/^[0-9a-z]+$/i">{lang('html-194')}</option>
+					<option value="/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/">E-mail</option>
+					<option value="/^[0-9]{5,20}$/">QQ</option>
+					<option value="/^http:\/\//">{lang('html-195')}</option>
+					<option value="/^(1)[0-9]{10}$/">{lang('html-196')}</option>
+					<option value="/^[0-9-]{6,13}$/">{lang('html-197')}</option>
+					<option value="/^[0-9]{6}$/">{lang('html-198')}</option>
+					</select>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-199')}：</th>
+                    <td><input class="input-text" type="text" name="data[setting][validate][errortips]" value="{$data['setting']['validate']['errortips']}" id="dr_errortips" size="30" />
+					<div class="onShow">{lang('html-200')}</div>
+                    </td>
+                </tr>
+				</tbody>
+				<tr>
+                    <th>{lang('html-220')}：</th>
+                    <td>
+                    <input type="radio" name="data[setting][validate][isedit]" value="0" {if !$data['setting']['validate']['isedit']}checked{/if} />&nbsp;{lang('no')}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="data[setting][validate][isedit]" value="1" {if $data['setting']['validate']['isedit']}checked{/if} />&nbsp;{lang('yes')}
+					<div class="onShow">{lang('html-225')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-201')}：</th>
+                    <td><input class="input-text" type="text" name="data[setting][validate][check]" value="{$data['setting']['validate']['check']}" id="dr_check" size="30" />
+					<div class="onShow">{lang('html-202')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-203')}：</th>
+                    <td><input class="input-text" type="text" name="data[setting][validate][filter]" value="{$data['setting']['validate']['filter']}" id="dr_filter" size="30" />
+					<div class="onShow">{lang('html-204')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-205')}：</th>
+                    <td><input class="input-text" type="text" name="data[setting][validate][tips]" value="{$data['setting']['validate']['tips']}" size="30" />
+					<div class="onShow">{lang('html-206')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-207')}：</th>
+                    <td>
+					<textarea style="height:40px; width:50%" cols="20" rows="2" name="data[setting][validate][formattr]">{$data['setting']['validate']['formattr']}</textarea><br />
+                    <font color="gray">{lang('html-208')}</font>
+                    </td>
+                </tr>
+				</table>
+			</div>
+			<div id="cnt_2" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				<tr>
+                    <th width="200">{lang('html-181')}：</th>
+                    <td>
+                    <input type="radio" name="data[ismember]" value="0" {dr_set_radio('ismember', $data.ismember, '0')} />&nbsp;{lang('no')}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="data[ismember]" value="1" {dr_set_radio('ismember', $data.ismember, '1', TRUE)} />&nbsp;{lang('yes')}
+					<div class="onShow">{lang('html-209')}</div>
+                    </td>
+                </tr>
+				<tr>
+                    <th>{lang('html-160')}：</th>
+                    <td>
+                    <input type="radio" name="data[disabled]" value="0" {dr_set_radio('disabled', $data.disabled, '0', TRUE)} />&nbsp;{lang('no')}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="data[disabled]" value="1" {dr_set_radio('disabled', $data.disabled, '1')} />&nbsp;{lang('yes')}
+					<div class="onShow">{lang('html-210')}</div>
+                    </td>
+                </tr>
+				</table>
+			</div>
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200"> </th>
+				<td><input value="{lang('save')}" type="submit" name="submit" class="button" />
+				</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</form>
+{template footer.html}

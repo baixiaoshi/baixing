@@ -1,0 +1,99 @@
+{template "header.html"}
+<script language="javascript">
+// 这是加入收藏夹的ajax请求，我就随意写了一下提示信息，至于美化啊什么交给你们了
+function dr_favorite() {
+	$.get("{MODULE_URL}index.php?c=api&m=favorite&id={$id}", function(data){
+		if (data == 1) {
+			dr_tips("没有登录，不能收藏");
+		} else if (data == 2) {
+			dr_tips("文档不存在，无法收藏");
+		} else if (data == 3) {
+			dr_tips("更新收藏成功", 3, 1);
+		} else if (data == 4) {
+			dr_tips("收藏成功", 3, 1);
+		}
+	});
+}
+</script>
+<div class="clear"></div>
+<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > {dr_catpos($catid, ' > ')}<!--面包屑导航--></div>
+<div class="exam_three">
+	<div class="exam_three_l photo_l">
+		{template "left.html"}
+	</div>
+	<div class="exam_intro">
+		<div class="box01">
+			<div class="tit"><h4>房源信息</h4></div>
+				<div class="ksnr_box">
+                    <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#111111" bgcolor="#FFFFFF">
+                    <tr>
+                    <td width="240" rowspan="11" align="center">
+                    <img src="{dr_thumb($thumb, 240, 320)}" width="240" style="padding-top: 12px;" height="220" /><br /> 
+                    <a href="javascript:dr_favorite();"><img src="{HOME_THEME_PATH}images/jrsc.png" style="margin-top:10px;" /></a>
+                    </td>
+                    <td width="400"><strong>{$title}</strong></td>
+                    </tr>
+                    <tr>
+                    <td>所在区域：{dr_linkagepos('address', $area, ' > ', dr_search_url($params, 'area', '{linkage}'))}</td>
+                    </tr>
+                    <tr>
+                    <td>小区名称：{$xiaoqumingcheng}</td>
+                    </tr>
+                    <tr>
+                    <td>详细地址：{$dizhi}</td>
+                    </tr>
+                    <tr>
+                    <td>户型状况：{$shi}室，{$ting}厅，{$wei}卫，{$huxing}</td>
+                    </tr>
+                    <tr>
+                    <td>房屋状况：共{$zongceng}层，第{$suozaiceng}层，{$mianji}平米，{$zhuangxiu}，{$chaoxiang}</td>
+                    </tr>
+                    <tr>
+                    <td>配置状况：{if $peitao}{implode('，', $peitao)}{/if} </td>
+                    </tr>
+                    <tr>
+                    <td>租金信息：{$zujin}/月，{$zujinleixing}</td>
+                    </tr>
+                    <tr>
+                    <td>联系姓名：{$lianxiren}</td>
+                    </tr>
+                    <tr>
+                    <td>联系电话：{$lianxidianhua}</td>
+                    </tr>
+                    <tr>
+                    <td>更新时间：{$updatetime}</td>
+                    </tr>
+                    </table>
+				</div>
+			</div>
+			<div class="box02">
+				<div class="tit"><h4>房源介绍</h4></div>
+				<div class="ksnr_box">
+					 {$content}
+				</div>
+			</div>
+            {if $weizhi}<!--字段有值时才显示这块-->
+            <div class="box02">
+				<div class="tit"><h4>地图位置</h4></div>
+				<div class="ksnr_box">
+					 {dr_baidu_map($weizhi, 19, 750, 400)}
+                     <!--调用百度地图界面，参数一是字段值（看你自己定义的名字了），参数二值越大地图显示的越精确，参数三和四表示地图宽高-->
+				</div>
+			</div>
+            {/if}
+            {if $images}<!--字段有值时才显示这块-->
+			<div class="box03">
+				<div class="tit"><h4>图片浏览</h4></div>
+               	<div class="ksnr_box images">
+                    {loop $images $t}
+                    <p><img src="{dr_thumb($t.file, 650)}" width="650" title="{$t.title}" /></p>
+                    {/loop}
+                    <!--我就把图片直接输出到页面了，建议你去下载一个jq图片组件，网上到处都是，你懂得-->
+               	</div>
+			</div>
+            {/if}
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+{template "footer.html","/"}

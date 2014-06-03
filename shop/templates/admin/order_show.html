@@ -1,0 +1,82 @@
+{template header.html}
+<form action="" method="post" id="myform" name="myform">
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<table width="100%" class="table_form">
+		<tr>
+			<th width="200">&nbsp;订单编号： </th>
+			<td>&nbsp;{$data.id}</td>
+		</tr>
+		<tr>
+			<th>&nbsp;商品信息： </th>
+			<td>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="dr_order_item">
+				 <tr>
+					<td width="90">图片</td>
+					<td style="padding-right:5px;">商品名称</td>
+					<td width="50" style="text-align:center" class="dr_price">
+					单价
+					</td>
+					<td width="50" style="text-align:center">数量</td>
+					<td width="50" style="text-align:center" class="dr_price">总价</td>
+				  </tr>
+				{loop $data.items $item}
+				  <tr>
+					<td><a href="{$item.url}" target="_blank" class="dr_order_item_thumb"><img style="width:50px;height:50px;" src="{dr_thumb($item.thumb, 50, 50)}" /></a></td>
+					<td style="padding-right:5px;"><a href="{$item.url}" target="_blank">{$item.title}</a><div style="padding-top:3px; color:#999">{$item.format}</div></td>
+					<td style="text-align:center" class="dr_price">
+					{if $item.discount}
+					<del>{number_format($item.price, 2)}</del><br>
+					{number_format($item.discount, 2)}
+					{else}
+					{number_format($item.price, 2)}
+					{/if}
+					</td>
+					<td style="text-align:center">{$item.num}</td>
+					<td style="text-align:center" class="dr_price">{number_format($item.total, 2)}</td>
+				  </tr>
+				{/loop}
+			</table>
+			</td>
+		</tr>
+		<tr>
+		  <th>订单价格：</th>
+		  <td>&nbsp;<span class="dr_pirce">{$data.price}</span></td>
+		</tr>
+		<tr>
+		  <th>已使用{SITE_SCORE}：</th>
+		  <td>&nbsp;{$data.score}</td>
+		</tr>
+		<tr>
+			<th>买家信息： </th>
+			<td>&nbsp;{$data.username}</td>
+		</tr>
+		<tr>
+		  <th>下单时间：</th>
+		  <td>&nbsp;{dr_date($data.inputtime, 'Y-m-d H:i:s', 'red')}</td>
+		</tr>
+		{if $data.successtime}
+		<tr>
+		  <th>交易时间：</th>
+		  <td>&nbsp;{dr_date($data.successtime, 'Y-m-d H:i:s', 'red')}</td>
+		</tr>
+		{/if}
+		<tr>
+			<th>订单状态： </th>
+			<td>&nbsp;
+				{if $data.status==0}<font color="#FF0000">买家交易关闭</font>
+				{else if $data.status==1}<font color="#FF9933">等待付款</font></a>
+				{else if $data.status==2}等待发货</a>
+				{else if $data.status==3}<font color="#FF0000">等待收货</font>
+				{else if $data.status==4}<font color="#009900">交易成功</font>{/if}
+			</td>
+		</tr>
+		</table>
+	</div>
+</div>
+</form>
+{template footer.html}

@@ -1,0 +1,95 @@
+{template "header.html"}
+
+<div class="clear"></div>
+<div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > {dr_catpos($catid, ' > ')}<!--面包屑导航--></div>
+<!--搜索条件筛选-->
+
+<div class="condition_box" id="condition_box">
+	<table class="condition_table">
+	  <tr class="tb_head "><td class="td_left">分类:</td><td class="td_right">
+
+			<div class="cat_cirle">
+				<ul class="pager">
+				  <li><a href="#">此分类</a></li>
+				</ul>
+			</div>
+			<div class="cat_words">
+	  		{list action=category pid=$cat.pid return=c}
+					<a href="{$c.url}" {if $c.id==$catid} style="color:#00F;font-weight:bold;"{/if}>{$c.name}</a>
+	 		{/list}
+	 		</div>
+	  </td></tr>
+	  <tr><td class="td_left">价格:</td><td class="td_right">
+	  		<div class="cat_cirle">
+				<ul class="pager">
+				  <li><a href="#">不限</a></li>
+				</ul>
+			</div>
+			<div class="cat_words">
+				<a>200元以下</a><a>200-600元</a><a>600-800元</a><a>800元以上</a><a>自定义区间:</a>
+				 <input id="dr_jiage" class="input-text" type="text" required="required" style="width:100px;" value="" name="data[jiage]"></input>
+				 <input id="dr_jiage" class="input-text" type="text" required="required" style="width:100px;" value="" name="data[jiage]"></input>
+				    <button type="button" class="btn btn-default">Default</button>
+			</div>
+	  </td></tr>
+	  <tr><td class="td_left">社会/校园:</td><td class="td_right"></td></tr>
+	  <tr><td class="td_left">公司/个人:</td><td class="td_right"></td></tr>
+	  <tr><td class="td_left">性别:</td><td class="td_right"></td></tr>
+	  <tr><td class="td_left"></td><td class="td_right"></td></tr>
+	</table>
+
+</div>
+
+<div class="digg" style="margin-top:5px">
+	<div class="digg_l">
+		<div class="left03">
+			<h4>栏目索引</h4>
+			<ul>
+				<!--循环输出当前栏目的同级栏目，定义返回值return=c，你也可以使用默认的（都懂得）-->
+				{list action=category pid=$cat.pid return=c}
+				<li><a href="{$c.url}" {if $c.id==$catid} style="color:#00F;font-weight:bold;"{/if}>{$c.name}</a></li>
+ 				{/list}
+            </ul>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		<div class="left01">
+			<h4>猜你喜欢</h4>
+			<ul>
+                <!--我们按缩略图排序，因为第一行和第二行要输出一个图片，你懂得！-->
+                {list action=module catid=$catid field=thumb,title,url,description order=thumb,updatetime num=12}
+                {if $key<2}
+                <li class="pic"><img src="{dr_thumb($t.thumb, 70, 60)}" width="70" height="60" align="left" /><span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 20)}</a></span><div class="into">{dr_strcut($t.description, 38)}</div></li>
+                {else}
+                <li class="nopic"><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 27)}</a></li>
+                {/if}
+                {/list}{$error}
+            </ul>	
+        </div>
+		<div class="left02">
+			<h4>热门排行榜</h4>
+			<ul>
+                <!--我们按点击排序-->
+                {list action=module catid=$catid field=title,url order=hits num=10}
+                <li><span {if $key<3}class="one"{/if}>{$key+1}</span><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 27)}</a></li>
+                {/list} {$error}
+			</ul>	
+        </div>
+    </div>
+	<div class="lmlist">
+		<h4>{$cat.name}</h4>
+		<ul>
+        <!--分页显示列表数据-->
+		{list action=module catid=$catid field=title,url,updatetime order=updatetime page=1}
+        <li><span>{$t.updatetime}</span><a title="{$t.title}" href="{$t.url}">{$t.title}</a></li>
+        {/list}{$error}
+        </ul>
+        <div class="n_fy" style="padding-left:0px">
+            <div class="fenye" id="fenye">
+            {$pages}
+            </div>
+		<div>
+	</div>
+	</div></div>
+		<div class="clear"></div>
+{template "footer.html","/"}

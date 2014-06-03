@@ -1,0 +1,60 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	{if $error}
+	dr_tips('<b>{$error}</b>', 3);
+	{/if}
+	$("#dr_loadmore a").click(function(){
+		var page = $("#dr_page").val();
+		$("#dr_loading").html("<div style='padding:30px;text-align:center;width:678px;'><img src='{MEMBER_THEME_PATH}images/loading.gif' /></div>");
+		$.get("{$searchurl}", {page:page}, function(data){
+			if (data != "null") {
+				$("#dr_body").prepend(data);
+				$("#dr_page").val(Number(page) + 1);
+			}
+			$("#dr_loading").html("");
+		});
+	});
+});
+</script>
+<input name="page" id="dr_page" type="hidden" value="2" />
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+        <div class="section">
+            <div class="title"><strong>我与 <b style="color:#00F">{$username}</b> 的交谈记录</strong></div>
+            <div class="main dr_table">
+                <div style="margin-top:20px;">
+                    <div id="dr_loading"></div>
+                    <div id="dr_loadmore" class="load-more"><a href="javascript:;">查 看 历 史</a></div>
+                </div>
+				<div id="dr_body">
+				{template pm_read_data.html}
+				</div>
+                <form action="" method="post" name="myform" id="myform">
+                <table style="table-layout:fixed;margin-bottom: 0;">
+				<tr>
+                    <td width="50" valign="top" style="padding-top:10px; border:none">
+                    <div class="avt">
+                        <a href="javascript:;"><img src="{dr_avatar($uid)}"></a>
+                    </div>
+                    </td>
+                    <td valign="top" style="padding-top:10px; line-height:normal; border:none">
+                       {php $tool = "'undo', 'redo', '|',
+						'bold', 'italic', 'underline', 'strikethrough','|', 'emotion', 'map', 'gmap'";}
+                    {dr_field_input('message', 'Ueditor', array('option' => array( 'mode' => 3, 'tool' => $tool, 'height' => '80px', 'width' => '99%')), $data['message'])}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50" valign="top" style="padding-top:10px; border:none">&nbsp;</td>
+                    <td valign="top" style="padding-top:10px; line-height:normal; border:none">
+                    <div class="mbutton"><button value="" type="submit" class="blue_button">发送</button></div>
+                    </td>
+                </tr>
+				</table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

@@ -1,0 +1,25 @@
+<script type="text/javascript">
+$(function() { //防止回车提交表单
+	document.onkeydown = function(e){ 
+		var ev = document.all ? window.event : e;
+		if (ev.keyCode==13) {
+			$("#mark").val("1"); // 标识不能提交表单
+		}
+	}
+});
+function dr_form_check() {
+	if ($("#mark").val() == 0) { 
+		return true;
+	} else {
+		return false;
+	}
+}
+</script>
+<form action="" method="post" id="myform" name="myform" onsubmit="return dr_form_check()">
+<input name="mark" id="mark" type="hidden" value="0" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin:20px;">
+  <tr height="30">
+    <td><input type="text" style="color:#999;width:150px;" class="input_text" value="{$price}" name="price" /></td>
+  </tr>
+</table>
+</form>

@@ -1,0 +1,7 @@
+{loop $list $t}
+<tr>
+	<td class="algin_l">{dr_date($t['inputtime'])}</td>
+	<td class="algin_l"><b>{if $t['value'] > 0}<font color="#009933">+{$t['value']}</font>{else}<font color="#FF0000">{$t['value']}</font>{/if}</b></td>
+	<td class="algin_l">{dr_lang_note($t['note'])}</td>
+</tr>
+{/loop}

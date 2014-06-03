@@ -1,0 +1,57 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	SwapTab({$page});
+	{if $error}
+	art.dialog.tips('{$error}', 3);
+	{/if}
+});
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list col-tab">
+		<form action="" method="post" name="myform" id="myform">
+		<ul class="tabBut cu-li">
+			<li onclick="SwapTab(0)">{lang('html-083')}</li>
+		</ul>
+		<div class="contentList pad-10">
+			<div id="cnt_0" style="display:none" class="dr_hide">
+				<table width="100%" class="table_form">
+				<tr>
+					<th width="200"><font color="red">*</font>&nbsp;{lang('html-026')}： </th>
+					<td><input class="input-text" type="text" name="data[name]" value="{$data['name']}" id="dr_name" size="20" />
+					<div class="onShow">{lang('html-027')}</div>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang('html-285')}： </th>
+					<td>
+					<input class="input-text" type="text" name="data[stars]" value="{intval($data['stars'])}" size="20" />
+					<div class="onShow">{lang('html-286')}</div>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang('html-283')}： </th>
+					<td>
+					<input class="input-text" type="text" name="data[experience]" value="{intval($data['experience'])}" size="20" />
+					<div class="onShow">{lang('html-287')}</div>
+					</td>
+				</tr>
+				</table>
+			</div>
+			<table width="100%" class="table_form">
+			<tr>
+				<th width="200" style="border:none;">&nbsp;</th>
+				<td>
+				<input class="button" type="submit" name="submit" value="{lang('submit')}" />
+				</td>
+			</tr>
+			</table>
+		</div>
+		</form>
+	</div>
+</div>
+{template footer.html}

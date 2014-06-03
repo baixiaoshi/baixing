@@ -1,0 +1,62 @@
+{template header.html}
+<script type="text/javascript">
+$(function() {
+	{if $result}
+	art.dialog.tips('{$result}', 3, 1);
+	{/if}
+});
+</script>
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{$menu}<span>|</span><a href="{SYS_HELP_URL}7.html" target="_blank"><em>{lang('help')}</em></a>
+	</div>
+	<div class="bk10"></div>
+	<div class="explain-col">
+		<font color="gray">{lang('html-451')}</font>
+	</div>
+	<div class="bk10"></div>
+	<div class="table-list">
+		<form action="" method="post" name="myform">
+		<input name="action" id="action" type="hidden" value="del" />
+		<table width="100%">
+		<thead>
+		<tr>
+			<th width="20" align="right"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</th>
+			<th width="200" align="left">{lang('html-453')}</th>
+			<th width="140" align="left">&nbsp;</th>
+			<th width="80" align="center">{lang('html-454')}</th>
+			<th width="80" align="center">{lang('html-455')}</th>
+			<th width="80" align="center">{lang('html-456')}</th>
+			<th width="130" align="left">{lang('html-457')}</th>
+			<th align="left"></th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $list $t}
+		<tr>
+		  <td align="right"><input name="select[]" class="dr_select" type="checkbox" value="{$t.name}" />&nbsp;</td>
+		  <td align="left"><a href="javascript:;" onClick="dr_dialog_show('{lang('html-452')}', '{dr_url('db/tableshow', array('name'=>$t['name']))}')">{$t['name']}</a></td> 
+		  <td align="left">{$t['note']}</td>
+		  <td align="center">{$t['rows']}</td>
+		  <td align="center">{dr_format_file_size($t['freesize'])}</td>
+		  <td align="center">{dr_format_file_size($t['filesize'])}</td>
+		  <td align="left">{$t['update']}</td>
+		  <td align="left">{$t['collation']}</td>
+		</tr>
+		{/loop}
+		<tr >
+			<td align="right" style="border:none"><input name="dr_select" id="dr_select" type="checkbox" onClick="dr_selected()" />&nbsp;</td>
+			<td colspan="7" align="left">
+			<input type="submit" class="button" value="{lang('html-458')}" name="submit" onClick="$('#action').val('1')" />&nbsp;
+			<input type="submit" class="button" value="{lang('html-459')}" name="submit" onClick="$('#action').val('2')" />&nbsp;
+			<input type="submit" class="button" value="{lang('html-460')}" name="submit" onClick="$('#action').val('3')" />&nbsp;
+			</td>
+		</tr>        
+		  </tbody>
+		</table>
+		</form>
+	</div>
+</div>
+
+</body>
+</html>

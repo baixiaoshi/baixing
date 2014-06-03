@@ -1,0 +1,42 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	{if $error}
+	dr_tips('<b>{$error}</b>', 3);
+	{/if}
+});
+</script>
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+    	<div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main">
+                <form action="" method="post">
+                <table width="100%" class="table_form">
+                <tr>
+                    <th width="100"><font color="red">*</font>&nbsp;收件人： </th>
+                    <td class="mbutton">
+                    <input class="input-text" type="text" name="data[username]" value="{$data.username}" style="width:300px; float:left;height:25px;" required="required" />
+                   	<button style="display:none" value="" type="button" class="red_button">选择好友</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th><font color="red">*</font>&nbsp;内容： </th>
+                    <td>
+                    {php $tool = "'undo', 'redo', '|',
+						'bold', 'italic', 'underline', 'strikethrough','|', 'emotion', 'map'";}
+                    {dr_field_input('message', 'Ueditor', array('option' => array( 'mode' => 3, 'tool' => $tool, 'height' => 200, 'width' => '80%')), $data['message'])}</td>
+                </tr>
+               
+                <tr>
+                    <th style="border-bottom:none">&nbsp;</th>
+                    <td style="border-bottom:none;padding-top: 20px;"><div class="mbutton"><button value="" type="submit" class="blue_button">发送</button></div></td>
+                </tr>
+                </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

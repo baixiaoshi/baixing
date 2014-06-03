@@ -1,0 +1,59 @@
+<script type="text/javascript">
+//防止回车提交表单
+$(function() {
+	document.onkeydown = function(e){ 
+		var ev = document.all ? window.event : e;
+		if (ev.keyCode==13) {
+			$("#mark").val("1"); // 标识不能提交表单
+		}
+	}
+});
+function dr_form_check() {
+	if ($("#mark").val() == 0) { 
+		return true;
+	} else {
+		return false;
+	}
+}
+</script>
+<form action="" method="post" id="myform" name="myform" onsubmit="return dr_form_check()">
+<input name="mark" id="mark" type="hidden" value="0">
+<div class="subnav">
+	<div class="table-list">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><img src="/member/templates/{$space}/preview.jpg" /></td>
+    <td><table width="100%">
+        {list action=cache name=MEMBER.group return=group}
+        {if $group['id'] > 2}
+        <tr>
+        	<td align="left" width="250">{$group['name']}</td>
+            <td align="left"></td>
+        </tr>
+        {loop $group['level'] $level}
+        <tr>
+        	{php $id=$group['id'].'_'.$level['id'];}
+        	<td align="left" width="250" style="padding-left:20px">{$level['name']}&nbsp;&nbsp;{dr_show_stars($level['stars'])}</td>
+            <td align="left" style="padding-right:10px">
+            <input name="data[{$id}]" type="checkbox" {if isset($data[$id]) && $data[$id]}checked="checked"{/if} value="1" />
+            </td>
+        </tr>
+        {/loop}
+        {else}
+        <tr>
+        	{php $id=$group['id'];}
+        	<td align="left" width="250">{$group['name']}</td>
+            <td align="left" style="padding-right:10px">
+            <input name="data[{$id}]" type="checkbox" {if isset($data[$id]) && $data[$id]}checked="checked"{/if} value="1" />
+            </td>
+        </tr>
+        {/if}
+        {/list}
+        </table></td>
+  </tr>
+</table>
+
+		
+	</div>
+</div>
+</form>

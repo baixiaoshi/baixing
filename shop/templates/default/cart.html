@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=7" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{$meta_title}</title>
+	<meta name="keywords" content="{$meta_keywords}" />
+	<meta name="description" content="{$meta_description}" />
+	<!--非授权用户请保留FineCMS的信息-->
+	<meta name="author" content="dayrui.com" />
+	<meta name="Copyright" content="FineCMS v{DR_VERSION}" />
+	<!--关键JS--> 
+	<script type="text/javascript">var memberpath = "{MEMBER_PATH}";</script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/{SITE_LANGUAGE}.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.min.js"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/jquery.artDialog.js?skin=default"></script>
+	<script type="text/javascript" src="{MEMBER_PATH}statics/js/dayrui.js"></script>
+	<!--[if IE 6]>
+	<script src="{MODULE_THEME_PATH}ie6png.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	   EvPNG.fix('div, ul, img, li, input'); 
+	</script>
+	<![endif]-->
+    <link href="{MODULE_THEME_PATH}css.css" rel="stylesheet" />
+</head>
+<body>
+{template "top.html"}
+<div class="idx">
+	<div class="fls" style="position:absolute">
+		<div class="fls_l" id="box1" style="display:none">
+			{template "cat.html"}
+		</div>	
+	</div>
+</div>
+<div class="gwcbox">
+	<div class="gwcbox_l"></div>
+	<div class="gwcbox_r">
+		<ul>
+			<li class="curr">我的购物车</li>
+			<li>填写核对订单信息</li>
+			<li>订单成功</li>
+		</ul>
+	</div>
+</div>
+<div class="gwcts">
+	<span>温馨提示：</span>交易过程中请勿随意接收卖家发送的可疑文件，请勿点击不明来源的链接，付款前请务必详细核对支付信息！
+</div>
+<div class="idx" style="margin-top:15px">
+<form method="post" action="">
+<table class='ShoppingCart' cellpadding='1' cellspacing='1' width='100%' id='CartTb'>
+    <tr class='Thead'>
+        <td style="height:30px">商品名称</td>
+        <td width='8%'>库存</td>
+        <td width='10%'>数量</td>
+        <td width='8%'>单价</td>
+        <td width='8%'>促销价</td>
+        <td width='8%'>小计</td>
+        <td width='5%'>操作</td>
+    </tr>
+    {loop $list $i $t}
+	<tr class="tdbg" id="tr_{$t.key}">
+        <td style="padding-left:10px;">
+            <table border='0'>
+            <tr>
+                <td><a href="{$t.url}" target="_blank"><img src="{dr_thumb($t.thumb, 60, 50)}" width="60" height="50" align='left'/></a></td>
+                <td style="text-align:left; padding-left:10px;">
+                <a href="{$t.url}" target="_blank">{$t.title}</a><br/>
+                {$t.format}
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td style="text-align:center">{$t.quantity}<input type="hidden" id="dr_quantity_{$t.key}" value="{$t.quantity}" /></td>
+        <td style="text-align:center">
+        <div class="p_number">
+            <a href="javascript:void(0)" onclick="dr_set_item_num(0, '{$t.key}')" class="reduce"><img border="0" src="{MODULE_THEME_PATH}ico_close.gif" /></a>
+            <input type="text" style="text-align:center; width:30px;" class="text" name="key[{$t.key}]" id="dr_num_{$t.key}" value="{$t.num}" />
+            <a href="javascript:void(0)" onclick="dr_set_item_num(1, '{$t.key}')" class="add"><img border="0" src="{MODULE_THEME_PATH}ico_open.gif" /></a>
+        </div>
+        </td>
+        <td style="text-align:center" class='price'>
+        ￥<span id="dr_price_{$t.key}" v="{if $t.discount}{$t.discount}{else}{$t.price}{/if}">{number_format($t.price, 2)}</span>
+        </td>
+        <td style="text-align:center" class='price'>
+        {if $t.discount}
+        ￥<span class="price">{number_format($t.discount, 2)}</span>
+        {else}
+        无
+        {/if}</td>
+        <td style="text-align:center" class='price'>￥<span class="dr_total_amount" v="{$t.total}" id="dr_total_{$t.key}">{number_format($t.total, 2)}</span></td>
+        <td><a href="javascript:;" onclick="if(confirm('确定要移除此商品吗？')) dr_move('{$t.key}');">移除</a></td>
+	</tr>
+	{/loop}
+    <tr>
+        <td class='Tfoot' colspan='7' style='text-align:right;height:30px'>
+            <span style='font-size:14px'><b>商品总金额(不含运费)：<span class='price'>￥<span id='dr_total_amount'>{$amount}</span>元</span></b></span>
+        </td>
+    </tr>
+</table> 
+<div style="margin:10px;text-align:right">
+<a href="{MODULE_URL}"><img src="{MODULE_THEME_PATH}jxgw.png" border="0" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="image" src="{MODULE_THEME_PATH}goon.png" {if !$member}onclick="dr_login();return false;"{/if} />
+</div>
+</form>
+</div>
+<div class="clear"></div>
+<script type="text/javascript">
+// 移出商品
+function dr_move(key) {
+	$.post("{dr_url('order/del')}", {id: key}, function(){
+		document.location.reload();
+	});
+}
+// 商品数量加减选择
+function dr_set_item_num(op, key) {
+	var num = parseInt($("#dr_num_"+key).val());
+	var quantity = parseInt($("#dr_quantity_"+key).val());
+	if (isNaN(num) || num <= 1) num = 1;
+	if (op) {
+		// 加操作
+		num++;
+		if (num >= quantity) num = quantity;
+	} else {
+		// 减操作
+		num--;
+		if (isNaN(num) || num <= 1) num = 1;
+	}
+	$("#dr_num_"+key).val(num);
+	// 计算当前价格
+	var price = parseFloat($("#dr_price_"+key).attr("v"));
+	$("#dr_total_"+key).html(price_float(price*num));
+	$("#dr_total_"+key).attr("v", price*num);
+	// 计算总价格
+	var total = 0;
+	$(".dr_total_amount").each(function(){
+		var p = parseFloat($(this).attr("v"));
+		total = total+p;
+	});
+	$("#dr_total_amount").html(price_float(total));
+}
+function price_float(value){  //保留两位小数点
+	if (!value) value = 0;
+    value = Math.round(parseFloat(value) * 100) / 100;
+    if (value.toString().indexOf(".") < 0) {
+    	value = value.toString() + ".00";
+    }
+    return value;
+}
+</script>
+{template "footer.html"}

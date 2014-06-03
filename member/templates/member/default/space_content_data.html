@@ -1,0 +1,15 @@
+{loop $list $t}
+<tr id="dr_row_{$t.id}">
+	<td class="algin_r"><input type="checkbox" value="{$t.id}" class="dr_select" name="ids[]"></td>
+	<td class="algin_l"><div class="dr_title"><a href="{dr_space_show_url($uid, $mid, $t.id)}" target="_blank">{dr_keyword_highlight($t.title, $kw)}</a></div></td>
+	<td class="algin_l"><a href="{dr_space_list_url($uid, $t.catid)}" target="_blank">{$category[$t['catid']]['name']}</a></td>
+	<td class="algin_l">{dr_date($t.updatetime, '', 'red')}</td>
+	<td class="algin_c">{$t.hits}</td>
+	<td class="algin_c">{if $t.status}通过{else}<font color="red">未审核</font>{/if}</td>
+	<td class="algin_l">
+    <a href="{dr_member_url($dclass.'/edit', array('id'=>$t.id))}">修改</a>
+    &nbsp;
+    <a href="javascript:;" onclick="dr_delete('{$t.id}')">删除</a>
+    </td>
+</tr>
+{/loop}

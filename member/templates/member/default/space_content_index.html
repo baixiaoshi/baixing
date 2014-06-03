@@ -1,0 +1,125 @@
+{template header.html}
+<script type="text/javascript">
+$(function(){
+	$(".msearch a").click(function(){
+		var name = $(this).attr("name");
+		$(".msearch a").removeClass("cur");
+		$(this).addClass("cur");
+		$("#dr_order").val(name);
+	});
+	$("#dr_loadmore a").click(function(){
+		var page = $("#dr_page").val();
+		var kw = $("#dr_keywords").val();
+		$("#dr_loading").html("<div style='padding:30px;text-align:center;width:678px;'><img src='{MEMBER_THEME_PATH}images/loading.gif' /></div>");
+		$.get("{$searchurl}", {page:page, kw:kw}, function(data){
+			if (data != "null") {
+				$("#dr_body").append(data);
+				$("#dr_page").val(Number(page) + 1);
+			}
+			$("#dr_loading").html("");
+		});
+	});
+});
+
+function dr_delete(id) {
+    art.dialog.confirm("你确认要删除吗？", function(){
+		// 将表单数据ajax提交验证
+		$.ajax({type: "POST",dataType:"json", url: "{dr_member_url($dclass.'/index')}",data: {id:id, action:'delete'}, success: function(data) {
+				//验证成功
+				if (data.status == 1) {
+					$.dialog.tips(data.code, 3, 1);
+					$("#dr_row_"+id).hide();
+				} else {
+					$.dialog.tips(data.code, 3, 0);
+				}
+                art.dialog.close();
+                return false;
+			},
+			error: function(HttpRequest, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+			}
+		});
+		return true;
+	});
+	return false;
+}
+
+function dr_remove(id) {
+	var _data = $("#myform").serialize();
+	if ((_data.split('ids')).length-1 <= 0) {
+		$.dialog.tips("到底移动谁？您还没有选择呢", 2);
+		return true;
+	}
+    art.dialog.confirm("你确认要移动吗？", function(){
+		// 将表单数据ajax提交验证
+		$.ajax({type: "POST",dataType:"json", url: "{dr_member_url($dclass.'/index')}",data: _data, success: function(data) {
+				if (data.status == 1) {
+					$.dialog.tips(data.code, 3, 1);
+					setTimeout('window.location.reload(true)', 3000); // 刷新页
+				} else {
+					$.dialog.tips(data.code, 3, 2);
+					return true;
+				}
+			},
+			error: function(HttpRequest, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + HttpRequest.statusText + "\r\n" + HttpRequest.responseText);
+			}
+		});
+		return true;
+	});
+	return false;
+}
+
+</script>
+<input name="page" id="dr_page" type="hidden" value="2" />
+<div class="content clearfix">
+	{template navigator.html}
+    <div class="article">
+        <div class="section">
+            <div class="title"><strong>{$meta_name}</strong></div>
+            <div class="main dr_table">
+				<div class="msearch mbutton">
+                	<form method="get" action="">
+						<input name="c" type="hidden" value="{$dclass}" />
+						<input name="m" type="hidden" value="index" />
+						<a href="{dr_member_url($dclass.'/add')}" class="cur" name="updatetime">发布</a>
+						<button type="submit" class="red_button" style="float:right;margin-left:20px">查询</button>
+						<input type="text" id="dr_keywords" name="kw" value="{$kw}" class="input_text" style="color:#999;width:220px;float:right">
+               		</form>
+				</div>
+                <div class="bk10"></div>
+                <form action="" method="post" name="myform" id="myform">
+                <input name="action" id="action" type="hidden" value="remove" />
+				<table style="table-layout:fixed;margin-bottom: 0;">
+				<thead>
+					<tr>
+						<th style="width:20px;" class="algin_r">&nbsp;</th>
+						<th class="algin_l">主题</th>
+						<th style="width:80px;" class="algin_l">栏目</th>
+						<th style="width:120px;" class="algin_l">更新时间</th>
+						<th style="width:60px;" class="algin_c">阅读数</th>
+						<th style="width:60px;" class="algin_c">状态</th>
+						<th style="width:70px;" class="algin_l">操作</th>
+					</tr>
+				</thead>
+				<tbody id="dr_body">
+				{template space_content_data.html}
+				</tbody>
+				</table>
+                <table style="table-layout:fixed;" class="mbutton">
+                <tr>
+                    <td style="width:20px;border:none" class="algin_r"><input type="checkbox" onclick="dr_selected()" id="dr_select" name="dr_select"></td>
+					<td class="algin_l" style="padding-top:8px;border:none">
+                    <button type="button" class="blue_button" onClick="dr_remove()" style="margin-right:11px;">移动到</button>
+                    {$select}
+                    </td>
+                </tr>
+				</table>
+                </form>
+				<div id="dr_loading"></div>
+                <div id="dr_loadmore" class="load-more"><a href="javascript:;">查 看 更 多</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer.html}

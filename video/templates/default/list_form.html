@@ -1,0 +1,51 @@
+<ul>
+    <li>
+        <span>分类搜索：</span>
+        <!--调用栏目分类，这种用法只能用于模块列表与搜索页面-->
+        {loop $related $t}
+        <a {if $t.id==$catid}class="curr"{/if} href="{dr_search_url($params, 'catid', $t.id)}">{$t.name}</a>
+        {/loop}
+    </li>
+    <li>
+        <span>地区搜索：</span>
+        <a {if !$get.area}class="curr"{/if} href="{dr_search_url($params, 'area', NULL)}">不限</a>
+        <!--下面方式是调用下拉选择框字段的值-->
+        {php $area = dr_field_options('area', $catid = $catid, APP_DIR);}
+        {loop $area $t}
+        <a {if $t==$get.area}class="curr"{/if} href="{dr_search_url($params, 'area', $t)}">{$t}</a>
+        {/loop}{$error}
+    </li>
+    <li>
+        <span>发行年代：</span>
+        <!--循环一组数字，这个都懂得，php最基础的数组用法-->
+        <a {if !$get.year}class="curr"{/if} href="{dr_search_url($params, 'year', NULL)}">不限</a>
+        {php for($i=2005;$i<=date('Y');$i++){ }
+        <a {if $i==$get.zujin}class="curr"{/if} href="{dr_search_url($params, 'year', $i)}">{$i}</a>
+        {php } }
+    </li>
+    
+</ul>
+<div class="clear"></div>
+<div class="exam_sxbox">			 
+    <!---筛选 beigin-->
+    <div class="l">关键字搜索：</div>
+    <input type='text' name='keyword' onfocus="this.value=(this.value=='输入关键字')?'':this.value" onblur="this.value=(this.value=='')?'输入关键字':this.value" value='{if $get.keyword}{$get.keyword}{else}输入关键字{/if}' id='dr_search_keyword' class="examtext02" />
+    <input onclick="searchByClass()" type='button' value='搜索' class="exambtn02"/>
+    <script type="text/javascript">
+    function searchByClass(){
+        var url="{dr_search_url($params, 'keyword', 'finecms')}";
+        var value=$("#dr_search_keyword").val();
+        if (value && value != "输入关键字") {
+            location.href=url.replace('finecms', value);
+        } else {
+            dr_tips("输入关键字");
+        }
+    }
+    </script>
+    <!---筛选 end-->
+    <div class="r">
+        <li class="normal"><span>排序方式：</span></li>
+        <li {if !$get.order || $get.order=='updatetime'}class="curr"{/if}><a href="{dr_search_url($params, 'order', 'updatetime')}">时间</a></li>
+        <li {if $get.order=='hits'}class="curr"{/if}><a href="{dr_search_url($params, 'order', 'hits')}">人气</a></li>
+    </div>
+</div>
