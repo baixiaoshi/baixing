@@ -1,8 +1,25 @@
 {template "header.html"}
-<div class="clear"></div>
-<div class="idx"><img src="{HOME_THEME_PATH}images/ad.jpg" width="100%" /></div>
+
 <div class="clear"></div>
 <div class="Dg">您当前位置：<a href="{SITE_URL}">首页</a>  > <a href="{MODULE_URL}">{MODULE_NAME}</a>  > {dr_catpos($catid, ' > ')}<!--面包屑导航--></div>
+<!--搜索条件筛选-->
+
+<div class="condition_box" id="condition_box">
+	<table class="condition_table">
+	  <tr class="tb_head "><td class="td_left">分类:</td><td class="td_right">
+	  		{list action=category pid=$cat.pid return=c}
+					<a href="{$c.url}" {if $c.id==$catid} style="color:#00F;font-weight:bold;"{/if}>{$c.name}</a>
+	 		{/list} 
+	  </td></tr>
+	  <tr><td class="td_left">价格:</td><td class="td_right"></td></tr>
+	  <tr><td class="td_left">社会/校园</td><td class="td_right"></td></tr>
+	  <tr><td class="td_left">公司/个人</td><td class="td_right"></td></tr>
+	  <tr><td class="td_left">性别</td><td class="td_right"></td></tr>
+	  <tr><td class="td_left"></td><td class="td_right"></td></tr>
+	</table>
+
+</div>
+
 <div class="digg" style="margin-top:5px">
 	<div class="digg_l">
 		<div class="left03">

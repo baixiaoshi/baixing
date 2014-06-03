@@ -1391,3 +1391,22 @@ button,.btnNormal{height:22px;line-height:18px;padding:0 9px!important;padding:0
 }
 
 
+.condition_box{
+	position: relative;
+	width: 980px;
+	margin:0px auto;
+}
+
+.condition_table{
+	border:1px solid #eee;
+	width:100%;
+	color:#333;
+}
+.condition_table .tb_head{
+	border-top:2px solid #E74C3C;
+
+}
+
+.condition_table tr td{
+	border-bottom: 1px dotted #eee;
+}
